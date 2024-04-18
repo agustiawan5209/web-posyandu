@@ -6,7 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-
+import { ref, watch } from 'vue';
 defineProps({
     canResetPassword: {
         type: Boolean,
@@ -17,7 +17,7 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
+    username: '',
     password: '',
     remember: false,
 });
@@ -25,12 +25,22 @@ const form = useForm({
 const submit = () => {
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
+        onError: () => {
+            if (validateUsername(form.username)) {
+                errorMessage.value = 'Username tidak boleh mengandung spasi.';
+            } else {
+                errorMessage.value = '';
+            }
+        }
     });
 };
+
+
 </script>
 
 <template>
     <GuestLayout>
+
         <Head title="Log in" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -39,32 +49,19 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="username" value="username" />
 
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
+                <TextInput id="username" type="text" class="mt-1 block w-full" v-model="form.username" required autofocus
+                    autocomplete="username" />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError class="mt-2" :message="form.errors.username || errorMessage" />
             </div>
 
             <div class="mt-4">
                 <InputLabel for="password" value="Password" />
 
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
+                <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required
+                    autocomplete="current-password" />
 
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
@@ -77,12 +74,9 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Forgot your password?
+                <Link v-if="canResetPassword" :href="route('password.request')"
+                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Forgot your password?
                 </Link>
 
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
