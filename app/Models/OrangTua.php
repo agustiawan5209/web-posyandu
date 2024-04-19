@@ -11,8 +11,14 @@ class OrangTua extends Model
 
     protected $table = 'orang_tua';
 
-    // public function anak()
-    // {
-    //     return $this->hasMany(Anak::class); // Asumsikan tabel 'anak'
-    // }
+    protected $fillable = [
+        'nama',
+        'alamat',
+        'no_telpon',
+    ];
+
+    public function anak()
+    {
+        return $this->hasMany(Balita::class, 'org_tua_id', 'id'); // Asumsikan tabel 'anak'
+    }
 }
