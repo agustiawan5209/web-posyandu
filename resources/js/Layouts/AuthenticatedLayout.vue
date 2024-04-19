@@ -44,8 +44,8 @@ window.addEventListener('resize', () => {
             <Sidebar class="aside-anime" />
         </aside>
     </transition-group>
-    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
-        <div class="sticky top-0 h-16 border-b bg-white lg:py-2.5">
+    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%] ">
+        <div class="sticky top-0 h-16 border-b bg-white lg:py-2.5 z-50">
             <div class="flex items-center justify-between space-x-4 px-6 2xl:container">
 
                 <h5 hidden class="text-2xl font-medium text-gray-600 lg:block">
@@ -104,7 +104,7 @@ window.addEventListener('resize', () => {
             </div>
         </div>
 
-        <div class="px-6 pt-6 2xl:container">
+        <div class="px-2 pt-6 2xl:container relative">
             <slot />
         </div>
     </div>

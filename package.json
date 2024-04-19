@@ -25,7 +25,9 @@
     "dependencies": {
         "@inertiajs/progress": "^0.2.7",
         "@vueup/vue-quill": "^1.2.0",
+        "chart.js": "^4.4.2",
         "gsap": "^3.12.2",
+        "vue-chartjs": "^5.3.1",
         "vue-sweetalert2": "^5.0.5"
     }
 }
