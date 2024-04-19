@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('posyandus', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_posyandu', 50);
+            $table->string('alamat', 100);
+            $table->string('logo', 100);
             $table->timestamps();
         });
     }
