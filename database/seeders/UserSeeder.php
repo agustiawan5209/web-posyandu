@@ -15,18 +15,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $role = Role::create(['name' => 'Kepala']);
-        $orangtua = Role::create(['name' => 'Orang Tua']);
-        $staff = Role::create(['name' => 'Staff']);
-
-        $user = User::factory()->create([
-            'name' => 'Admin',
-            'username' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('12345678'),
-        ]);
-
-        $user->assignRole($role);
 
         $org = User::factory(10)
         ->afterCreating(function (User $user){

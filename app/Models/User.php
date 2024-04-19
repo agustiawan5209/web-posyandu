@@ -51,4 +51,11 @@ class User extends Authenticatable
         'email_verified_at',
         'remember_token',
      ];
+
+     public function scopeFilter($query,$search){
+        $query->when($search ?? null, function ($query) use ($search) {
+            $query->where('name', 'like', '%'. $search .'%')
+                ->orWhere('username', 'like', '%'. $search .'%');
+        });
+     }
 }

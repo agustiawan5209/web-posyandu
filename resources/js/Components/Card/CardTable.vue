@@ -35,14 +35,17 @@ const Form = useForm({
 
 const SearchData = ref(props.search);
 
+const ColumData = ref(props.TableData.data);
 watch(SearchData, (value) => {
     Form.search = value;
     Form.get(route(props.path), {
         preserveState: true,
         preserveScroll: true,
     })
+    // ColumData.value = ref(props.TableData.data);
 })
-const ColumData = props.TableData.data;
+
+console.log(ColumData.value)
 
 
 </script>
@@ -69,7 +72,7 @@ const ColumData = props.TableData.data;
                             </div>
                         </div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-hidden">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -86,18 +89,18 @@ const ColumData = props.TableData.data;
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                <tr v-for="(item, index) in ColumData" :key="item.id">
+                                <tr v-for="(item, index) in TableData.data" :key="item.id">
                                     <td class="px-6 py-4 whitespace-nowrap text-xs font-medium text-gray-800"
                                         v-for="col in tableColums">
 
-                                        <span v-if="item == 'id' || item == 'slug'">
+                                        <span v-if="col == 'id' || col == 'slug'">
                                             {{ (TableData.current_page - 1) * TableData.per_page + index + 1 }}
                                         </span>
                                         <span v-else>{{ item[col] }}</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <!-- Settings Dropdown -->
-                                        <div class="ml-3 relative z-[100]">
+                                        <div class="ml-3 relative">
                                             <Dropdown align="top" width="48">
                                                 <template #trigger>
                                                     <span class="inline-flex rounded-md">
