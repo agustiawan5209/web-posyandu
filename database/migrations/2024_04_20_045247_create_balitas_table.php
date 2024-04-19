@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('balitas', function (Blueprint $table) {
             $table->id();
-            $table->integer('org_tua_id')->unsigned();
+            $table->foreignId('org_tua_id')->unsigned();
             $table->foreign('org_tua_id')->references('id')->on('orang_tuas');
             $table->string('nama', 30);
             $table->date('tgl_lahir');

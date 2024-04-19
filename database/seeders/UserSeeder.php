@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\OrangTua;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -22,6 +23,12 @@ class UserSeeder extends Seeder
             if ($role) {
                 $user->assignRole($role); // Assign 'user' role to the user
             }
+            OrangTua::create([
+                'user_id'=>$user->id,
+                'nama'=> $user->name,
+                'alamat'=> fake()->address(),
+                'no_telpon'=> fake()->phoneNumber(),
+            ]);
         })
         ->create();
 

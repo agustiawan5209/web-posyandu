@@ -54,7 +54,7 @@ const showingNavigationDropdown = ref(false);
                         :class="route().current('master') ? 'text-green-200 group-hover:text-green-300' : 'text-gray-600 group-hover:text-green-600'"
                             d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
                     </svg>
-                    <span class="group-hover:text-gray-700 capitalize">Master Data</span>
+                    <span class="group-hover:text-gray-700 capitalize">Orang Tua</span>
                 </NavLink>
             </li>
             <li>
