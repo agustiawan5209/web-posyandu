@@ -37,9 +37,9 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    tambah: {
-        type: Boolean,
-        default: false,
+    crud: {
+        type: Object,
+        default: () => ({}),
     },
 })
 
@@ -129,7 +129,7 @@ function deleteItem() {
         <div class="-m-1.5 overflow-x-auto">
             <div class="p-1.5 min-w-full inline-block align-middle">
                 <div class="border rounded-lg divide-y divide-gray-200">
-                    <div class="py-3 px-4" v-if="tambah">
+                    <div class="py-3 px-4" v-if="crud.tambah">
                         <div class="relative max-w-xs">
                             <Link :href="route(props.path + '.create')">
                             <PrimaryButton type="button">Tambah</PrimaryButton>
@@ -209,19 +209,19 @@ function deleteItem() {
                                                 </template>
 
                                                 <template #content>
-                                                    <DropdownLink :href="route('profile.edit')"
+                                                    <DropdownLink v-if="crud.edit" :href="route('profile.edit')"
                                                         class="flex justify-start gap-3">
                                                         <font-awesome-icon class="text-green-500 hover:text-green-700"
                                                             :icon="['fas', 'pen-to-square']" />
                                                         Edit
                                                     </DropdownLink>
-                                                    <DropdownLink :href="route('profile.edit')"
+                                                    <DropdownLink v-if="crud.show" :href="route('profile.edit')"
                                                         class="flex justify-start gap-3">
                                                         <font-awesome-icon class="text-blue-500 hover:text-blue-700"
                                                             :icon="['fas', 'eye']" />
                                                         Detail
                                                     </DropdownLink>
-                                                    <button type="button" @click="showDeleteModal(item)"
+                                                    <button type="button" v-if="crud.delete" @click="showDeleteModal(item)"
                                                         class="flex justify-start gap-3 w-full px-4 py-1 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                                         <font-awesome-icon class="text-red-500 hover:text-red-700"
                                                             :icon="['fas', 'trash-can']" />
