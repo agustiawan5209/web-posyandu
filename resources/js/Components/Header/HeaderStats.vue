@@ -4,7 +4,7 @@ import CardStats from "@/Components/Card/CardStats.vue";
 import { defineProps } from "vue";
 
 const props = defineProps({
-
+    pengguna: Number,
 });
 </script>
 
@@ -30,7 +30,7 @@ const props = defineProps({
           <div class="w-full h-full  px-4">
             <card-stats
               statSubtitle="Pengguna"
-              :statTitle="20"
+              :statTitle="pengguna"
               statArrow="down"
               statPercent="3.48"
               statPercentColor="text-red-500"

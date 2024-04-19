@@ -19,14 +19,13 @@ function getWindows() {
 window.addEventListener('resize', () => {
     const newWindowWidth = window.innerWidth;
     const newWindowHeight = window.innerHeight;
-    console.log(newWindowWidth)
 });
 </script>
 
 <template>
 
     <transition-group name="nested">
-        <aside v-if="showingNavigationDropdown"
+        <aside v-if="showingNavigationDropdown" key="mobile"
             class="fixed top-0 z-10 ml-0 flex h-screen w-full flex-col justify-between border-r bg-white px-6 pb-3 transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] overflow-y-auto">
             <button class="-mr-2 mt-5 h-16 w-12 border-r lg:hidden"
                 @click="showingNavigationDropdown = !showingNavigationDropdown">
@@ -36,12 +35,12 @@ window.addEventListener('resize', () => {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
-            <Sidebar class="aside-anime" />
+            <Sidebar  />
         </aside>
-        <aside
+        <aside key="dekstop"
             class="fixed top-0 z-10 ml-[-100%] flex h-screen w-full flex-col justify-between border-r bg-white px-6 pb-3 transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] overflow-y-auto">
 
-            <Sidebar class="aside-anime" />
+            <Sidebar  />
         </aside>
     </transition-group>
     <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%] ">

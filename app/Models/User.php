@@ -44,4 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+     // $guarded berisi array nama kolom yang tidak dapat diubah
+     protected $guarded = [
+        'password',
+        'email_verified_at',
+        'remember_token',
+     ];
 }

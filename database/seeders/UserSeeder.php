@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $role = Role::create(['name' => 'Kepala']);
-        $orantua = Role::create(['name' => 'Orang Tua']);
+        $orangtua = Role::create(['name' => 'Orang Tua']);
         $staff = Role::create(['name' => 'Staff']);
 
         $user = User::factory()->create([
@@ -27,5 +27,15 @@ class UserSeeder extends Seeder
         ]);
 
         $user->assignRole($role);
+
+        $org = User::factory(10)
+        ->afterCreating(function (User $user){
+            $role = Role::findByName('Orang Tua'); // Replace 'user' with your actual role name
+            if ($role) {
+                $user->assignRole($role); // Assign 'user' role to the user
+            }
+        })
+        ->create();
+
     }
 }

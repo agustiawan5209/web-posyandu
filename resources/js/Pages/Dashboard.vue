@@ -4,6 +4,11 @@ import { Head } from '@inertiajs/vue3';
 import ChartJenisImunisasi from '@/Components/Chart/ChartJenisImunisasi.vue';
 import ChartJumlah from '@/Components/Chart/ChartJumlah.vue';
 import HeaderStats from '@/Components/Header/HeaderStats.vue';
+import { defineProps } from "vue";
+
+const props = defineProps({
+    pengguna: Number,
+});
 </script>
 
 <template>
@@ -17,13 +22,13 @@ import HeaderStats from '@/Components/Header/HeaderStats.vue';
 
         <div class="py-4 relative box-content">
             <div class="max-w-7xl mx-auto sm:px-6">
-                <HeaderStats />
+                <HeaderStats :pengguna="pengguna" />
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-7 ">
-                        <div class="relative border">
+                    <div class="flex flex-col md:flex-row gap-7 ">
+                        <div class="relative border w-full md:w-[70%]">
                             <ChartJenisImunisasi />
                         </div>
-                        <div class="relative border">
+                        <div class="relative border w-full md:w-[30%]">
                             <ChartJumlah />
 
                         </div>

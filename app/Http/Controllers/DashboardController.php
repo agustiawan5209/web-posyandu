@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // dd(auth()->user()->roles[0]);
-        return Inertia::render('Dashboard');
+        // dd(User::role('Orang Tua')->count());
+        return Inertia::render('Dashboard',[
+            'pengguna'=> User::role('Orang Tua')->count(),
+        ]);
     }
 }
