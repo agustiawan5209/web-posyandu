@@ -10,6 +10,13 @@ class PegawaiPosyandu extends Model
     use HasFactory;
 
     protected $table = 'pegawai_posyandus';
+    protected $fillable = [
+        'user_id',
+        'jabatan',
+        'nama',
+        'no_telpon',
+        'alamat',
+    ];
 
     public function user()
     {
