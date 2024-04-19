@@ -31,6 +31,9 @@ import {
 library.add(fas, far, fab)
 
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -41,6 +44,7 @@ createInertiaApp({
         .component('font-awesome-icon', FontAwesomeIcon)
         .use(plugin)
         .use(ZiggyVue)
+        .use(VueSweetalert2)
         .mixin({components:{QuillEditor}})
             .mount(el);
     },

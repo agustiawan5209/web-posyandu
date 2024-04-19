@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Inertia\Inertia;
+use App\Models\OrangTua;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreOrangTuaRequest;
 use App\Http\Requests\UpdateOrangTuaRequest;
-use App\Models\OrangTua;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class OrangTuaController extends Controller
 {
@@ -17,8 +19,17 @@ class OrangTuaController extends Controller
      */
     public function index()
     {
-        $orangTuas = OrangTua::all();
-        return Inertia::render('orang_tua/index', ['orangTuas' => $orangTuas]);
+        $tableName = 'orang_tuas'; // Ganti dengan nama tabel yang Anda inginkan
+        $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
+        $columns[] = 'jumlah_anak';
+
+        // dd(OrangTua::with(['anak'])->find(1));
+
+        return Inertia::render('OrangTua/Index', [
+            'search' =>  Request::input('search'),
+            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
+            'data' => OrangTua::filter(Request::only('search', 'order'))->with(['anak'])->paginate(10),
+        ]);
     }
 
     /**
@@ -28,7 +39,7 @@ class OrangTuaController extends Controller
      */
     public function create()
     {
-        return Inertia::render('orang_tua/create');
+        return Inertia::render('OrangTua/create');
     }
 
     /**
@@ -43,9 +54,19 @@ class OrangTuaController extends Controller
 
         OrangTua::create($validatedData);
 
-        return redirect()->route('orang_tua.index')->with('success', 'Data orang tua baru berhasil ditambahkan!');
+        return redirect()->route('OrangTua.index')->with('message', 'Data orang tua baru berhasil ditambahkan!');
     }
 
+    /**
+     * Tampilan Show orang tua
+     *
+     * @param  int  $id
+     * @return \Inertia\Response
+     */
+    public function show(OrangTua $orangTua)
+    {
+        return Inertia::render('OrangTua/Show', ['orangTua' => $orangTua->find(Request::input('slug'))]);
+    }
     /**
      * Tampilan form edit orang tua
      *
@@ -54,7 +75,7 @@ class OrangTuaController extends Controller
      */
     public function edit(OrangTua $orangTua)
     {
-        return Inertia::render('orang_tua/edit', ['orangTua' => $orangTua]);
+        return Inertia::render('OrangTua/edit', ['orangTua' => $orangTua->find(Request::input('slug'))]);
     }
 
     /**
@@ -68,9 +89,9 @@ class OrangTuaController extends Controller
     {
         $validatedData = $request->all();
 
-        $orangTua->update($validatedData);
+        $orangTua->find(Request::input('slug'))->update($validatedData);
 
-        return redirect()->route('orang_tua.index')->with('success', 'Data orang tua berhasil diperbarui!');
+        return redirect()->route('OrangTua.index')->with('message', 'Data orang tua berhasil diperbarui!');
     }
 
     /**
@@ -81,8 +102,8 @@ class OrangTuaController extends Controller
      */
     public function destroy(OrangTua $orangTua)
     {
-        $orangTua->delete();
+        $orangTua->find(Request::input('slug'))->delete();
 
-        return redirect()->route('orang_tua.index')->with('success', 'Data orang tua berhasil dihapus!');
+        return redirect()->route('OrangTua.index')->with('message', 'Data orang tua berhasil dihapus!');
     }
 }

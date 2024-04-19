@@ -52,6 +52,12 @@ class User extends Authenticatable
         'remember_token',
      ];
 
+
+     public function orangtua(){
+        return $this->hasOne(OrangTua::class,'user_id', 'id');
+     }
+
+    //  FIlter Data User
      public function scopeFilter($query,$search){
         $query->when($search ?? null, function ($query) use ($search) {
             $query->where('name', 'like', '%'. $search .'%')

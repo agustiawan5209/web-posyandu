@@ -34,7 +34,7 @@ class PegawaiPosyanduController extends Controller
     public function store(StorePegawaiPosyanduRequest $request)
     {
         PegawaiPosyandu::create($request->all());
-        return redirect()->route('PegawaiPosyandu.index')->with('success', 'Data Pegawai Posyandu berhasil ditambahkan!');
+        return redirect()->route('PegawaiPosyandu.index')->with('message', 'Data Pegawai Posyandu berhasil ditambahkan!');
     }
 
     /**
@@ -63,7 +63,7 @@ class PegawaiPosyanduController extends Controller
     public function update(UpdatePegawaiPosyanduRequest $request, PegawaiPosyandu $pegawaiPosyandu)
     {
         $pegawaiPosyandu->find($request->slug)->update($request->all());
-        return redirect()->route('PegawaiPosyandu.index')->with('success', 'Data Pegawai Posyandu berhasil Di Edit!');
+        return redirect()->route('PegawaiPosyandu.index')->with('message', 'Data Pegawai Posyandu berhasil Di Edit!');
     }
 
     /**
@@ -72,6 +72,6 @@ class PegawaiPosyanduController extends Controller
     public function destroy(PegawaiPosyandu $pegawaiPosyandu)
     {
         $pegawaiPosyandu->find(Request::input('slug'))->delete();
-        return redirect()->route('PegawaiPosyandu.index')->with('success', 'Data Pegawai Posyandu berhasil Di Hapus!');
+        return redirect()->route('PegawaiPosyandu.index')->with('message', 'Data Pegawai Posyandu berhasil Di Hapus!');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+
+Route::middleware(['auth'])->group(function () {
+
+    // Router Orang Tua
+    Route::group(['prefix' => 'orang-tua', 'as' => "OrangTua."], function () {
+        Route::controller(OrangTuaController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/tambah-data-orangtua', 'create')->name('create');
+            Route::delete('/hapus-data-orangtua', 'destroy')->name('destroy');
+        });
+    });
+
+
+});

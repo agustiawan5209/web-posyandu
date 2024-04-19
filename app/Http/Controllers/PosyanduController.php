@@ -43,7 +43,7 @@ class PosyanduController extends Controller
 
         Posyandu::create($validatedData);
 
-        return redirect()->route('Posyandus.index')->with('success', 'Posyandu baru berhasil ditambahkan!');
+        return redirect()->route('Posyandus.index')->with('message', 'Posyandu baru berhasil ditambahkan!');
     }
 
     /**
@@ -70,7 +70,7 @@ class PosyanduController extends Controller
 
         $posyandu->find($request->slug)->update($validatedData);
 
-        return redirect()->route('Posyandus.index')->with('success', 'Data Posyandu berhasil diperbarui!');
+        return redirect()->route('Posyandus.index')->with('message', 'Data Posyandu berhasil diperbarui!');
     }
 
     /**
@@ -83,6 +83,6 @@ class PosyanduController extends Controller
     {
         $posyandu->find(Request::input('slug'))->delete();
 
-        return redirect()->route('Posyandus.index')->with('success', 'Data Posyandu berhasil dihapus!');
+        return redirect()->route('Posyandus.index')->with('message', 'Data Posyandu berhasil dihapus!');
     }
 }
