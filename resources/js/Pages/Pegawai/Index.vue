@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/vue3';
 import ChartJenisImunisasi from '@/Components/Chart/ChartJenisImunisasi.vue';
 import CardTable from '@/Components/Card/CardTable.vue';
 import Dropdown from '@/Components/Dropdown.vue';
+import DropdownLink from '@/Components/DropdownLink.vue';
 
 import { ref, watch, defineProps } from 'vue';
 const props = defineProps({
@@ -29,6 +30,7 @@ const crud = ref({
     edit: true,
     show: false,
     delete: true,
+    reset_password: true,
 
 })
 
@@ -44,7 +46,9 @@ const crud = ref({
         </template>
 
         <div class="py-4 relative box-content">
-            <CardTable @update:search="search = $event" @update:order="order" :slug="null" path="Pegawai" :TableData="data" :tableColums="table_colums" :crud="crud" />
+            <CardTable @update:search="search = $event" @update:order="order" :slug="null" path="Pegawai" :TableData="data" :tableColums="table_colums" :crud="crud" >
+
+            </CardTable>
         </div>
     </AuthenticatedLayout>
 </template>

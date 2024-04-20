@@ -59,8 +59,16 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(PegawaiPosyanduController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data-pegawai', 'create')->name('create');
+            Route::get('/edit-data-pegawai', 'edit')->middleware(['auth', 'password.confirm'])->name('edit');
             Route::post('/store-data-pegawai', 'store')->name('store');
+            Route::put('/update-data-pegawai', 'update')->name('update');
             Route::delete('/hapus-data-pegawai', 'destroy')->name('destroy');
+
+            // reset password
+
+            Route::get('/reset-password-pegawai', 'resetpassword')->middleware(['auth', 'password.confirm'])->name('reset.password');
+            Route::post('/reset-password-pegawai', 'resetpasswordUpdate')->name('reset.password');
+
         });
     });
 

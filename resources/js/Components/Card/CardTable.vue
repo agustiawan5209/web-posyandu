@@ -113,6 +113,14 @@ function deleteItem() {
         }
     })
 }
+
+function cekAksi() {
+    if (props.crud.tambah || props.crud.edit || props.crud.hapus || props.crud.delete) {
+        return true;
+    } else {
+        return false;
+    }
+}
 </script>
 
 <template>
@@ -189,7 +197,7 @@ function deleteItem() {
                                         </span>
                                         <span v-else>{{ item }}</span>
                                     </th>
-                                    <th scope="col"
+                                    <th scope="col" v-if="cekAksi()"
                                         class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Aksi
                                     </th>
                                 </tr>
@@ -204,7 +212,8 @@ function deleteItem() {
                                         </span>
                                         <span v-else>{{ item[col] }}</span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium"
+                                        v-if="cekAksi()">
                                         <!-- Settings Dropdown -->
                                         <div class="ml-3 relative">
                                             <Dropdown align="top" width="48">
@@ -222,13 +231,15 @@ function deleteItem() {
                                                 </template>
 
                                                 <template #content>
-                                                    <DropdownLink v-if="crud.edit" :href="route('profile.edit')"
+                                                    <DropdownLink v-if="crud.edit"
+                                                        :href="route(props.path + '.edit', { slug: item.id })"
                                                         class="flex justify-start gap-3">
                                                         <font-awesome-icon class="text-green-500 hover:text-green-700"
                                                             :icon="['fas', 'pen-to-square']" />
                                                         Edit
                                                     </DropdownLink>
-                                                    <DropdownLink v-if="crud.show" :href="route('profile.edit')"
+                                                    <DropdownLink v-if="crud.show"
+                                                        :href="route(props.path + '.show', { slug: item.id })"
                                                         class="flex justify-start gap-3">
                                                         <font-awesome-icon class="text-blue-500 hover:text-blue-700"
                                                             :icon="['fas', 'eye']" />
@@ -241,6 +252,15 @@ function deleteItem() {
                                                             :icon="['fas', 'trash-can']" />
                                                         hapus
                                                     </button>
+
+
+                                                    <DropdownLink v-if="crud.reset_password"
+                                                        :href="route(props.path + '.reset.password', { slug: item.user.id })"
+                                                        class="flex justify-start gap-3">
+                                                        <font-awesome-icon class="text-blue-500 hover:text-blue-700"
+                                                            :icon="['fas', 'key']" />
+                                                        Reset Password
+                                                    </DropdownLink>
                                                 </template>
                                             </Dropdown>
                                         </div>

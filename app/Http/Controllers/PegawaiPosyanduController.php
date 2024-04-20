@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 use App\Models\PegawaiPosyandu;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StorePegawaiPosyanduRequest;
 use App\Http\Requests\UpdatePegawaiPosyanduRequest;
@@ -27,7 +29,7 @@ class PegawaiPosyanduController extends Controller
         return Inertia::render('Pegawai/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
-            'data' => PegawaiPosyandu::filter(Request::only('search', 'order'))->paginate(10),
+            'data' => PegawaiPosyandu::filter(Request::only('search', 'order'))->with('user')->paginate(10),
         ]);
     }
 
@@ -41,14 +43,14 @@ class PegawaiPosyanduController extends Controller
         $columns_hide = ['remember_token', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'id', 'name'];
         $colums = array_diff(array_merge($columns_pegawai, $columns_user), $columns_hide);
         $colums['2'] =  [
-            'name'=> 'jabatan',
-            'value'=> Role::whereNot('name', 'Orang Tua')->get(),
+            'name' => 'jabatan',
+            'value' => Role::whereNot('name', 'Orang Tua')->get(),
         ];
         // dd($colums);
         return Inertia::render('Pegawai/Form', [
-            'jabatan'=> Role::whereNot('name', 'Orang Tua')->get(),
-            'colums'=> array_values($colums),
-            'linkCreate'=> 'Pegawai.store',
+            'jabatan' => Role::whereNot('name', 'Orang Tua')->get(),
+            'colums' => array_values($colums),
+            'linkCreate' => 'Pegawai.store',
         ]);
     }
 
@@ -62,18 +64,21 @@ class PegawaiPosyanduController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'remember_token' => Str::random(60),
         ]);
         $role = Role::findByName('Orang Tua');
         if ($role) {
             $user->assignRole($role); // Assign 'user' role to the user
         }
 
+        event(new Registered($user));
+
         PegawaiPosyandu::create([
-            'user_id'=> $user->id,
-            'nama'=> $user->name,
-            'jabatan'=> $request->jabatan,
-            'no_telpon'=> $request->no_telpon,
-            'alamat'=> $request->alamat,
+            'user_id' => $user->id,
+            'nama' => $user->name,
+            'jabatan' => $request->jabatan,
+            'no_telpon' => $request->no_telpon,
+            'alamat' => $request->alamat,
         ]);
         return redirect()->route('Pegawai.index')->with('message', 'Data Pegawai Posyandu berhasil ditambahkan!');
     }
@@ -83,8 +88,9 @@ class PegawaiPosyanduController extends Controller
      */
     public function show(PegawaiPosyandu $pegawaiPosyandu)
     {
+
         return Inertia::render('Pegawai/Show', [
-            'pegawai'=> $pegawaiPosyandu->find(Request::input('slug')),
+            'pegawai' => $pegawaiPosyandu->find(Request::input('slug')),
         ]);
     }
 
@@ -93,8 +99,12 @@ class PegawaiPosyanduController extends Controller
      */
     public function edit(PegawaiPosyandu $pegawaiPosyandu)
     {
+        if (!Request::exists('slug')) {
+            abort(403, 'ID gagal Di Dapatkan');
+        }
         return Inertia::render('Pegawai/Edit', [
-            'pegawai'=> $pegawaiPosyandu->find(Request::input('slug')),
+            'pegawai' => $pegawaiPosyandu->with(['user'])->find(Request::input('slug')),
+            'jabatan' => Role::whereNot('name', 'Orang Tua')->get(),
         ]);
     }
 
@@ -103,7 +113,35 @@ class PegawaiPosyanduController extends Controller
      */
     public function update(UpdatePegawaiPosyanduRequest $request, PegawaiPosyandu $pegawaiPosyandu)
     {
-        $pegawaiPosyandu->find($request->slug)->update($request->all());
+
+        $pegawai = PegawaiPosyandu::find(Request::input('slug'));
+
+
+
+        $user = User::find($pegawai->user_id);
+        $user->update([
+            'name' => $request->name,
+            // 'username' => $request->username,
+            // 'email' => $request->email,
+            // 'password' => Hash::make($request->password),
+            // 'remember_token' => Str::random(60),
+
+        ]);
+        // Remove a role
+        $user->removeRole($pegawai->jabatan);
+
+        $pegawai->update([
+            'nama' => $request->name,
+            'jabatan' => $request->jabatan,
+            'no_telpon' => $request->no_telpon,
+            'alamat' => $request->alamat,
+        ]);
+
+        $role = Role::findByName($request->jabatan);
+        if ($role) {
+            $user->assignRole($role); // Assign 'user' role to the user
+        }
+
         return redirect()->route('Pegawai.index')->with('message', 'Data Pegawai Posyandu berhasil Di Edit!');
     }
 
@@ -114,5 +152,35 @@ class PegawaiPosyanduController extends Controller
     {
         $pegawaiPosyandu->find(Request::input('slug'))->delete();
         return redirect()->route('Pegawai.index')->with('message', 'Data Pegawai Posyandu berhasil Di Hapus!');
+    }
+
+
+
+   /**
+     * Display the specified resource.
+     */
+    public function resetpassword(PegawaiPosyandu $pegawaiPosyandu)
+    {
+
+        return Inertia::render('Pegawai/UpdatePassword', [
+            'user' => User::find(Request::input('slug')),
+        ]);
+    }
+    public function resetpasswordUpdate(PegawaiPosyandu $pegawaiPosyandu)
+    {
+
+        Request::validate([
+            'password' => 'required|string|confirmed|min:8',
+            'password_confirmation' => 'required',
+        ]);
+
+
+        $user = User::find(Request::input('slug'));
+        $user->update([
+            'remember_token' => Str::random(60),
+            'password' => Hash::make(Request::input('password')),
+        ]);
+        return redirect()->route('Pegawai.index')->with('message', 'Password Pegawai Posyandu berhasil Di Ubah!');
+
     }
 }

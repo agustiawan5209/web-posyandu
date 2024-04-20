@@ -9,9 +9,6 @@ import { Link } from '@inertiajs/vue3';
 import Sidebar from '@/Components/Sidebar/Sidebar.vue';
 
 const showingNavigationDropdown = ref(false);
-onMounted(() => {
-    console.log(window.innerWidth)
-})
 function getWindows() {
     return window.innerWidth;
 }
