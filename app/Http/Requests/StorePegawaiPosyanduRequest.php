@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePegawaiPosyanduRequest extends FormRequest
@@ -22,11 +24,15 @@ class StorePegawaiPosyanduRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
-            'jabatan' => 'required|in:Ketua,Sekretaris,Kader',
-            'nama' => 'required|string|max:255',
+            // 'user_id' => 'required|integer|exists:users,id',
+            'jabatan' => 'required',
+            'name' => 'required|string|max:255',
             'no_telpon' => 'required|string|max:255',
             'alamat' => 'required|string',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'password' => ['required','string'],
         ];
     }
 }

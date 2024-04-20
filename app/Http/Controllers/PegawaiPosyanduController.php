@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\PegawaiPosyandu;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StorePegawaiPosyanduRequest;
 use App\Http\Requests\UpdatePegawaiPosyanduRequest;
@@ -33,7 +36,20 @@ class PegawaiPosyanduController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Pegawai/Form');
+        $columns_pegawai = DB::getSchemaBuilder()->getColumnListing('pegawai_posyandus');
+        $columns_user = DB::getSchemaBuilder()->getColumnListing('users');
+        $columns_hide = ['remember_token', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'id', 'name'];
+        $colums = array_diff(array_merge($columns_pegawai, $columns_user), $columns_hide);
+        $colums['2'] =  [
+            'name'=> 'jabatan',
+            'value'=> Role::whereNot('name', 'Orang Tua')->get(),
+        ];
+        // dd($colums);
+        return Inertia::render('Pegawai/Form', [
+            'jabatan'=> Role::whereNot('name', 'Orang Tua')->get(),
+            'colums'=> array_values($colums),
+            'linkCreate'=> 'Pegawai.store',
+        ]);
     }
 
     /**
@@ -41,8 +57,25 @@ class PegawaiPosyanduController extends Controller
      */
     public function store(StorePegawaiPosyanduRequest $request)
     {
-        PegawaiPosyandu::create($request->all());
-        return redirect()->route('PegawaiPosyandu.index')->with('message', 'Data Pegawai Posyandu berhasil ditambahkan!');
+        $user = User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        $role = Role::findByName('Orang Tua');
+        if ($role) {
+            $user->assignRole($role); // Assign 'user' role to the user
+        }
+
+        PegawaiPosyandu::create([
+            'user_id'=> $user->id,
+            'nama'=> $user->name,
+            'jabatan'=> $request->jabatan,
+            'no_telpon'=> $request->no_telpon,
+            'alamat'=> $request->alamat,
+        ]);
+        return redirect()->route('Pegawai.index')->with('message', 'Data Pegawai Posyandu berhasil ditambahkan!');
     }
 
     /**
@@ -71,7 +104,7 @@ class PegawaiPosyanduController extends Controller
     public function update(UpdatePegawaiPosyanduRequest $request, PegawaiPosyandu $pegawaiPosyandu)
     {
         $pegawaiPosyandu->find($request->slug)->update($request->all());
-        return redirect()->route('PegawaiPosyandu.index')->with('message', 'Data Pegawai Posyandu berhasil Di Edit!');
+        return redirect()->route('Pegawai.index')->with('message', 'Data Pegawai Posyandu berhasil Di Edit!');
     }
 
     /**
@@ -80,6 +113,6 @@ class PegawaiPosyanduController extends Controller
     public function destroy(PegawaiPosyandu $pegawaiPosyandu)
     {
         $pegawaiPosyandu->find(Request::input('slug'))->delete();
-        return redirect()->route('PegawaiPosyandu.index')->with('message', 'Data Pegawai Posyandu berhasil Di Hapus!');
+        return redirect()->route('Pegawai.index')->with('message', 'Data Pegawai Posyandu berhasil Di Hapus!');
     }
 }

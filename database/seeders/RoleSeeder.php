@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
     {
         $role = Role::create(['name' => 'Kepala']);
         $orangtua = Role::create(['name' => 'Orang Tua']);
-        $staff = Role::create(['name' => 'Staff']);
+        $staff = Role::create(['name' => 'Kader']);
 
         $user = User::factory()->create([
             'name' => 'Admin',

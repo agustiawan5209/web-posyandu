@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(PegawaiPosyanduController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data-pegawai', 'create')->name('create');
+            Route::post('/store-data-pegawai', 'store')->name('store');
             Route::delete('/hapus-data-pegawai', 'destroy')->name('destroy');
         });
     });

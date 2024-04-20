@@ -1,7 +1,7 @@
 <script setup>
 
 import { Head, useForm, Link, usePage } from '@inertiajs/vue3';
-import { ref, watch, defineProps, inject, defineExpose } from 'vue';
+import { ref, watch, defineProps, inject, defineExpose, onMounted } from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -14,10 +14,22 @@ const order = ref('')
 const search = ref('')
 
 defineExpose({
-  search,
-  order
+    search,
+    order
 })
 const page = usePage()
+
+onMounted(() => {
+    if (page.props.message !== null) {
+        swal({
+            icon: "success",
+            title: 'Berhasil',
+            text: page.props.message,
+            showConfirmButton: true,
+            timer: 2000
+        });
+    }
+})
 
 const props = defineProps({
     links: Array,
@@ -155,10 +167,11 @@ function deleteItem() {
                         <div class="relative max-w-xs flex items-center gap-2">
                             <label class="capitalize">Urutkan</label>
 
-                            <select id="order" v-model="order" class="px-3 py-2 placeholder-gray-400 border focus:outline-none sm:w-40 sm:text-sm border-gray-200 shadow-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none ">
-                              <option value="">-----</option>
-                              <option value="desc">Terbaru</option>
-                              <option value="asc">Terlama</option>
+                            <select id="order" v-model="order"
+                                class="px-3 py-2 placeholder-gray-400 border focus:outline-none sm:w-40 sm:text-sm border-gray-200 shadow-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none ">
+                                <option value="">-----</option>
+                                <option value="desc">Terbaru</option>
+                                <option value="asc">Terlama</option>
                             </select>
                             <div class="absolute inset-y-0 end-3 flex items-center pointer-events-none ps-3">
                                 <font-awesome-icon :icon="['fas', 'filter']" class="text-gray-400" />
@@ -221,7 +234,8 @@ function deleteItem() {
                                                             :icon="['fas', 'eye']" />
                                                         Detail
                                                     </DropdownLink>
-                                                    <button type="button" v-if="crud.delete" @click="showDeleteModal(item)"
+                                                    <button type="button" v-if="crud.delete"
+                                                        @click="showDeleteModal(item)"
                                                         class="flex justify-start gap-3 w-full px-4 py-1 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                                         <font-awesome-icon class="text-red-500 hover:text-red-700"
                                                             :icon="['fas', 'trash-can']" />
@@ -245,7 +259,8 @@ function deleteItem() {
                                 <Link v-else :key="`link-${key}`"
                                     class="mb-1 mr-1 px-4 py-3 focus:text-indigo-500 text-sm leading-4 active:border-blue-400 hover:bg-gray-200 border focus:border-indigo-500 rounded"
                                     :class="{ 'bg-white border-blue-500 text-black': link.active }" preserve-state
-                                    preserve-scroll :data="{ search, slug, order }" :href="link.url" v-html="link.label" />
+                                    preserve-scroll :data="{ search, slug, order }" :href="link.url"
+                                    v-html="link.label" />
                             </template>
                         </div>
                     </div>

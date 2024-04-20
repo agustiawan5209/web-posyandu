@@ -23,7 +23,7 @@ const showingNavigationDropdown = ref(false);
             <span class=" text-gray-400 lg:block">{{ $page.props.auth.role.name }}</span>
         </div>
 
-        <ul class="mt-8 space-y-2 tracking-wide">
+        <ul class="mt-8 space-y-1 tracking-wide text-sm">
             <li>
                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')" :icon="['fas', 'home']">
 

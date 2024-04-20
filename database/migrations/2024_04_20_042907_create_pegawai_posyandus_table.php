@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pegawai_posyandus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->enum('jabatan', ['Ketua', 'Sekretaris', 'Kader',]);
+            $table->enum('jabatan', ['Kepala', 'Sekretaris', 'Kader',]);
             $table->string('nama');
             $table->string('no_telpon');
             $table->string('alamat');
