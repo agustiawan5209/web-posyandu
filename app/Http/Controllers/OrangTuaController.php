@@ -13,6 +13,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreOrangTuaRequest;
 use App\Http\Requests\UpdateOrangTuaRequest;
+use App\Models\Balita;
 
 class OrangTuaController extends Controller
 {
@@ -32,7 +33,7 @@ class OrangTuaController extends Controller
         return Inertia::render('OrangTua/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
-            'data' => OrangTua::filter(Request::only('search', 'order'))->with(['anak'])->paginate(10),
+            'data' => OrangTua::filter(Request::only('search', 'order'))->with(['anak','user'])->paginate(10),
         ]);
     }
 
@@ -86,6 +87,7 @@ class OrangTuaController extends Controller
      */
     public function show(OrangTua $orangTua)
     {
+        // dd(Balita::find(1)->hitung_usia);
         return Inertia::render('OrangTua/Show', ['orangTua' => $orangTua->with(['anak', 'user'])->find(Request::input('slug'))]);
     }
     /**

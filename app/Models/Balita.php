@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Balita extends Model
 {
@@ -16,9 +18,20 @@ class Balita extends Model
         'org_tua_id'
     ];
 
-    public function hitungUsia()
+    protected $appends = [
+        'hitung_usia',
+    ];
+
+    public function hitungUsia(): Attribute
     {
-        // Implement the logic to calculate the age
+        $dateNow = Carbon::now();
+        $tglLahir = Carbon::parse($this->tgl_lahir);
+        $ageInYears = $dateNow->diffInYears($tglLahir);
+        $ageInMonths = $dateNow->diffInMonths($tglLahir) % 12;
+        $ageInDays = $dateNow->diffInDays($tglLahir) % $ageInMonths ;
+        return new Attribute(
+            get: fn () => "Usia: {$ageInYears} Tahun, {$ageInMonths} Bulan, {$ageInDays} Hari",
+        );
     }
 
     public function hitungBBG()

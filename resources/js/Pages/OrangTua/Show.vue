@@ -62,15 +62,15 @@ onMounted(() => {
 })
 
 const HitungUsia = (tgl) => {
-    const DateNow = new Date;
+    const DateNow = new Date();
     const current_date = DateNow.getTime();
     const tgl_lahir = new Date(tgl);
-    const ageInMs = current_date - tgl_lahir;
+    const ageInMs = current_date - tgl_lahir.getTime();
 
     const ageInYears = Math.floor(ageInMs / 31536000000);
     const remainingMs = ageInMs % 31536000000;
-    const months = Math.floor(remainingMs / 259200000);
-    const days = Math.floor((remainingMs % 259200000) / 86400000);
+    const months = Math.floor(remainingMs / 2592000000);
+    const days = Math.floor((remainingMs % 2592000000) / 86400000);
     return `Usia: ${ageInYears} Tahun, ${months} Bulan, ${days} Hari`;
 }
 </script>
@@ -215,7 +215,7 @@ const HitungUsia = (tgl) => {
                                         {{ item.nama }}
                                     </td>
                                     <td class="px-1 md:px-3 py-2 border border-gray-600">
-                                        {{ HitungUsia(item.tgl_lahir) }}
+                                        {{ item.hitung_usia }}
                                     </td>
                                     <td class="px-1 md:px-3 py-2 border border-gray-600">
                                         {{ item.jenkel }}
