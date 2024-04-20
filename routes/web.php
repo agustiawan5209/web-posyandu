@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BalitaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JadwalImunisasiController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\PegawaiPosyanduController;
@@ -89,6 +90,20 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/reset-password-pegawai', 'resetpassword')->middleware(['auth', 'password.confirm'])->name('reset.password');
             Route::post('/reset-password-pegawai', 'resetpasswordUpdate')->name('reset.password');
+        });
+    });
+
+     // Router Jadwal
+     Route::group(['prefix' => 'jadwal-imunisasi', 'as' => "Jadwal."], function () {
+        Route::controller(JadwalImunisasiController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/tambah-data/jadwal-imunisasi', 'create')->name('create');
+            Route::get('/edit-data/jadwal-imunisasi', 'edit')->name('edit');
+            Route::get('/detail-data/jadwal-imunisasi', 'show')->name('show');
+            Route::post('/store-data/jadwal-imunisasi', 'store')->name('store');
+            Route::put('/update-data/jadwal-imunisasi', 'update')->name('update');
+            Route::delete('/hapus-data/jadwal-imunisasi', 'destroy')->name('destroy');
+
         });
     });
 });

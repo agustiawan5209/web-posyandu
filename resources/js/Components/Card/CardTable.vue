@@ -160,7 +160,7 @@ function cekAksi() {
                             <label class="sr-only">Search</label>
                             <input type="search" name="hs-table-with-pagination-search"
                                 id="hs-table-with-pagination-search" v-model.prevent="search"
-                                class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                class="px-2 py-1 md:px-3 md:py-2 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                 placeholder="Cari Data.........">
                             <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
                                 <svg class="size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -172,10 +172,10 @@ function cekAksi() {
                             </div>
                         </div>
                         <div class="relative max-w-xs flex items-center gap-2">
-                            <label class="capitalize">Urutkan</label>
+                            <label class="capitalize text-xs md:text-sm">Urutkan</label>
 
                             <select id="order" v-model="order"
-                                class="px-3 py-2 placeholder-gray-400 border focus:outline-none sm:w-40 sm:text-sm border-gray-200 shadow-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none ">
+                                class="px-2 py-1 md:px-3 md:py-2 placeholder-gray-400 border focus:outline-none sm:w-40 sm:text-sm border-gray-200 shadow-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none ">
                                 <option value="">-----</option>
                                 <option value="desc">Terbaru</option>
                                 <option value="asc">Terlama</option>
@@ -190,20 +190,20 @@ function cekAksi() {
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" v-for="item in columsReplace"
-                                        class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                        class="px-2 py-1 md:px-6 md:py-3 text-nowrap text-start text-xs font-medium text-gray-500 uppercase">
                                         <span v-if="item == 'id' || item == 'slug'">
                                             No.
                                         </span>
                                         <span v-else>{{ item }}</span>
                                     </th>
                                     <th scope="col" v-if="cekAksi()"
-                                        class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Aksi
+                                        class=" px-2 py-1 md:px-6 md:py-3 text-end text-xs font-medium text-gray-500 uppercase">Aksi
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 <tr v-for="(item, index) in TableData.data" :key="item.id">
-                                    <td class="px-6 py-4 whitespace-nowrap text-xs font-medium text-gray-800"
+                                    <td class="px-2 py-1 md:px-6 md:py-3 whitespace-nowrap text-xs font-medium text-gray-800"
                                         v-for="col in tableColums">
 
                                         <span v-if="col == 'id' || col == 'slug'">
@@ -211,7 +211,7 @@ function cekAksi() {
                                         </span>
                                         <span v-else>{{ item[col] }}</span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium"
+                                    <td class="px-2 py-1 md:px-6 md:py-3 whitespace-nowrap text-end text-sm font-medium"
                                         v-if="cekAksi()">
                                         <!-- Settings Dropdown -->
                                         <div class="ml-3 relative">

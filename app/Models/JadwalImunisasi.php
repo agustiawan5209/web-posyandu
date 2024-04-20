@@ -21,7 +21,7 @@ class JadwalImunisasi extends Model
     ];
 
     protected $casts = [
-        'tanggal'=> 'date',
+        // 'tanggal'=> 'date',
     ];
 
     protected $appends = [

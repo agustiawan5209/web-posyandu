@@ -15,10 +15,10 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div class="aside-anime">
 
-        <div class="mt-8 text-center">
+        <div class="hidden md:block mt-8 text-center">
             <img :src="'/images/logo/logo-dark.png'" alt=""
                 class="m-auto h-10 w-10 rounded-md object-cover lg:h-28 lg:w-28" />
-            <h5 class="mt-4  text-xl font-semibold text-gray-600 lg:block">{{ $page.props.auth.user.name }}
+            <h5 class="mt-4 text-xl font-semibold text-gray-600 lg:block">{{ $page.props.auth.user.name }}
             </h5>
             <span class=" text-gray-400 lg:block">{{ $page.props.auth.role.name }}</span>
         </div>
@@ -31,18 +31,18 @@ const showingNavigationDropdown = ref(false);
                 </NavLink>
             </li>
             <li>
-                <NavLink :href="route('Pegawai.index')" :active="route().current('Pegawai.index') || route().current('Pegawai.create') || route().current('Pegawai.edit')" :icon="['fas', 'user-group']">
+                <NavLink :href="route('Pegawai.index')" :active="route().current('Pegawai.index') || route().current('Pegawai.create') || route().current('Pegawai.edit') || route().current('Pegawai.show')" :icon="['fas', 'user-group']">
                     <span class="group-hover:text-gray-700 capitalize">Staff Posyandu</span>
                 </NavLink>
             </li>
             <li>
-                <NavLink :href="route('OrangTua.index')" :active="route().current('OrangTua.index')" :icon="['fas','users-line']">
+                <NavLink :href="route('OrangTua.index')" :active="route().current('OrangTua.index') || route().current('OrangTua.create') || route().current('OrangTua.edit') || route().current('OrangTua.show')" :icon="['fas','users-line']">
 
                     <span class="group-hover:text-gray-700 capitalize">Orang Tua</span>
                 </NavLink>
             </li>
             <li>
-                <NavLink href="#" :icon="['far', 'calendar-days']">
+                <NavLink :href="route('Jadwal.index')" :active="route().current('Jadwal.index') || route().current('Jadwal.create') || route().current('Jadwal.edit')|| route().current('Jadwal.show')" :icon="['far', 'calendar-days']">
                     <span class="group-hover:text-gray-700 capitalize">Jadwal Imunisasi</span>
                 </NavLink>
             </li>
