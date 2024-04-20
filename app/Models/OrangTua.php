@@ -14,6 +14,7 @@ class OrangTua extends Model
 
     protected $fillable = [
         'nama',
+        'user_id',
         'alamat',
         'no_telpon',
     ];
@@ -22,6 +23,11 @@ class OrangTua extends Model
     {
         return $this->hasMany(Balita::class, 'org_tua_id', 'id'); // Asumsikan tabel 'anak'
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     protected $casts = [];
 

@@ -22,10 +22,15 @@ class UpdateOrangTuaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
-            'nama' => 'required|string|max:255',
-            'no_telpon' => 'required|string|max:255',
-            'alamat' => 'required|string',
+            'slug' => 'required|integer|exists:orang_tuas,id',
+            // 'user_id' => 'sometimes|required|integer|exists:users,id',
+            'name' => '|required|string|max:255',
+            'no_telpon' => '|required|string|max:255',
+            'alamat' => '|required|string',
+            'name' => '|required|string|max:255',
+            // 'username' => 'sometimes|string|max:255|unique:users,username',
+            // 'email' => 'sometimes|string|lowercase|email|max:255|unique:'.User::class,
+            // 'password' => ['required','string'],
         ];
     }
 }

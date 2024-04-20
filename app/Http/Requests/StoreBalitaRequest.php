@@ -11,7 +11,7 @@ class StoreBalitaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreBalitaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nama' => 'required|string|max:50',
+            'tgl_lahir' => 'required|date',
+            'jenkel' => 'required|string|in:Laki-Laki,Perempuan',
+            'org_tua_id' => 'required|integer|exists:orang_tuas,id',
         ];
     }
 }

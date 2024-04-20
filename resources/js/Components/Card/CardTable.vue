@@ -6,7 +6,6 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Modal from '@/Components/Modal.vue';
-import VueSweetalert2 from 'vue-sweetalert2';
 const swal = inject('$swal')
 
 

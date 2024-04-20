@@ -36,7 +36,7 @@ class BalitaController extends Controller
     public function store(StoreBalitaRequest $request)
     {
         Balita::create($request->all());
-        return redirect()->route('Balita.index')->with('message', 'Data Balita Berhasil Di tambah!!');
+        return redirect()->back()->with('message', 'Data Balita Berhasil Di tambah!!');
     }
 
     /**

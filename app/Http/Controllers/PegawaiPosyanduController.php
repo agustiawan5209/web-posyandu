@@ -66,7 +66,7 @@ class PegawaiPosyanduController extends Controller
             'password' => Hash::make($request->password),
             'remember_token' => Str::random(60),
         ]);
-        $role = Role::findByName('Orang Tua');
+        $role = Role::findByName($request->jabatan);
         if ($role) {
             $user->assignRole($role); // Assign 'user' role to the user
         }
@@ -115,8 +115,6 @@ class PegawaiPosyanduController extends Controller
     {
 
         $pegawai = PegawaiPosyandu::find(Request::input('slug'));
-
-
 
         $user = User::find($pegawai->user_id);
         $user->update([

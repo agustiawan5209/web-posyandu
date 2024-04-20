@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOrangTuaRequest extends FormRequest
@@ -22,10 +23,13 @@ class StoreOrangTuaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
-            'nama' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'no_telpon' => 'required|string|max:255',
             'alamat' => 'required|string',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'password' => ['required', 'string'],
         ];
     }
 }

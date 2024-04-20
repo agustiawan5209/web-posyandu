@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BalitaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OrangTuaController;
@@ -49,7 +50,27 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(OrangTuaController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data-orangtua', 'create')->name('create');
+            Route::get('/ubah-data-orangtua', 'edit')->name('edit');
+            Route::get('/detail-data-orangtua', 'show')->name('show');
+            Route::post('/store-data-orangtua', 'store')->name('store');
+            Route::put('/update-data-orangtua', 'update')->name('update');
             Route::delete('/hapus-data-orangtua', 'destroy')->name('destroy');
+
+            // reset password
+
+            Route::get('/reset-password-orang-tua', 'resetpassword')->middleware(['auth', 'password.confirm'])->name('reset.password');
+            Route::post('/reset-password-orang-tua', 'resetpasswordUpdate')->name('reset.password');
+        });
+    });
+    Route::group(['prefix' => 'balita', 'as' => "Balita."], function () {
+        Route::controller(BalitaController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/tambah-data-balita', 'create')->name('create');
+            Route::get('/ubah-data-balita', 'edit')->name('edit');
+            Route::get('/detail-data-balita', 'show')->name('show');
+            Route::post('/store-data-balita', 'store')->name('store');
+            Route::put('/update-data-balita', 'update')->name('update');
+            Route::delete('/hapus-data-balita', 'destroy')->name('destroy');
         });
     });
 
@@ -68,9 +89,6 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/reset-password-pegawai', 'resetpassword')->middleware(['auth', 'password.confirm'])->name('reset.password');
             Route::post('/reset-password-pegawai', 'resetpasswordUpdate')->name('reset.password');
-
         });
     });
-
-
 });
