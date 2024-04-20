@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\PegawaiPosyandu;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StorePegawaiPosyanduRequest;
 use App\Http\Requests\UpdatePegawaiPosyanduRequest;
-use Illuminate\Support\Facades\Request;
 
 class PegawaiPosyanduController extends Controller
 {
@@ -15,9 +16,16 @@ class PegawaiPosyanduController extends Controller
      */
     public function index()
     {
-        $pegawaiPosyandu = PegawaiPosyandu::all();
-        return Inertia::render('PegawaiPosyandu/index', ['pegawaiPosyandu' => $pegawaiPosyandu]);
+        $tableName = 'pegawai_posyandus'; // Ganti dengan nama tabel yang Anda inginkan
+        $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
 
+        // dd(OrangTua::with(['anak'])->find(1));
+
+        return Inertia::render('Pegawai/Index', [
+            'search' =>  Request::input('search'),
+            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
+            'data' => PegawaiPosyandu::filter(Request::only('search', 'order'))->paginate(10),
+        ]);
     }
 
     /**
@@ -25,7 +33,7 @@ class PegawaiPosyanduController extends Controller
      */
     public function create()
     {
-        return Inertia::render('PegawaiPosyandu/Create');
+        return Inertia::render('Pegawai/Form');
     }
 
     /**
@@ -42,7 +50,7 @@ class PegawaiPosyanduController extends Controller
      */
     public function show(PegawaiPosyandu $pegawaiPosyandu)
     {
-        return Inertia::render('PegawaiPosyandu/Show', [
+        return Inertia::render('Pegawai/Show', [
             'pegawai'=> $pegawaiPosyandu->find(Request::input('slug')),
         ]);
     }
@@ -52,7 +60,7 @@ class PegawaiPosyanduController extends Controller
      */
     public function edit(PegawaiPosyandu $pegawaiPosyandu)
     {
-        return Inertia::render('PegawaiPosyandu/Edit', [
+        return Inertia::render('Pegawai/Edit', [
             'pegawai'=> $pegawaiPosyandu->find(Request::input('slug')),
         ]);
     }

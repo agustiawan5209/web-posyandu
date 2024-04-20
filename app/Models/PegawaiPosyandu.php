@@ -22,4 +22,16 @@ class PegawaiPosyandu extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+     //  FIlter Data User
+     public function scopeFilter($query, $filter)
+     {
+         $query->when($filter['search'] ?? null, function ($query, $search) {
+             $query->where('jabatan', 'like', '%' . $search . '%')
+                 ->orWhere('nama', 'like', '%' . $search . '%')
+                 ->orWhere('no_telpon', 'like', '%' . $search . '%');
+         })->when($filter['order'] ?? null, function ($query, $order) {
+             $query->orderBy('id', $order);
+         });
+     }
 }

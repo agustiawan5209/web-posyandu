@@ -3,7 +3,9 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\PegawaiPosyanduController;
 use App\Http\Controllers\ProfileController;
+use App\Models\PegawaiPosyandu;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,6 +50,16 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data-orangtua', 'create')->name('create');
             Route::delete('/hapus-data-orangtua', 'destroy')->name('destroy');
+        });
+    });
+
+
+    // Router Pegawai
+    Route::group(['prefix' => 'staff', 'as' => "Pegawai."], function () {
+        Route::controller(PegawaiPosyanduController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/tambah-data-pegawai', 'create')->name('create');
+            Route::delete('/hapus-data-pegawai', 'destroy')->name('destroy');
         });
     });
 
