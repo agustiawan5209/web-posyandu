@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,12 @@ class OrangTuaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id'=> User::factory(),
+            'nama'=> function(array $attribute){
+                return User::find($attribute['user_id'])->name;
+            },
+            'alamat'=> fake()->address(),
+            'no_telpon'=> fake()->phoneNumber(),
         ];
     }
 }

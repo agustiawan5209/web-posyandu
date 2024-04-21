@@ -28,12 +28,12 @@ class OrangTuaController extends Controller
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
         $columns[] = 'jumlah_anak';
 
-        // dd(OrangTua::with(['anak'])->find(1));
+        // dd(OrangTua::with(['balita'])->find(1));
 
         return Inertia::render('OrangTua/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
-            'data' => OrangTua::filter(Request::only('search', 'order'))->with(['anak','user'])->paginate(10),
+            'data' => OrangTua::filter(Request::only('search', 'order'))->with(['balita','user'])->paginate(10),
         ]);
     }
 
@@ -88,7 +88,7 @@ class OrangTuaController extends Controller
     public function show(OrangTua $orangTua)
     {
         // dd(Balita::find(1)->hitung_usia);
-        return Inertia::render('OrangTua/Show', ['orangTua' => $orangTua->with(['anak', 'user'])->find(Request::input('slug'))]);
+        return Inertia::render('OrangTua/Show', ['orangTua' => $orangTua->with(['balita', 'user'])->find(Request::input('slug'))]);
     }
     /**
      * Tampilan form edit orang tua
@@ -98,7 +98,7 @@ class OrangTuaController extends Controller
      */
     public function edit(OrangTua $orangTua)
     {
-        return Inertia::render('OrangTua/Edit', ['orangTua' => $orangTua->with(['anak', 'user'])->find(Request::input('slug'))]);
+        return Inertia::render('OrangTua/Edit', ['orangTua' => $orangTua->with(['balita', 'user'])->find(Request::input('slug'))]);
     }
 
     /**
@@ -137,7 +137,7 @@ class OrangTuaController extends Controller
      */
     public function destroy(OrangTua $orangTua)
     {
-        $orangTua = OrangTua::with('anak')->find(Request::input('slug'));
+        $orangTua = OrangTua::with('balita')->find(Request::input('slug'));
         $data = $orangTua->nama;
 
         if($orangTua->anak->count() > 0){

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Balita;
 use App\Models\OrangTua;
 use App\Models\PegawaiPosyandu;
 use App\Models\User;
@@ -17,20 +18,15 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-
+        $rand = rand(1,2);
         $org = User::factory(30)
         ->afterCreating(function (User $user){
             $role = Role::findByName('Orang Tua'); // Replace 'user' with your actual role name
             if ($role) {
                 $user->assignRole($role); // Assign 'user' role to the user
             }
-            OrangTua::create([
-                'user_id'=>$user->id,
-                'nama'=> $user->name,
-                'alamat'=> fake()->address(),
-                'no_telpon'=> fake()->phoneNumber(),
-            ]);
         })
+        ->has(OrangTua::factory()->has(Balita::factory()->count($rand))->count(1))
         ->create();
         $org = User::factory(30)
         ->afterCreating(function (User $user){

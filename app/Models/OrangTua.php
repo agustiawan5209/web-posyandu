@@ -19,7 +19,7 @@ class OrangTua extends Model
         'no_telpon',
     ];
 
-    public function anak()
+    public function balita()
     {
         return $this->hasMany(Balita::class, 'org_tua_id', 'id'); // Asumsikan tabel 'anak'
     }
@@ -39,7 +39,7 @@ class OrangTua extends Model
     public function jumlahAnak(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->anak()->count(),
+            get: fn () => $this->balita()->count(),
         );
     }
 

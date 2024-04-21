@@ -33,9 +33,17 @@ class Balita extends Model
     {
         $dateNow = Carbon::now();
         $tglLahir = Carbon::parse($this->tgl_lahir);
+
         $ageInYears = $dateNow->diffInYears($tglLahir);
         $ageInMonths = $dateNow->diffInMonths($tglLahir) % 12;
-        $ageInDays = $dateNow->diffInDays($tglLahir) % $ageInMonths ;
+
+        if($ageInMonths == 0){
+            $ageInDays = 0;
+        }else{
+
+            $ageInDays = $dateNow->diffInDays($tglLahir) % $ageInMonths ;
+        }
+        // dd($dateNow->diffInDays($tglLahir) % 0);
         return new Attribute(
             get: fn () => "Usia: {$ageInYears} Tahun, {$ageInMonths} Bulan, {$ageInDays} Hari",
         );

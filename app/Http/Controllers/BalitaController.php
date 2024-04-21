@@ -19,6 +19,7 @@ class BalitaController extends Controller
     {
         $tableName = 'balitas'; // Ganti dengan nama tabel yang Anda inginkan
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
+        $columns[] = 'hitung_usia';
         $columns[] = 'nama_orang_tua';
 
         return Inertia::render('Balita/Index', [

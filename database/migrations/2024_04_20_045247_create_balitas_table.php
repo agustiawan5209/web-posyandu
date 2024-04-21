@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('org_tua_id')->unsigned();
             $table->foreign('org_tua_id')->references('id')->on('orang_tuas');
-            $table->string('nama', 30);
+            $table->string('nama', 50);
             $table->date('tgl_lahir');
             $table->enum('jenkel', ['Laki-Laki','Perempuan']);
             $table->timestamps();

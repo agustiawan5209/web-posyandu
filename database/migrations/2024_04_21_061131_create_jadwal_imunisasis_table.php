@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('jenis_imunisasi',50);
             $table->longText('deskripsi');
-            $table->string('penanggung_jawab');
+            $table->string('penanggung_jawab', 100);
             $table->timestamps();
         });
     }
