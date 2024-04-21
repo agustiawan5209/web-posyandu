@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\PegawaiPosyanduController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RiwayatImunisasiController;
 use App\Models\PegawaiPosyandu;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -108,6 +109,20 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/store-data/jadwal-imunisasi', 'store')->name('store');
             Route::put('/update-data/jadwal-imunisasi', 'update')->name('update');
             Route::delete('/hapus-data/jadwal-imunisasi', 'destroy')->name('destroy');
+        });
+    });
+
+
+     // Router Riwayat
+     Route::group(['prefix' => 'riwayat-imunisasi', 'as' => "Riwayat."], function () {
+        Route::controller(RiwayatImunisasiController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/tambah-data/riwayat-imunisasi', 'create')->name('create');
+            Route::get('/edit-data/riwayat-imunisasi', 'edit')->name('edit');
+            Route::get('/detail-data/riwayat-imunisasi', 'show')->name('show');
+            Route::post('/store-data/riwayat-imunisasi', 'store')->name('store');
+            Route::put('/update-data/riwayat-imunisasi', 'update')->name('update');
+            Route::delete('/hapus-data/riwayat-imunisasi', 'destroy')->name('destroy');
         });
     });
 });
