@@ -17,7 +17,7 @@ const showingNavigationDropdown = ref(false);
 
         <div class="hidden md:block mt-8 text-center">
             <img :src="'/images/logo/logo-dark.png'" alt=""
-                class="m-auto h-10 w-10 rounded-md object-cover lg:h-28 lg:w-28" />
+                class="m-auto h-10 w-10 rounded-md object-cover lg:h-12 lg:w-12" />
             <h5 class="mt-4 text-xl font-semibold text-gray-600 lg:block">{{ $page.props.auth.user.name }}
             </h5>
             <span class=" text-gray-400 lg:block">{{ $page.props.auth.role.name }}</span>
@@ -46,9 +46,19 @@ const showingNavigationDropdown = ref(false);
                     <span class="group-hover:text-gray-700 capitalize">Jadwal Imunisasi</span>
                 </NavLink>
             </li>
-            <li>
+            <!-- <li>
                 <NavLink href="#" :icon="['fas','chart-pie']">
                     <span class="group-hover:text-gray-700 capitalize">Data Balita Dan Ibu Hamil</span>
+                </NavLink>
+            </li> -->
+            <li>
+                <NavLink :href="route('Balita.index')" :active="route().current('Balita.index') || route().current('Balita.create') || route().current('Balita.edit')|| route().current('Balita.show')" :icon="['fas','person-breastfeeding']">
+                    <span class="group-hover:text-gray-700 capitalize">Data Balita</span>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="#" :icon="['fas','folder-open']">
+                    <span class="group-hover:text-gray-700 capitalize">Riwayat Imunisasi</span>
                 </NavLink>
             </li>
             <li>

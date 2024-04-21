@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Balita;
+use App\Models\OrangTua;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreBalitaRequest;
 use App\Http\Requests\UpdateBalitaRequest;
-use Illuminate\Support\Facades\Request;
-use Inertia\Inertia;
 
 class BalitaController extends Controller
 {
@@ -15,8 +17,14 @@ class BalitaController extends Controller
      */
     public function index()
     {
-        return Inertia::render("Balita/Index", [
-            'balita' => Balita::where('org_tua_id', '=', Request::input('orang_tua'))->get(),
+        $tableName = 'balitas'; // Ganti dengan nama tabel yang Anda inginkan
+        $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
+        $columns[] = 'nama_orang_tua';
+
+        return Inertia::render('Balita/Index', [
+            'search' =>  Request::input('search'),
+            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'org_tua_id', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
+            'data' => Balita::filter(Request::only('search', 'order'))->paginate(10),
         ]);
     }
 
@@ -25,11 +33,20 @@ class BalitaController extends Controller
      */
     public function create()
     {
-        return Inertia::render("Balita/create", [
+        return Inertia::render("Balita/Form", [
             'balita' => Balita::where('org_tua_id', '=', Request::input('orang_tua'))->get(),
+            'orangTua'=> OrangTua::all(),
         ]);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeForm(StoreBalitaRequest $request)
+    {
+        Balita::create($request->all());
+        return redirect()->route('Balita.index')->with('message', 'Data Balita Berhasil Di tambah!!');
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -45,7 +62,8 @@ class BalitaController extends Controller
     public function show(Balita $balita)
     {
         return Inertia::render("Balita/Show", [
-            'balita' => Balita::find(Request::input('orang_tua')),
+            'balita' => Balita::with(['orangTua'])->find(Request::input('slug')),
+            'orangTua'=> OrangTua::all(),
         ]);
     }
 
@@ -54,8 +72,10 @@ class BalitaController extends Controller
      */
     public function edit(Balita $balita)
     {
+        // dd(Balita::find(Request::input('slug')));
         return Inertia::render("Balita/Edit", [
-            'balita' => Balita::find(Request::input('orang_tua')),
+            'balita' => Balita::find(Request::input('slug')),
+            'orangTua'=> OrangTua::all(),
         ]);
     }
 

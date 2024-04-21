@@ -77,7 +77,11 @@ watch(order, (value) => {
 })
 
 const columsReplace = props.tableColums.map(element => {
-    return element.replace(/_/g, ' ');
+    if(element == 'org_tua_id'){
+        return 'Orang Tua'
+    }else{
+        return element.replace(/_|\b_id\b/g, ' ');
+    }
 });
 
 
@@ -159,7 +163,7 @@ function cekAksi() {
                         <div class="relative max-w-xs">
                             <label class="sr-only">Search</label>
                             <input type="search" name="hs-table-with-pagination-search"
-                                id="hs-table-with-pagination-search" v-model.lazy="search"
+                                id="hs-table-with-pagination-search" v-model="search"
                                 class="pl-2 py-1 md:pl-8 md:py-2 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                 placeholder="Cari Data.........">
                             <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
@@ -202,7 +206,7 @@ function cekAksi() {
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                <tr v-for="(item, index) in TableData.data" :key="item.id">
+                                <tr v-for="(item, index) in TableData.data" :key="item.id" :class="{ 'opacity-25': Form.processing }">
                                     <td class="px-2 py-1 md:px-6 md:py-3 whitespace-nowrap md:whitespace-pre-wrap text-xs font-medium text-gray-800"
                                         v-for="col in tableColums">
 

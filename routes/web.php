@@ -63,13 +63,18 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/reset-password-orang-tua', 'resetpasswordUpdate')->name('reset.password');
         });
     });
+
+    // Route Balita/Anak
     Route::group(['prefix' => 'balita', 'as' => "Balita."], function () {
         Route::controller(BalitaController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data-balita', 'create')->name('create');
             Route::get('/ubah-data-balita', 'edit')->name('edit');
             Route::get('/detail-data-balita', 'show')->name('show');
+
             Route::post('/store-data-balita', 'store')->name('store');
+            Route::post('/storeForm-data-balita', 'storeForm')->name('storeForm');
+
             Route::put('/update-data-balita', 'update')->name('update');
             Route::delete('/hapus-data-balita', 'destroy')->name('destroy');
         });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\OrangTuaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth')->group(function(){
 });
 Route::get('get-user', [UserController::class, 'getUser'])->name('api.user.getUser');
+Route::get('get-orangtua', [OrangTuaController::class, 'getOrgTua'])->name('api.orangtua.getOrgTua');

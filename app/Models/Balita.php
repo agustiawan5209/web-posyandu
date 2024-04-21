@@ -18,8 +18,15 @@ class Balita extends Model
         'org_tua_id'
     ];
 
+    // reation
+    public function orangTua(){
+        return $this->hasOne(OrangTua::class,'id','org_tua_id');
+    }
+
     protected $appends = [
         'hitung_usia',
+        'nama_orang_tua',
+
     ];
 
     public function hitungUsia(): Attribute
@@ -31,6 +38,13 @@ class Balita extends Model
         $ageInDays = $dateNow->diffInDays($tglLahir) % $ageInMonths ;
         return new Attribute(
             get: fn () => "Usia: {$ageInYears} Tahun, {$ageInMonths} Bulan, {$ageInDays} Hari",
+        );
+    }
+    public function namaOrangTua(): Attribute
+    {
+        // dd($this->orangTua());
+        return new Attribute(
+            get: fn () => $this->orangTua->nama,
         );
     }
 
@@ -48,4 +62,19 @@ class Balita extends Model
     {
         // Implement the logic to generate the growth chart
     }
+
+     //  FIlter Data User
+     public function scopeFilter($query, $filter)
+     {
+         $query->when($filter['search'] ?? null, function ($query, $search) {
+             $query->where('nama', 'like', '%' . $search . '%')
+                 ->orWhereDate('tgl_lahir', 'like', '%' . $search . '%')
+                 ->orWhere('jenkel', 'like', '%' . $search . '%')
+                 ->orWhereHas('orangTua', function($query)use($search){
+                    $query->where('nama', 'like', '%' . $search . '%');
+                 });
+         })->when($filter['order'] ?? null, function ($query, $order) {
+             $query->orderBy('id', $order);
+         });
+     }
 }

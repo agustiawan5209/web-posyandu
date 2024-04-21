@@ -176,4 +176,12 @@ class OrangTuaController extends Controller
         return redirect()->route('OrangTua.index')->with('message', 'Password OrangTua Posyandu berhasil Di Ubah!.' );
 
     }
+
+    public function getOrgTua(){
+        $search = Request::only('search');
+
+        $user = OrangTua::filter($search)->get();
+
+        return json_encode($user);
+    }
 }
