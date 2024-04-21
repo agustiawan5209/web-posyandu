@@ -103,7 +103,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/store-data/jadwal-imunisasi', 'store')->name('store');
             Route::put('/update-data/jadwal-imunisasi', 'update')->name('update');
             Route::delete('/hapus-data/jadwal-imunisasi', 'destroy')->name('destroy');
-
         });
     });
 });

@@ -83,6 +83,9 @@ class JadwalImunisasiController extends Controller
     public function destroy(JadwalImunisasi $jadwalImunisasi)
     {
         $jadwalImunisasi = JadwalImunisasi::find(Request::input('slug'))->delete();
-        return redirect()->route('Jadwal.index')->with('message', 'data jadwal imunisasi berhasil di tambah!!!');
+        return redirect()->route('Jadwal.index')->with('message', 'data jadwal imunisasi berhasil di Hapus!!!');
     }
+
+
+
 }

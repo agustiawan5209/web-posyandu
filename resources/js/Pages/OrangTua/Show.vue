@@ -193,7 +193,7 @@ const HitungUsia = (tgl) => {
                         <table class="w-full overflow-x-auto">
                             <caption class="py-2 border-b">
                                 <div class="relative max-w-full flex ">
-                                    <PrimaryButton type="button" @click="OpenModal()" class="w-[20%]">Tambah
+                                    <PrimaryButton type="button" @click="OpenModal()" class="w-[20%]">Tambah Data Balita/Anak
                                     </PrimaryButton>
 
                                     <span class="text-lg w-full text-center">Data Balita/Anak</span>

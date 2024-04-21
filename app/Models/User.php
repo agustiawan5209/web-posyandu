@@ -45,23 +45,25 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-     // $guarded berisi array nama kolom yang tidak dapat diubah
-     protected $guarded = [
+    // $guarded berisi array nama kolom yang tidak dapat diubah
+    protected $guarded = [
         'password',
         'email_verified_at',
         'remember_token',
-     ];
+    ];
 
 
-     public function orangtua(){
-        return $this->hasOne(OrangTua::class,'user_id', 'id');
-     }
+    public function orangtua()
+    {
+        return $this->hasOne(OrangTua::class, 'user_id', 'id');
+    }
 
     //  FIlter Data User
-     public function scopeFilter($query,$search){
+    public function scopeFilter($query, $search)
+    {
         $query->when($search ?? null, function ($query) use ($search) {
-            $query->where('name', 'like', '%'. $search .'%')
-                ->orWhere('username', 'like', '%'. $search .'%');
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('username', 'like', '%' . $search . '%');
         });
-     }
+    }
 }
