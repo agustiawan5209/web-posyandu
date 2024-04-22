@@ -11,6 +11,7 @@ import TextInput from '@/Components/TextInput.vue';
 import Modal from '@/Components/Modal.vue';
 import FormAnak from '@/Pages/Anak/Form.vue';
 import { ref, defineProps, watch, onMounted } from 'vue';
+import ChartJenisImunisasi from '@/Components/Chart/ChartJenisImunisasi.vue';
 
 const page = usePage();
 const props = defineProps({
@@ -23,9 +24,38 @@ const props = defineProps({
 const dataBalita = Object.keys(props.balita)
 const Filter = dataBalita.filter(function (param) {
     return !/id/g.test(param) && !/orang_tua/g.test(param)
- })
-console.log(Filter)
+})
+console.log(props.balita)
 
+function parseDate(tgl) {
+    const today = new Date(tgl);
+
+    const options = {
+        weekday: 'long',  // full weekday name (Senin, Selasa, etc.)
+        year: 'numeric',  // numeric year (2024)
+        month: 'long',    // full month name (April)
+        day: 'numeric',   // numeric day (22)
+    };
+
+    const formatter = new Intl.DateTimeFormat('id-ID', options);
+    const formattedDate = formatter.format(today);
+    return formattedDate;
+}
+
+function ObjectSliceKey() {
+    if (props.balita.riwayat_imunisasis.length > 0) {
+        const parent = props.balita.riwayat_imunisasis[0].data_imunisasi;
+
+        return Object.keys(parent);
+    }else{
+        return {};
+    }
+}
+const columsReplace = (element) => {
+
+    return element.replace(/_|\b_id\b/g, ' ');
+};
+ObjectSliceKey()
 </script>
 
 <template>
@@ -55,30 +85,77 @@ console.log(Filter)
 
                                 <table class="w-full table">
                                     <colgroup>
-                                    <col>
-                                    <col class="w-3">
-                                    <col>
+                                        <col>
+                                        <col class="w-3">
+                                        <col>
                                     </colgroup>
-                                    <tr class="" >
+                                    <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">Nama</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ balita.nama }} </td>
                                     </tr>
-                                    <tr class="" >
+                                    <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">Tanggal Lahir</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ balita.tgl_lahir }} </td>
                                     </tr>
-                                    <tr class="" >
+                                    <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">Usia</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ balita.hitung_usia }} </td>
                                     </tr>
-                                    <tr class="" >
+                                    <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">Nama Orang Tua</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ balita.nama_orang_tua }} </td>
                                     </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50"
+                        v-if="balita.riwayat_imunisasis.length > 0">
+                        <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
+                            <div class="col-span-full  ">
+                                <ul class="flex flex-col space-y-20">
+                                    <li class="flex gap-3 py-2 border-b">
+                                        <span class="text-lg">Detail</span>
+                                    </li>
+                                </ul>
+                                <ChartJenisImunisasi />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="grid grid-cols-3 gap-6 p-2 rounded-md shadow-sm bg-gray-50">
+                        <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
+                            <div class="col-span-full overflow-x-auto ">
+                                <ul class="flex flex-col space-y-20">
+                                    <li class="flex gap-3 py-2 border-b">
+                                        <span class="text-lg">Riwayat Imunisasi</span>
+                                    </li>
+                                </ul>
+
+                                <table class="w-max table text-xs ">
+
+                                    <thead>
+                                        <tr>
+                                            <th class="border whitespace-nowrap">Tanggal Imunisasi</th>
+                                            <th  class="border whitespace-nowrap p-2" v-for="(item, key) in ObjectSliceKey()">{{ columsReplace(item) }}</th>
+                                            <th class="border">Catatan Imunisasi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody v-for="(riwayat, key) in balita.riwayat_imunisasis">
+                                        <tr>
+                                            <td class="whitespace-wrap border p-2">{{ parseDate(riwayat.tanggal) }}</td>
+                                            <td class="whitespace-nowrap border p-2"
+                                                v-for="(item, key) in riwayat.data_imunisasi">
+                                                {{ item }}
+                                            </td >
+                                            <td  class="text-xs px-1 border">{{ riwayat.catatan }}</td>
+
+                                        </tr>
+
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

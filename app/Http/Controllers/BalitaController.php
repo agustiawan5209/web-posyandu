@@ -63,7 +63,7 @@ class BalitaController extends Controller
     public function show(Balita $balita)
     {
         return Inertia::render("Balita/Show", [
-            'balita' => Balita::with(['orangTua'])->find(Request::input('slug')),
+            'balita' => Balita::with(['orangTua','riwayatImunisasis'])->find(Request::input('slug')),
             'orangTua'=> OrangTua::all(),
         ]);
     }

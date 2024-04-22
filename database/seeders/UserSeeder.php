@@ -36,9 +36,9 @@ class UserSeeder extends Seeder
                         'nama_anak' => $balita->nama,
                         'usia_anak' => $balita->hitung_usia,
                         'jenis_kelamin' => $balita->jenkel,
-                        'berat_badan' => fake()->numberBetween(3, 10) . 'Kg',
-                        'tinggi_badan' => fake()->numberBetween(30, 100) . 'Cm',
-                        'lingkar_kepala' => fake()->numberBetween(20, 50) . 'Cm',
+                        'berat_badan' => fake()->numberBetween(3, 10),
+                        'tinggi_badan' => fake()->numberBetween(30, 100),
+                        'lingkar_kepala' => fake()->numberBetween(20, 50),
                         'kesehatan' => fake()->randomElement(['Baik', 'Buruk']),
                     ],
                 ];
