@@ -1,53 +1,65 @@
-
 <script setup>
-import { ref } from 'vue';
-import { Calendar, DatePicker } from 'v-calendar';
+import { ref, watch, onMounted } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { Calendar, DatePicker, Popover } from 'v-calendar';
 import 'v-calendar/style.css';
+import axios from 'axios';
 
-const dates = ref('')
-const attributes = ref([
-    {
-        highlight: true,
-        dates: new Date(),
+const dates = ref(new Date());
+watch(dates, (value) => {
+    const Jadwal = new Date(value)
+    const search = `${Jadwal.getFullYear()}-${String(Jadwal.getMonth() + 1).padStart(2, '0')}-${Jadwal.getDate().toString().padStart(2, '0')}`;
+
+    router.get(route('Jadwal.index', {search: search}))
+})
+const Loaded = ref(false)
+const AttributeData = ref([{
+    key: 'today',
+    highlight: {
+        color: 'purple',
+        fillMode: 'solid',
+        contentClass: 'italic',
     },
-    {
-        // Boolean
-        content: true,
-        dates: [
-            new Date(2018, 0, 1),
-            new Date(2018, 0, 10),
-            new Date(2018, 0, 22),
-        ],
-    },
-    {
-        // String
-        content: 'red',
-        dates: [
-            new Date(2018, 0, 4),
-            new Date(2018, 0, 10),
-            new Date(2018, 0, 15),
-        ],
-    },
-    {
-        // Object
-        content: {
-            color: 'purple',
-            style: {
-                fontStyle: 'italic',
-            },
-        },
-        dates: [
-            new Date(2018, 0, 12),
-            new Date(2018, 0, 26),
-            new Date(2018, 0, 15),
-        ],
-    },
-]);
+    dates: new Date(),
+},])
+
+
+onMounted(() => {
+    axios.get(route('api.jadwal.getJadwal'))
+        .then((res) => {
+            if (res.status == 200) {
+                const Jadwal = res.data.data;
+                for (let i = 0; i < Jadwal.length; i++) {
+                    const element = Jadwal[i];
+                    AttributeData.value.push({
+                        key: i.toString(),
+                        highlight: {
+                            color: 'blue',
+                            fillMode: 'solid',
+                            contentClass: 'italic',
+                        },
+                        dot: 'red',
+                        dates: element.tanggal,
+                        popover: {
+                            label: element.deskripsi,
+                            isInteractive: false,
+                        }
+                    })
+                }
+                Loaded.value = true;
+            } else {
+                console.log('Error Data Gagal Didapat')
+            }
+        })
+        .catch(err => {
+            console.error('Error :' + err)
+        })
+})
 </script>
 
 
 <template>
-    <div class="w-full h-full">
-        <DatePicker v-model="dates" :attributes="attributes" :min-date="new Date()" expanded class="border shadow-lg" />
+    <div class="w-full h-full" v-if="Loaded">
+        <DatePicker v-model.lazy="dates" @click="getTanggal($event)" :attributes="AttributeData" expanded />
     </div>
 </template>

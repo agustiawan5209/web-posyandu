@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\OrangTua;
 use App\Http\Controllers\Controller;
 use App\Models\Balita;
+use App\Models\JadwalImunisasi;
 use App\Models\RiwayatImunisasi;
 use Illuminate\Support\Facades\Request;
 
@@ -103,5 +104,24 @@ class ApiModelController extends Controller
             'data_chart'=> $data,
             'label'=> $label,
         ]);
+    }
+
+    public function getJadwal(){
+        $jadwal = JadwalImunisasi::all();
+        $data = [];
+        $tanggal = [];
+
+        foreach($jadwal as $key => $value) {
+            $data[] = [
+                'tanggal'=> $value->tanggal,
+                'deskripsi'=> $value->deskripsi,
+            ];
+            $tanggal[] = $value->tanggal;
+        }
+
+        return [
+            'data'=> $data,
+            'tanggal'=> array_values(array_unique($tanggal)),
+        ];
     }
 }

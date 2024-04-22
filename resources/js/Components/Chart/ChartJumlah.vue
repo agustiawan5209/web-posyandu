@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="loaded">
+    <div class="relative w-full md:w-[320px]  h-max" v-if="loaded">
         <Doughnut id="my-chart-id" :options="chartOptions" :data="chartData"
             class="w-[300px] sm:w-[10%] md:max-w-xs object-contain" />
     </div>
@@ -22,7 +22,7 @@ export default {
             responsive: true,
             plugins:{
                 legend:{
-                    position:'bottom'
+                    position:'right'
                 },
                 title:{
                     display: true,

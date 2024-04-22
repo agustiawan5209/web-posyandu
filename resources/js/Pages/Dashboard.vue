@@ -27,11 +27,12 @@ const props = defineProps({
             <div class="max-w-7xl mx-auto sm:px-6">
                 <HeaderStats :pengguna="pengguna" :balita="balita" />
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="flex flex-col md:flex-row gap-7 ">
-                        <div class="relative w-full md:w-[70%]">
+                    <div class="flex flex-col md:flex-row gap-7 p-2">
+                        <div class="relative w-full md:w-[30%]">
+                            <h3 class=" text-xs md:text-base font-semibold text-center">Kalender Jadwal Imunisasi</h3>
                             <CardCalendar />
                         </div>
-                        <div class="relative border w-full md:w-[30%]">
+                        <div class="relative border w-full md:w-[70%] flex justify-center">
                             <ChartJumlah />
 
                         </div>

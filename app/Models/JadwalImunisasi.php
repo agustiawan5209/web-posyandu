@@ -41,6 +41,7 @@ class JadwalImunisasi extends Model
         $query->when($filter['search'] ?? null, function ($query, $search) {
             $query->where('usia', 'like', '%' . $search . '%')
                 ->orWhere('jenis_imunisasi', 'like', '%' . $search . '%')
+                ->orWhereDate('tanggal', 'like', '%' . $search . '%')
                 ->orWhere('penanggung_jawab', 'like', '%' . $search . '%');
         })->when($filter['order'] ?? null, function ($query, $order) {
             $query->orderBy('id', $order);
