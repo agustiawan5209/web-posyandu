@@ -1,9 +1,9 @@
 <template>
     <div class="relative flex flex-col min-w-0 break-words bg-white rounded border mb-6 xl:mb-0 shadow-lg">
         <div class="flex-auto p-4">
-            <div class="flex flex-wrap">
+            <div class="flex flex-row box-content relative">
                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                    <h5 class="text-gray-800 uppercase font-bold text-xs">
+                    <h5 class="text-gray-800 uppercase  font-bold text-xs">
                         {{ statSubtitle }}
                     </h5>
                     <span class="font-semibold text-xl text-gray-700">

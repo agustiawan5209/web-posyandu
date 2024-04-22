@@ -8,6 +8,8 @@ import { defineProps } from "vue";
 
 const props = defineProps({
     pengguna: Number,
+    balita: Number,
+
 });
 </script>
 
@@ -22,7 +24,7 @@ const props = defineProps({
 
         <div class="py-4 relative box-content">
             <div class="max-w-7xl mx-auto sm:px-6">
-                <HeaderStats :pengguna="pengguna" />
+                <HeaderStats :pengguna="pengguna" :balita="balita" />
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="flex flex-col md:flex-row gap-7 ">
                         <div class="relative border w-full md:w-[70%]">
