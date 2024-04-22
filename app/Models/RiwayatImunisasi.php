@@ -45,10 +45,11 @@ class RiwayatImunisasi extends Model
     {
         $query->when($filter['search'] ?? null, function ($query, $search) {
             $query->WhereDate('tanggal', 'like', '%' . $search . '%')
-            ->orWhereJsonContains('data_imunisasi->nama_orang_tua', 'like', '%' . $search . '%')
-            ->orWhereJsonContains('data_imunisasi->usia_anak', 'like', '%' . $search . '%')
-            ->orWhereJsonContains('data_imunisasi->jenkel', 'like', '%' . $search . '%')
-            ->orWhereJsonContains('data_imunisasi->nama_anak', 'like', '%' . $search . '%');
+            ->orWhere('catatan', 'like',  '%' . $search . '%')
+            ->orWhere('data_imunisasi', 'like', '%"nama_anak": "'. $search .'"%')
+            ->orWhere('data_imunisasi', 'like', '%"nama_orang_tua": "'. $search .'"%')
+            ->orWhere('data_imunisasi', 'like', '%"jenis_kelamin": "'. $search .'"%')
+            ->orWhere('data_imunisasi', 'like', '%"usia_anak": "'. $search .'"%');
         })->when($filter['order'] ?? null, function ($query, $order) {
             $query->orderBy('id', $order);
         });

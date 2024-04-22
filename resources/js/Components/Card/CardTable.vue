@@ -124,6 +124,20 @@ function cekAksi() {
         return false;
     }
 }
+
+
+function truncateText(text) {
+    var paragraphs = text
+    var text = '';
+    var paragraph = ''
+    for (var i = 0; i < paragraphs.length; i++) {
+        if (i < 100) {
+            text += paragraphs[i]
+        }
+    }
+    text += '........'
+    return text;
+}
 </script>
 
 <template>
@@ -189,8 +203,8 @@ function cekAksi() {
                             </div>
                         </div>
                     </div>
-                    <div class="overflow-x-hidden">
-                        <table class="min-w-full divide-y divide-gray-200">
+                    <div class=" w-full overflow-x-auto ">
+                        <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" v-for="item in columsReplace"
@@ -207,16 +221,16 @@ function cekAksi() {
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 <tr v-for="(item, index) in TableData.data" :key="item.id" :class="{ 'opacity-25': Form.processing }">
-                                    <td class="px-2 py-1 md:px-6 md:py-3 whitespace-nowrap md:whitespace-pre-wrap text-xs font-medium text-gray-800"
+                                    <td class="px-2 py-1 md:px-4 md:py-3  text-xs font-medium text-gray-800"
                                         v-for="col in tableColums">
 
                                         <span v-if="col == 'id' || col == 'slug'">
                                             {{ (TableData.current_page - 1) * TableData.per_page + index + 1 }}
                                         </span>
-                                        <span v-else-if="col == 'deskripsi' || col == 'catatan'">
-                                           <p v-html="item[col]"></p>
+                                        <span v-else-if="col == 'deskripsi' || col == 'catatan'" >
+                                           <p v-html="truncateText(item[col])"></p>
                                         </span>
-                                        <span v-else>{{ item[col] }}</span>
+                                        <span v-else :class="col == 'tanggal' ? 'whitespace-nowrap' :'' ">{{ item[col] }}</span>
                                     </td>
                                     <td class="px-2 py-1 md:px-6 md:py-3 whitespace-nowrap text-end text-sm font-medium"
                                         v-if="cekAksi()">

@@ -78,8 +78,6 @@ function searchPengguna(value) {
                     for (let i = 0; i < element.length; i++) {
                         const Balita = element[i];
                         const Option = document.createElement('option');
-                        // ID
-                        Form.balita_id = Balita.id;
 
                         // Options
                         Option.value = JSON.stringify(Balita);
@@ -110,6 +108,7 @@ function SelectChangeElement(event) {
     Form.nama_anak = Value.nama;
     Form.usia = Value.hitung_usia;
     Form.jenis_kelamin = Value.jenkel;
+    Form.balita_id = Value.id;
     if (SelectElement.value) {
         const childElements = SelectElement.value.childNodes
         // loop through the child elements and remove them
@@ -184,21 +183,21 @@ onMounted(() => {
                             <div class="col-span-full">
                                 <label for="berat_badan" class="text-sm">Jumlah Berat Badan Bayi/Balita (KG)</label>
 
-                                <TextInput id="berat_badan" type="text" placeholder="Berat Badan (KG)"
+                                <TextInput id="berat_badan" type="number" placeholder="Berat Badan (KG)"
                                     v-model="Form.berat_badan" class="w-full text-gray-900 text-sm" />
 
                             </div>
                             <div class="col-span-full">
                                 <label for="berat_badan" class="text-sm">Tinggi Badan Bayi/Balita (CM)</label>
 
-                                <TextInput id="berat_badan" type="text" placeholder="Tinggi Badan (CM)"
+                                <TextInput id="berat_badan" type="number" placeholder="Tinggi Badan (CM)"
                                     v-model="Form.tinggi_badan" class="w-full text-gray-900 text-sm" />
 
                             </div>
                             <div class="col-span-full">
                                 <label for="berat_badan" class="text-sm">Ukuran Lingkar Kepala Bayi/Balita</label>
 
-                                <TextInput id="berat_badan" type="text" placeholder="Lingkar Kepala"
+                                <TextInput id="berat_badan" type="number" placeholder="Lingkar Kepala"
                                     v-model="Form.lingkar_kepala" class="w-full text-gray-900 text-sm" />
 
                             </div>

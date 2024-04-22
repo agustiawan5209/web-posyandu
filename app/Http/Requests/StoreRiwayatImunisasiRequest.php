@@ -31,9 +31,9 @@ class StoreRiwayatImunisasiRequest extends FormRequest
             'nama_orang_tua'=> 'required|string|max:50',
             'nama_anak'=> 'required|string|max:50',
             'kesehatan'=> 'required|string|max:20',
-            'berat_badan'=> 'required|string|max:20',
-            'tinggi_badan'=> 'required|string|max:20',
-            'lingkar_kepala'=> 'required|string|max:20',
+            'berat_badan'=> 'required|numeric',
+            'tinggi_badan'=> 'required|numeric',
+            'lingkar_kepala'=> 'required|numeric',
             'tanggal' => 'required|date',
             'catatan' => 'required|string',
         ];

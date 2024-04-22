@@ -82,19 +82,19 @@ const ChartValue = ref(false)
 
 <template>
 
-    <Head title="Jadwal Imunisasi" />
+    <Head title="Bayi/Balita" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Edit Jadwal Imunisasi</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Show Bayi/Balita</h2>
         </template>
 
         <div class="md:py-4 relative box-content">
             <section class=" py-2 px-0 md:px-6  md:py-6 bg-gray-100 text-gray-900">
                 <form novalidate="" action="" class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1 px-3 md:px-0">
-                        <p class="font-medium">Detail Informasi Jadwal Imunisasi</p>
-                        <p class="text-xs">Detail data Jadwal Imunisasi dari puskesmas</p>
+                        <p class="font-medium">Detail Informasi Bayi/Balita</p>
+                        <p class="text-xs">Detail data Bayi/Balita dari puskesmas</p>
                     </div>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
@@ -137,29 +137,29 @@ const ChartValue = ref(false)
                     </fieldset>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50"
                         v-if="balita.riwayat_imunisasis.length > 0">
-                        <PrimaryButton type="button" @click="ChartValue = !ChartValue">Tampilkan Grafik Bayi/Balita
+                        <PrimaryButton type="button" class="whitespace-nowrap col-span-full md:col-span-1" @click="ChartValue = !ChartValue">Tampilkan Grafik Bayi/Balita
                         </PrimaryButton>
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3" v-if="ChartValue">
-                            <div class="col-span-full sm:col-span-3  border">
+                            <div class="col-span-full sm:col-span-3  border bg-white">
                                 <ul class="flex flex-col space-y-20">
                                     <li class="flex gap-3 py-2 border-b">
-                                        <span class="text-xs">Pertumbuhan Berat Badan Bayi/Balita</span>
+                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Berat Badan Bayi/Balita</span>
                                     </li>
                                 </ul>
                                 <ChartBeratBadan :id="balita.id" />
                             </div>
-                            <div class="col-span-full sm:col-span-3  border">
+                            <div class="col-span-full sm:col-span-3  border bg-white">
                                 <ul class="flex flex-col space-y-20">
                                     <li class="flex gap-3 py-2 border-b">
-                                        <span class="text-xs">Pertumbuhan Tinggi Badan Bayi/Balita</span>
+                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Tinggi Badan Bayi/Balita</span>
                                     </li>
                                 </ul>
                                 <ChartTinggiBadan :id="balita.id" />
                             </div>
-                            <div class="col-span-full sm:col-span-3  border">
+                            <div class="col-span-full sm:col-span-3  border bg-white">
                                 <ul class="flex flex-col space-y-20">
                                     <li class="flex gap-3 py-2 border-b">
-                                        <span class="text-xs">Pertumbuhan Lingkar Kepala Bayi/Balita</span>
+                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Lingkar Kepala Bayi/Balita</span>
                                     </li>
                                 </ul>
                                 <ChartLingkarKepala :id="balita.id" />
@@ -193,7 +193,7 @@ const ChartValue = ref(false)
                                                 v-for="(item, key) in riwayat.data_imunisasi">
                                                 {{ item }}
                                             </td>
-                                            <td class="text-xs px-1 border">{{ riwayat.catatan }}</td>
+                                            <td class="text-xs px-1 border w-96 leading-4 tracking-wide" v-html="riwayat.catatan"></td>
 
                                         </tr>
 

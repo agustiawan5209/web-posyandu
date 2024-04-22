@@ -23,6 +23,7 @@ class RiwayatImunisasiController extends Controller
         $columns[] = 'tanggal';
         $columns[] = 'catatan';
 
+        // dd(RiwayatImunisasi::filter(Request::only('search', 'order'))->with(['balita'])->get());
         return Inertia::render('Riwayat/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at','balita_id', 'created_at', 'updated_at', 'user_id'])),
@@ -92,7 +93,23 @@ class RiwayatImunisasiController extends Controller
      */
     public function update(UpdateRiwayatImunisasiRequest $request, RiwayatImunisasi $riwayatImunisasi)
     {
-        $data = $request->all();
+        $data = [
+            'balita_id'=> $request->balita_id,
+            'data_imunisasi'=>[
+                'berat_badan'=> $request->berat_badan,
+                'tinggi_badan'=> $request->tinggi_badan,
+                'lingkar_kepala'=> $request->lingkar_kepala,
+                'kesehatan'=> $request->kesehatan,
+                'nama_orang_tua'=> $request->nama_orang_tua,
+                'nama_anak'=> $request->nama_anak,
+                'usia_anak'=> $request->usia,
+                'jenis_kelamin'=> $request->jenis_kelamin,
+            ],
+            'tanggal'=> $request->tanggal,
+            'catatan'=> $request->catatan,
+
+        ];
+
         $riwayatImunisasi = $riwayatImunisasi->find(Request::input('slug'))->update($data);
         return redirect()->route('Riwayat.index')->with('message','Data Riwayat Imunisasi Bayi/Balita Berhasil Di Edit!!');
     }
