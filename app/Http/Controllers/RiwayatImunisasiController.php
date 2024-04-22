@@ -53,6 +53,8 @@ class RiwayatImunisasiController extends Controller
                 'kesehatan'=> $request->kesehatan,
                 'nama_orang_tua'=> $request->nama_orang_tua,
                 'nama_anak'=> $request->nama_anak,
+                'usia_anak'=> $request->usia,
+                'jenis_kelamin'=> $request->jenis_kelamin,
             ],
             'tanggal'=> $request->tanggal,
             'catatan'=> $request->catatan,

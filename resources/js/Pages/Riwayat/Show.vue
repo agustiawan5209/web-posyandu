@@ -14,29 +14,30 @@ import { ref, defineProps, watch, onMounted } from 'vue';
 
 const page = usePage();
 const props = defineProps({
-    jadwal: {
+    riwayat: {
         type: Object,
         default: () => ({})
     }
 })
+console.log(props.riwayat)
 
 </script>
 
 <template>
 
-    <Head title="Jadwal Imunisasi" />
+    <Head title="Riwayat Imunisasi" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Edit Jadwal Imunisasi</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Riwayat Imunisasi</h2>
         </template>
 
         <div class="md:py-4 relative box-content">
             <section class=" py-2 px-0 md:px-6  md:py-6 bg-gray-100 text-gray-900">
                 <form novalidate="" action="" class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1 px-3 md:px-0">
-                        <p class="font-medium">Detail Informasi Jadwal Imunisasi</p>
-                        <p class="text-xs">Detail data Jadwal Imunisasi dari puskesmas</p>
+                        <p class="font-medium">Detail Informasi Riwayat Imunisasi</p>
+                        <p class="text-xs">Detail data Riwayat Imunisasi dari puskesmas</p>
                     </div>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
@@ -53,30 +54,23 @@ const props = defineProps({
                                     <col class="w-3">
                                     <col>
                                     </colgroup>
-                                    <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">Usia Imunisasi</td>
+                                    <tr class="" v-for="(item, key) in riwayat.data_imunisasi">
+                                        <td class="text-sm border-b py-2 font-bold capitalize">{{ key }}</td>
                                         <td>:</td>
-                                        <td class="text-sm border-b text-gray-600"> {{ jadwal.usia }} </td>
+                                        <td class="text-sm border-b text-gray-600"> {{ item }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" class="border-b-2 pt-10">Catatan Kader</td>
                                     </tr>
                                     <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">Tanggal</td>
+                                        <td class="text-sm border-b py-2 font-bold capitalize">Tanggal Imunisasi</td>
                                         <td>:</td>
-                                        <td class="text-sm border-b text-gray-600"> {{ jadwal.jadwal }} </td>
+                                        <td class="text-sm border-b text-gray-600"> {{ riwayat.tanggal }} </td>
                                     </tr>
                                     <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">jenis imunisasi</td>
+                                        <td class="text-sm border-b py-2 font-bold capitalize">Catatan Imunisasi</td>
                                         <td>:</td>
-                                        <td class="text-sm border-b text-gray-600"> {{ jadwal.jenis_imunisasi }} </td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">penanggung jawab</td>
-                                        <td>:</td>
-                                        <td class="text-sm border-b text-gray-600"> {{ jadwal.penanggung_jawab }} </td>
-                                    </tr>
-                                    <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">deskripsi</td>
-                                        <td>:</td>
-                                        <td class="text-sm border-b text-gray-600 text-left" v-html="jadwal.deskripsi"> </td>
+                                        <td class="text-sm border-b text-gray-600" v-html="riwayat.catatan">  </td>
                                     </tr>
                                 </table>
                             </div>

@@ -22,6 +22,10 @@ class Balita extends Model
     public function orangTua(){
         return $this->hasOne(OrangTua::class,'id','org_tua_id');
     }
+    // reation
+    public function riwayatImunisasis(){
+        return $this->hasMany(RiwayatImunisasi::class,'balita_id','id');
+    }
 
     protected $appends = [
         'hitung_usia',

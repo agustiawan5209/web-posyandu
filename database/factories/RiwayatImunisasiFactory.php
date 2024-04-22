@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Balita;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,30 @@ class RiwayatImunisasiFactory extends Factory
      */
     public function definition(): array
     {
+        $balita = Balita::factory();
         return [
-            //
+            'balita_id'=> Balita::factory(),
+            'data_imunisasi'=> [
+                'nama_orang_tua'=> function(array $attribute){
+                    return Balita::find($attribute['balita_id'])->orangTua->nama;
+                },
+                'nama_anak'=> function(array $attribute){
+                    return $attribute['nama_anak'];
+                },
+                'usia_anak'=> function(array $attribute){
+                    return Balita::find($attribute['balita_id'])->hitung_usia;
+                },
+                'jenis_kelamin'=> function(array $attribute){
+                    return Balita::find($attribute['balita_id'])->jenkel;
+                },
+                'berat_badan'=> fake()->numberBetween(3, 10) . 'Kg',
+                'tinggi_badan'=> fake()->numberBetween(30, 100) . 'Cm',
+                'lingkar_kepala'=> fake()->numberBetween(20, 50) . 'Cm',
+                'kesehatan'=> fake()->randomElement(['Baik','Buruk']),
+
+            ],
+            'tanggal'=> fake()->dateTimeBetween('-3 months', '0 months')->format('Y-m-d'),
+            'catatan'=> fake()->realText(200),
         ];
     }
 }

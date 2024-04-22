@@ -29,6 +29,9 @@ const Form = useForm({
     kesehatan: '',
     nama_anak: '',
     nama_orang_tua: '',
+    usia: '',
+    jenis_kelamin: '',
+    jenis_kelamin: '',
 })
 
 const NamaOrangTua = ref('')
@@ -105,6 +108,8 @@ function SelectChangeElement(event) {
     PJ.value = '';
     Form.nama_orang_tua = Value.orang_tua.nama;
     Form.nama_anak = Value.nama;
+    Form.usia = Value.hitung_usia;
+    Form.jenis_kelamin = Value.jenkel;
     if (SelectElement.value) {
         const childElements = SelectElement.value.childNodes
         // loop through the child elements and remove them

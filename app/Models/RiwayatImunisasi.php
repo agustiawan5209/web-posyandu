@@ -44,9 +44,11 @@ class RiwayatImunisasi extends Model
     public function scopeFilter($query, $filter)
     {
         $query->when($filter['search'] ?? null, function ($query, $search) {
-            $query->WhereHas('balita', function ($query) use ($search) {
-                $query->where('nama', 'like', '%' . $search . '%');
-            });
+            $query->WhereDate('tanggal', 'like', '%' . $search . '%')
+            ->orWhereJsonContains('data_imunisasi->nama_orang_tua', 'like', '%' . $search . '%')
+            ->orWhereJsonContains('data_imunisasi->usia_anak', 'like', '%' . $search . '%')
+            ->orWhereJsonContains('data_imunisasi->jenkel', 'like', '%' . $search . '%')
+            ->orWhereJsonContains('data_imunisasi->nama_anak', 'like', '%' . $search . '%');
         })->when($filter['order'] ?? null, function ($query, $order) {
             $query->orderBy('id', $order);
         });
