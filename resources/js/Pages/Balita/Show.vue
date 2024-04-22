@@ -11,7 +11,9 @@ import TextInput from '@/Components/TextInput.vue';
 import Modal from '@/Components/Modal.vue';
 import FormAnak from '@/Pages/Anak/Form.vue';
 import { ref, defineProps, watch, onMounted } from 'vue';
-import ChartJenisImunisasi from '@/Components/Chart/ChartJenisImunisasi.vue';
+import ChartBeratBadan from '@/Components/Chart/ChartBeratBadan.vue';
+import ChartTinggiBadan from '@/Components/Chart/ChartTinggiBadan.vue';
+import ChartLingkarKepala from '@/Components/Chart/ChartLingkarKepala.vue';
 
 const page = usePage();
 const props = defineProps({
@@ -25,8 +27,6 @@ const dataBalita = Object.keys(props.balita)
 const Filter = dataBalita.filter(function (param) {
     return !/id/g.test(param) && !/orang_tua/g.test(param)
 })
-console.log(props.balita)
-
 function parseDate(tgl) {
     const today = new Date(tgl);
 
@@ -47,7 +47,7 @@ function ObjectSliceKey() {
         const parent = props.balita.riwayat_imunisasis[0].data_imunisasi;
 
         return Object.keys(parent);
-    }else{
+    } else {
         return {};
     }
 }
@@ -55,7 +55,29 @@ const columsReplace = (element) => {
 
     return element.replace(/_|\b_id\b/g, ' ');
 };
-ObjectSliceKey()
+
+// const DataberatBadan = ref([])
+// const LabelBeratBadan = ref([])
+// for (let i = 0; i < props.balita.riwayat_imunisasis.length; i++) {
+//     const element = props.balita.riwayat_imunisasis[i];
+//     DataberatBadan.value[i] = element.data_imunisasi.berat_badan
+//     LabelBeratBadan.value[i] = element.tanggal
+
+// }
+
+// const ChartDataBeratBadan = ref([{
+//     labels: LabelBeratBadan.value,
+//     datasets: [{
+//         label: 'Dataset 1',
+//         data: DataberatBadan.value,
+//         borderColor: '#65B741',
+//         backgroundColor: '#FFB534',
+//     }]
+// }])
+// const ChartOptionsBeratBadan = ref({
+//     responsive: true
+// })
+const ChartValue = ref(false)
 </script>
 
 <template>
@@ -115,14 +137,32 @@ ObjectSliceKey()
                     </fieldset>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50"
                         v-if="balita.riwayat_imunisasis.length > 0">
-                        <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
-                            <div class="col-span-full  ">
+                        <PrimaryButton type="button" @click="ChartValue = !ChartValue">Tampilkan Grafik Bayi/Balita
+                        </PrimaryButton>
+                        <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3" v-if="ChartValue">
+                            <div class="col-span-full sm:col-span-3  border">
                                 <ul class="flex flex-col space-y-20">
                                     <li class="flex gap-3 py-2 border-b">
-                                        <span class="text-lg">Detail</span>
+                                        <span class="text-xs">Pertumbuhan Berat Badan Bayi/Balita</span>
                                     </li>
                                 </ul>
-                                <ChartJenisImunisasi />
+                                <ChartBeratBadan :id="balita.id" />
+                            </div>
+                            <div class="col-span-full sm:col-span-3  border">
+                                <ul class="flex flex-col space-y-20">
+                                    <li class="flex gap-3 py-2 border-b">
+                                        <span class="text-xs">Pertumbuhan Tinggi Badan Bayi/Balita</span>
+                                    </li>
+                                </ul>
+                                <ChartTinggiBadan :id="balita.id" />
+                            </div>
+                            <div class="col-span-full sm:col-span-3  border">
+                                <ul class="flex flex-col space-y-20">
+                                    <li class="flex gap-3 py-2 border-b">
+                                        <span class="text-xs">Pertumbuhan Lingkar Kepala Bayi/Balita</span>
+                                    </li>
+                                </ul>
+                                <ChartLingkarKepala :id="balita.id" />
                             </div>
                         </div>
                     </fieldset>
@@ -140,7 +180,9 @@ ObjectSliceKey()
                                     <thead>
                                         <tr>
                                             <th class="border whitespace-nowrap">Tanggal Imunisasi</th>
-                                            <th  class="border whitespace-nowrap p-2" v-for="(item, key) in ObjectSliceKey()">{{ columsReplace(item) }}</th>
+                                            <th class="border whitespace-nowrap p-2"
+                                                v-for="(item, key) in ObjectSliceKey()">{{
+                                                    columsReplace(item) }}</th>
                                             <th class="border">Catatan Imunisasi</th>
                                         </tr>
                                     </thead>
@@ -150,8 +192,8 @@ ObjectSliceKey()
                                             <td class="whitespace-nowrap border p-2"
                                                 v-for="(item, key) in riwayat.data_imunisasi">
                                                 {{ item }}
-                                            </td >
-                                            <td  class="text-xs px-1 border">{{ riwayat.catatan }}</td>
+                                            </td>
+                                            <td class="text-xs px-1 border">{{ riwayat.catatan }}</td>
 
                                         </tr>
 

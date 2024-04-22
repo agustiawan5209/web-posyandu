@@ -25,3 +25,6 @@ Route::middleware('auth')->group(function(){
 Route::get('get-user', [ApiModelController::class, 'getUser'])->name('api.user.getUser');
 Route::get('get-orangtua', [ApiModelController::class, 'getOrgTua'])->name('api.orangtua.getOrgTua');
 Route::get('get-anak', [ApiModelController::class, 'getBalita'])->name('api.balita.getBalita');
+Route::get('get-berat-data/{id}', [ApiModelController::class, 'getBeratBadaBalita'])->name('api.balita.getBerat');
+Route::get('get-tinggi-data/{id}', [ApiModelController::class, 'getTinggiBalita'])->name('api.balita.getTinggi');
+Route::get('get-lingkarkepala-data/{id}', [ApiModelController::class, 'getLingkarKepalaBalita'])->name('api.balita.getLingkarKepala');

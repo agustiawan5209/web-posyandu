@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\OrangTua;
 use App\Http\Controllers\Controller;
 use App\Models\Balita;
+use App\Models\RiwayatImunisasi;
 use Illuminate\Support\Facades\Request;
 
 class ApiModelController extends Controller
@@ -43,5 +44,51 @@ class ApiModelController extends Controller
         $user = Balita::with(['orangTua'])->filter($search)->get();
 
         return json_encode($user);
+    }
+
+    public function getBeratBadaBalita($id){
+
+        $riwayat = RiwayatImunisasi::where('balita_id', '=', $id)->get();
+        $data = [];
+        $label = [];
+        foreach ($riwayat as $key => $value) {
+            $data[$key]= $value->data_imunisasi['berat_badan'];
+            $label[$key]= $value->tanggal;
+        }
+
+        return json_encode([
+            'data_chart'=> $data,
+            'label'=> $label,
+        ]);
+    }
+    public function getTinggiBalita($id){
+
+        $riwayat = RiwayatImunisasi::where('balita_id', '=', $id)->get();
+        $data = [];
+        $label = [];
+        foreach ($riwayat as $key => $value) {
+            $data[$key]= $value->data_imunisasi['tinggi_badan'];
+            $label[$key]= $value->tanggal;
+        }
+
+        return json_encode([
+            'data_chart'=> $data,
+            'label'=> $label,
+        ]);
+    }
+    public function getLingkarKepalaBalita($id){
+
+        $riwayat = RiwayatImunisasi::where('balita_id', '=', $id)->get();
+        $data = [];
+        $label = [];
+        foreach ($riwayat as $key => $value) {
+            $data[$key]= $value->data_imunisasi['lingkar_kepala'];
+            $label[$key]= $value->tanggal;
+        }
+
+        return json_encode([
+            'data_chart'=> $data,
+            'label'=> $label,
+        ]);
     }
 }
