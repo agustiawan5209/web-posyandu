@@ -22,8 +22,6 @@ class RiwayatImunisasiController extends Controller
         $columns[] = 'nama_anak';
         $columns[] = 'tanggal';
         $columns[] = 'catatan';
-
-        // dd(RiwayatImunisasi::filter(Request::only('search', 'order'))->with(['balita'])->get());
         return Inertia::render('Riwayat/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at','balita_id', 'created_at', 'updated_at', 'user_id'])),
