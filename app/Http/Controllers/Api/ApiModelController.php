@@ -91,4 +91,17 @@ class ApiModelController extends Controller
             'label'=> $label,
         ]);
     }
+    public function getDoughnatChart(){
+
+        $balita = Balita::all()->count();
+        $org = User::role('Orang Tua')->get()->count();
+        $kader = User::role('Kader')->get()->count();
+        $data = [$balita, $org,$kader];
+        $label = ['Bayi/Balita', 'Orang Tua', 'Kader'];
+
+        return json_encode([
+            'data_chart'=> $data,
+            'label'=> $label,
+        ]);
+    }
 }
