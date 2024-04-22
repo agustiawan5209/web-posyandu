@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('riwayat_imunisasis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('balita_id')->constrained('balitas');
-            $table->json('data');
+            $table->json('data_imunisasi');
             $table->date('tanggal');
             $table->longText('catatan');
             $table->timestamps();

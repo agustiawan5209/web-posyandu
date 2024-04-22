@@ -177,11 +177,5 @@ class OrangTuaController extends Controller
 
     }
 
-    public function getOrgTua(){
-        $search = Request::only('search');
 
-        $user = OrangTua::filter($search)->get();
-
-        return json_encode($user);
-    }
 }

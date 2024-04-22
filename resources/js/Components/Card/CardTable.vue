@@ -213,6 +213,9 @@ function cekAksi() {
                                         <span v-if="col == 'id' || col == 'slug'">
                                             {{ (TableData.current_page - 1) * TableData.per_page + index + 1 }}
                                         </span>
+                                        <span v-else-if="col == 'deskripsi' || col == 'catatan'">
+                                           <p v-html="item[col]"></p>
+                                        </span>
                                         <span v-else>{{ item[col] }}</span>
                                     </td>
                                     <td class="px-2 py-1 md:px-6 md:py-3 whitespace-nowrap text-end text-sm font-medium"

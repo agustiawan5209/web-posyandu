@@ -57,7 +57,7 @@ const showingNavigationDropdown = ref(false);
                 </NavLink>
             </li>
             <li>
-                <NavLink href="#" :icon="['fas','folder-open']">
+                <NavLink :href="route('Riwayat.index')" :active="route().current('Riwayat.index') || route().current('Riwayat.create') || route().current('Riwayat.edit')|| route().current('Riwayat.show')"  :icon="['fas','folder-open']">
                     <span class="group-hover:text-gray-700 capitalize">Riwayat Imunisasi</span>
                 </NavLink>
             </li>

@@ -17,11 +17,15 @@ class RiwayatImunisasiController extends Controller
     public function index()
     {
         $tableName = 'riwayat_imunisasis'; // Ganti dengan nama tabel yang Anda inginkan
-        $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
+        // $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
+        $columns[] = 'id';
+        $columns[] = 'nama_anak';
+        $columns[] = 'tanggal';
+        $columns[] = 'catatan';
 
         return Inertia::render('Riwayat/Index', [
             'search' =>  Request::input('search'),
-            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
+            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at','balita_id', 'created_at', 'updated_at', 'user_id'])),
             'data' => RiwayatImunisasi::filter(Request::only('search', 'order'))->with(['balita'])->paginate(10),
         ]);
     }
@@ -40,7 +44,21 @@ class RiwayatImunisasiController extends Controller
      */
     public function store(StoreRiwayatImunisasiRequest $request)
     {
-        $data = $request->all();
+        $data = [
+            'balita_id'=> $request->balita_id,
+            'data_imunisasi'=>[
+                'berat_badan'=> $request->berat_badan,
+                'tinggi_badan'=> $request->tinggi_badan,
+                'lingkar_kepala'=> $request->lingkar_kepala,
+                'kesehatan'=> $request->kesehatan,
+                'nama_orang_tua'=> $request->nama_orang_tua,
+                'nama_anak'=> $request->nama_anak,
+            ],
+            'tanggal'=> $request->tanggal,
+            'catatan'=> $request->catatan,
+
+        ];
+
         $riwayatImunisasi = RiwayatImunisasi::create($data);
 
         return redirect()->route('Riwayat.index')->with('message','Data Riwayat Imunisasi Bayi/Balita Berhasil Di Tambah!!');

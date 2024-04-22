@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiModelController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\OrangTuaController;
 use Illuminate\Http\Request;
@@ -21,5 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware('auth')->group(function(){
 });
-Route::get('get-user', [UserController::class, 'getUser'])->name('api.user.getUser');
-Route::get('get-orangtua', [OrangTuaController::class, 'getOrgTua'])->name('api.orangtua.getOrgTua');
+Route::get('get-user', [ApiModelController::class, 'getUser'])->name('api.user.getUser');
+Route::get('get-orangtua', [ApiModelController::class, 'getOrgTua'])->name('api.orangtua.getOrgTua');
+Route::get('get-anak', [ApiModelController::class, 'getBalita'])->name('api.balita.getBalita');
