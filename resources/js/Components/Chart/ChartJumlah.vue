@@ -34,7 +34,6 @@ export default {
     async mounted() {
         axios.get(route('api.Chart.getDoughnatChart'))
             .then((response) => {
-                console.log(response.data);
                 if (response.status == 200) {
                     this.chartData = {
                         labels: response.data.label,
