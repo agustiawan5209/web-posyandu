@@ -32,6 +32,7 @@ class UserSeeder extends Seeder
                     'edit balita',
                     'delete balita',
                     'show balita',
+                    'show jadwal',
                 ]);
             })
             ->has(OrangTua::factory()->has(Balita::factory()->has(RiwayatImunisasi::factory()->count(3)->state(function (array $attributes, Balita $balita) {
@@ -71,6 +72,11 @@ class UserSeeder extends Seeder
                         'edit orangtua',
                         'delete orangtua',
                         'show orangtua',
+                        // jadwal
+                        'add jadwal',
+                        'edit jadwal',
+                        'delete jadwal',
+                        'show jadwal',
                     ]);
                 }
 

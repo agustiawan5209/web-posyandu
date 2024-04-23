@@ -62,7 +62,7 @@ function roleToCheck(role) {
                     <span class="group-hover:text-gray-700 capitalize">Orang Tua</span>
                 </NavLink>
             </li>
-            <li v-if="roleToCheck('Kader') || roleToCheck('Kepala')">
+            <li v-if="roleToCheck('Kader') || roleToCheck('Kepala') || roleToCheck('Orang Tua')">
                 <NavLink :href="route('Jadwal.index')"
                     :active="route().current('Jadwal.index') || route().current('Jadwal.create') || route().current('Jadwal.edit') || route().current('Jadwal.show')"
                     :icon="['far', 'calendar-days']">

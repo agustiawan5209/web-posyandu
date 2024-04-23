@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\JadwalImunisasi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreJadwalImunisasiRequest;
 use App\Http\Requests\UpdateJadwalImunisasiRequest;
-use App\Models\User;
 
 class JadwalImunisasiController extends Controller
 {
@@ -25,6 +26,12 @@ class JadwalImunisasiController extends Controller
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'deskripsi'])),
             'data' => JadwalImunisasi::filter(Request::only('search', 'order'))->paginate(10),
+            'can'=>[
+                'add'=> Auth::user()->can('add riwayat'),
+                'edit'=> Auth::user()->can('edit riwayat'),
+                'show'=> Auth::user()->can('show riwayat'),
+                'delete'=> Auth::user()->can('delete riwayat'),
+            ]
         ]);
     }
 
