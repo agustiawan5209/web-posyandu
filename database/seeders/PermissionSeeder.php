@@ -40,5 +40,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'edit jadwal']);
         Permission::create(['name' => 'delete jadwal']);
         Permission::create(['name' => 'show jadwal']);
+        // sertifikat Permission
+        Permission::create(['name' => 'add sertifikat']);
+        Permission::create(['name' => 'edit sertifikat']);
+        Permission::create(['name' => 'delete sertifikat']);
+        Permission::create(['name' => 'show sertifikat']);
+        Permission::create(['name' => 'cetak sertifikat']);
     }
 }
