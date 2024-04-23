@@ -169,7 +169,7 @@ function truncateText(text) {
                     <div class="py-3 px-4" v-if="crud.tambah">
                         <div class="relative max-w-xs">
                             <Link :href="route(props.path + '.create')">
-                            <PrimaryButton type="button">Tambah</PrimaryButton>
+                            <PrimaryButton type="button">Tambah Data</PrimaryButton>
                             </Link>
                         </div>
                     </div>
@@ -219,7 +219,7 @@ function truncateText(text) {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
+                            <tbody class="divide-y divide-gray-200" v-if="TableData.data.length > 0">
                                 <tr v-for="(item, index) in TableData.data" :key="item.id" :class="{ 'opacity-75 blur-sm': Form.processing }">
                                     <td class="px-2 py-1 md:px-4 md:py-3  text-xs font-medium text-gray-800"
                                         v-for="col in tableColums">
@@ -287,6 +287,11 @@ function truncateText(text) {
                                     </td>
                                 </tr>
 
+                            </tbody>
+                            <tbody v-else>
+                                <tr>
+                                    <td :colspan="tableColums.length" class="p-5 text-gray-400 text-center" >Data Kosong</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

@@ -15,7 +15,7 @@ const props = defineProps({
     <div class=" mx-auto w-full">
       <div>
         <!-- Card stats -->
-        <div class="grid grid-cols-2 md:grid-cols-4">
+        <div class="grid grid-cols-2 md:grid-cols-2">
           <div class="w-full h-full  px-4">
             <card-stats
               statSubtitle="Jumlah Data Bayi/Balita"

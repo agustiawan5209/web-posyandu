@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\OrangTua;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Spatie\Permission\Models\Role;
@@ -35,6 +36,8 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
+            'no_telpon' => 'required|string|max:20',
+            'alamat' => 'required|string|max:100',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -56,6 +59,12 @@ class RegisteredUserController extends Controller
                 'show balita',
             ]);
         }
+        OrangTua::create([
+            'user_id' => $user->id,
+            'nama' => $user->name,
+            'no_telpon' => $request->no_telpon,
+            'alamat' => $request->alamat,
+        ]);
 
         event(new Registered($user));
 
