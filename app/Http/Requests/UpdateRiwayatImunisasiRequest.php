@@ -37,6 +37,7 @@ class UpdateRiwayatImunisasiRequest extends FormRequest
             'lingkar_kepala'=> 'required|numeric',
             'tanggal' => 'required|date',
             'catatan' => 'required|string',
+            'jenis_imunisasi' => 'required|string|max:50',
         ];
     }
 }

@@ -62,6 +62,7 @@ class RiwayatImunisasiController extends Controller
                 'usia_anak'=> $request->usia,
                 'jenis_kelamin'=> $request->jenis_kelamin,
             ],
+            'jenis_imunisasi'=> $request->jenis_imunisasi,
             'tanggal'=> $request->tanggal,
             'catatan'=> $request->catatan,
 
@@ -110,6 +111,7 @@ class RiwayatImunisasiController extends Controller
                 'usia_anak'=> $request->usia,
                 'jenis_kelamin'=> $request->jenis_kelamin,
             ],
+            'jenis_imunisasi'=> $request->jenis_imunisasi,
             'tanggal'=> $request->tanggal,
             'catatan'=> $request->catatan,
 

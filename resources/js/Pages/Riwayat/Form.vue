@@ -31,7 +31,7 @@ const Form = useForm({
     nama_orang_tua: '',
     usia: '',
     jenis_kelamin: '',
-    jenis_kelamin: '',
+    jenis_imunisasi: '',
 })
 
 const NamaOrangTua = ref('')
@@ -206,6 +206,12 @@ onMounted(() => {
 
                                 <TextInput id="kesehatan_bayi" type="text" placeholder="Kesehatan Bayi"
                                     v-model="Form.kesehatan" class="w-full text-gray-900 text-sm" />
+
+                            </div>
+                            <div class="col-span-full">
+                                <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
+                                <TextInput id="jenis_imunisasi" type="date" v-model="Form.jenis_imunisasi"
+                                    class="w-full text-gray-900 text-sm" />
 
                             </div>
                             <div class="col-span-full">

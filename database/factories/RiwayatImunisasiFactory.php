@@ -39,6 +39,7 @@ class RiwayatImunisasiFactory extends Factory
                 'kesehatan'=> fake()->randomElement(['Baik','Buruk']),
 
             ],
+            'jenis_imunisasi'=> fake()->randomElement(['campak', 'Vitamin A', 'Oralit', 'BH (NOL)', 'BCG', 'POLIO', 'DPT/HB']),
             'tanggal'=> fake()->dateTimeBetween('-3 months', '0 months')->format('Y-m-d'),
             'catatan'=> fake()->realText(200),
         ];

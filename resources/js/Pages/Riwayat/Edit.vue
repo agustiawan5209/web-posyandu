@@ -23,7 +23,7 @@ const props = defineProps({
     },
 })
 const DataImunisasi = ref(props.riwayat.data_imunisasi)
-// console.log(DataImunisasi.value.berat_badan)
+
 const Form = useForm({
     slug: props.riwayat.id,
     balita_id: props.riwayat.balita_id,
@@ -38,6 +38,7 @@ const Form = useForm({
     nama_orang_tua: DataImunisasi.value.nama_orang_tua,
     usia: DataImunisasi.value.usia_anak,
     jenis_kelamin: DataImunisasi.value.jenis_kelamin,
+    jenis_imunisasi: props.riwayat.jenis_imunisasi,
 })
 
 const NamaOrangTua = ref('')
@@ -213,6 +214,12 @@ onMounted(() => {
 
                                 <TextInput id="kesehatan_bayi" type="text" placeholder="Kesehatan Bayi"
                                     v-model="Form.kesehatan" class="w-full text-gray-900 text-sm" />
+
+                            </div>
+                            <div class="col-span-full">
+                                <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
+                                <TextInput id="jenis_imunisasi" type="date" v-model="Form.jenis_imunisasi"
+                                    class="w-full text-gray-900 text-sm" />
 
                             </div>
                             <div class="col-span-full">

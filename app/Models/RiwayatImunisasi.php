@@ -17,6 +17,7 @@ class RiwayatImunisasi extends Model
         'data_imunisasi',
         'tanggal',
         'catatan',
+        'jenis_imunisasi',
     ];
 
     protected $casts = [

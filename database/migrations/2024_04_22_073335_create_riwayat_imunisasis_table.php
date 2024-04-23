@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('balita_id')->constrained('balitas');
             $table->json('data_imunisasi');
+            $table->string('jenis_imunisasi', 50);
             $table->date('tanggal');
             $table->longText('catatan');
             $table->timestamps();
