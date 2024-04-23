@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalImunisasiController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PegawaiPosyanduController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatImunisasiController;
@@ -130,3 +131,6 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 });
+
+
+Route::get('pdf-document', [PDFController::class,'generatePDF'])->name('pdf');
