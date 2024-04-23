@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Balita;
 use App\Models\OrangTua;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreOrangTuaRequest;
 use App\Http\Requests\UpdateOrangTuaRequest;
-use App\Models\Balita;
 
 class OrangTuaController extends Controller
 {
@@ -34,6 +35,12 @@ class OrangTuaController extends Controller
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
             'data' => OrangTua::filter(Request::only('search', 'order'))->with(['balita','user'])->paginate(10),
+            'can' => [
+                'add' => Auth::user()->can('add orangtua'),
+                'edit' => Auth::user()->can('edit orangtua'),
+                'show' => Auth::user()->can('show orangtua'),
+                'delete' => Auth::user()->can('delete orangtua'),
+            ]
         ]);
     }
 
@@ -44,7 +51,11 @@ class OrangTuaController extends Controller
      */
     public function create()
     {
-        return Inertia::render('OrangTua/Form');
+        return Inertia::render('OrangTua/Form',[
+            'can'=>[
+                'add'=> 'add balita',
+            ]
+        ]);
     }
 
     /**
@@ -71,6 +82,8 @@ class OrangTuaController extends Controller
                 'edit balita',
                 'delete balita',
                 'show balita',
+                'show sertifikat',
+                'cetak sertifikat',
             ]);
         }
 
@@ -96,7 +109,12 @@ class OrangTuaController extends Controller
     public function show(OrangTua $orangTua)
     {
         // dd(Balita::find(1)->hitung_usia);
-        return Inertia::render('OrangTua/Show', ['orangTua' => $orangTua->with(['balita', 'user'])->find(Request::input('slug'))]);
+        return Inertia::render('OrangTua/Show', [
+            'orangTua' => $orangTua->with(['balita', 'user'])->find(Request::input('slug')),
+            'can'=>[
+                'add'=> 'add balita',
+            ]
+        ]);
     }
     /**
      * Tampilan form edit orang tua

@@ -17,6 +17,10 @@ const props = defineProps({
     orangTua: {
         type: Object,
         default: () => ({})
+    },
+    can: {
+        type: Object,
+        default: () => ({})
     }
 })
 const Form = useForm({
@@ -191,9 +195,9 @@ const HitungUsia = (tgl) => {
                     <fieldset class="w-full md:p-6 rounded-md shadow-sm bg-gray-50">
 
                         <table class="w-full overflow-x-auto">
-                            <caption class="py-2 border-b">
+                            <caption class="py-2 border-b" >
                                 <div class="relative max-w-full flex ">
-                                    <PrimaryButton type="button" @click="OpenModal()"
+                                    <PrimaryButton type="button" @click="OpenModal()" v-if="can.add"
                                         class="w-[20%] !text-xs whitespace-nowrap capitalize">Tambah Data Balita/Anak
                                     </PrimaryButton>
 

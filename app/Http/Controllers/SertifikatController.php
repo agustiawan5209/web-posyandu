@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Sertifikat;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreSertifikatRequest;
 use App\Http\Requests\UpdateSertifikatRequest;
@@ -25,6 +26,12 @@ class SertifikatController extends Controller
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id','balita_id'])),
             'data' => Sertifikat::filter(Request::only('search', 'order'))->with(['balita'])->paginate(10),
+            'can' => [
+                'add' => Auth::user()->can('add sertifikat'),
+                'edit' => Auth::user()->can('edit sertifikat'),
+                'show' => Auth::user()->can('show sertifikat'),
+                'delete' => Auth::user()->can('delete sertifikat'),
+            ]
         ]);
     }
 

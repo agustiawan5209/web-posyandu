@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\PegawaiPosyandu;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Request;
@@ -30,6 +31,13 @@ class PegawaiPosyanduController extends Controller
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
             'data' => PegawaiPosyandu::filter(Request::only('search', 'order'))->with('user')->paginate(10),
+            'can' => [
+                'add' => Auth::user()->can('add staff'),
+                'edit' => Auth::user()->can('edit staff'),
+                'show' => Auth::user()->can('show staff'),
+                'delete' => Auth::user()->can('delete staff'),
+                'reset' => Auth::user()->can('reset staff'),
+            ]
         ]);
     }
 
@@ -84,6 +92,8 @@ class PegawaiPosyanduController extends Controller
                 'edit orangtua',
                 'delete orangtua',
                 'show orangtua',
+                'show staff',
+                'reset orangtua'
             ]);
         }
 
