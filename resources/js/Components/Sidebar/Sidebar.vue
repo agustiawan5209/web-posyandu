@@ -98,6 +98,15 @@ function ArrayToString(){
                     <span class="group-hover:text-gray-700 capitalize">Riwayat Imunisasi</span>
                 </NavLink>
             </li>
+
+            <li v-if="roleToCheck('Kepala')">
+                <NavLink :href="route('Sertifikat.index')"
+                    :active="route().current('Sertifikat.index') || route().current('Sertifikat.create') || route().current('Sertifikat.edit') || route().current('Sertifikat.show')"
+                    :icon="['far', 'calendar-days']">
+                    <span class="group-hover:text-gray-700 capitalize">Data Imunisasi</span>
+                </NavLink>
+            </li>
+            <!-- Setting -->
             <li v-if="roleToCheck('Kader') || roleToCheck('Kepala')">
                 <NavLink href="#" :icon="['fas', 'gears']">
                     <span class="group-hover:text-gray-700 capitalize">setting</span>

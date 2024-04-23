@@ -21,7 +21,7 @@ class SertifikatController extends Controller
 
         // dd(OrangTua::with(['balita'])->find(1));
 
-        return Inertia::render('OrangTua/Index', [
+        return Inertia::render('Sertifikat/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id','balita_id'])),
             'data' => Sertifikat::filter(Request::only('search', 'order'))->with(['balita'])->paginate(10),

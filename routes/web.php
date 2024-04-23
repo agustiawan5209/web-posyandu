@@ -9,6 +9,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PegawaiPosyanduController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatImunisasiController;
+use App\Http\Controllers\SertifikatController;
 use App\Models\PegawaiPosyandu;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -128,6 +129,20 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/store-data/riwayat-imunisasi', 'store')->name('store');
             Route::put('/update-data/riwayat-imunisasi', 'update')->name('update');
             Route::delete('/hapus-data/riwayat-imunisasi', 'destroy')->name('destroy');
+        });
+    });
+
+
+     // Router Sertifikat
+     Route::group(['prefix' => 'data-imunisasi', 'as' => "Sertifikat."], function () {
+        Route::controller(SertifikatController::class)->group(function () {
+            Route::get('/data-imunisasi', 'index')->name('index');
+            Route::get('/tambah-data-imunisasi/sertifikat-imunisasi', 'create')->name('create');
+            Route::get('/edit-data-imunisasi/sertifikat-imunisasi', 'edit')->name('edit');
+            Route::get('/detail-data-imunisasi/sertifikat-imunisasi', 'show')->name('show');
+            Route::post('/store-data-imunisasi/sertifikat-imunisasi', 'store')->name('store');
+            Route::put('/update-data-imunisasi/sertifikat-imunisasi', 'update')->name('update');
+            Route::delete('/hapus-data-imunisasi/sertifikat-imunisasi', 'destroy')->name('destroy');
         });
     });
 });

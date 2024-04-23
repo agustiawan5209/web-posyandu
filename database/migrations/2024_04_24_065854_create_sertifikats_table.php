@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('alamat_orang_tua', 100);
             $table->string('no_telpon_orang_tua', 20);
             // File PDF
-            $table->file('file');
+            $table->string('file', 100);
 
             $table->timestamps();
         });
