@@ -5,7 +5,7 @@ import { Calendar, DatePicker, Popover } from 'v-calendar';
 import 'v-calendar/style.css';
 import axios from 'axios';
 
-const dates = ref(new Date());
+const dates = ref(null);
 watch(dates, (value) => {
     const Jadwal = new Date(value)
     const search = `${Jadwal.getFullYear()}-${String(Jadwal.getMonth() + 1).padStart(2, '0')}-${Jadwal.getDate().toString().padStart(2, '0')}`;
@@ -22,9 +22,10 @@ const AttributeData = ref([{
     },
     dates: new Date(),
 },])
-
+console.log(dates.value )
 
 onMounted(() => {
+    // dates.value = new Date();
     axios.get(route('api.jadwal.getJadwal'))
         .then((res) => {
             if (res.status == 200) {

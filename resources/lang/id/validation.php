@@ -75,6 +75,7 @@ return [
         'string'  => ':attribute harus berisi kurang dari atau sama dengan :value karakter.',
         'array'   => ':attribute harus tidak lebih dari :value anggota.',
     ],
+    'lowercase' => ':attribute harus berupa huruf kecil',
     'max' => [
         'numeric' => ':attribute maskimal bernilai :max.',
         'file'    => ':attribute maksimal berukuran :max kilobita.',

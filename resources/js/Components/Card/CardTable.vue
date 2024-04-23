@@ -220,7 +220,7 @@ function truncateText(text) {
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                <tr v-for="(item, index) in TableData.data" :key="item.id" :class="{ 'opacity-25': Form.processing }">
+                                <tr v-for="(item, index) in TableData.data" :key="item.id" :class="{ 'opacity-75 blur-sm': Form.processing }">
                                     <td class="px-2 py-1 md:px-4 md:py-3  text-xs font-medium text-gray-800"
                                         v-for="col in tableColums">
 

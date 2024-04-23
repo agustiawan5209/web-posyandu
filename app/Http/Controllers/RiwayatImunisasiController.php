@@ -23,16 +23,31 @@ class RiwayatImunisasiController extends Controller
         $columns[] = 'nama_anak';
         $columns[] = 'tanggal';
         $columns[] = 'catatan';
-        // dd(RiwayatImunisasi::filter(Request::only('search', 'order'))->with(['balita'])->get());
+
+        $role = Auth::user()->getRoleNames()->toArray();
+
+        if(in_array('Kepala', $role) || in_array('Kader', $role)){
+            $riwayatImunisasi = RiwayatImunisasi::filter(Request::only('search', 'order'))
+            ->with(['balita'])
+            ->paginate(10);
+        }
+
+        if(in_array('Orang Tua', $role)){
+            $riwayatImunisasi = RiwayatImunisasi::filter(Request::only('search', 'order'))->whereHas('balita', function ($query) {
+                $query->where('org_tua_id', '=', Auth::user()->orangtua->id);
+            })
+                ->with(['balita'])
+                ->paginate(10);
+        }
         return Inertia::render('Riwayat/Index', [
             'search' =>  Request::input('search'),
-            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at','balita_id', 'created_at', 'updated_at', 'user_id'])),
-            'data' => RiwayatImunisasi::filter(Request::only('search', 'order'))->with(['balita'])->paginate(10),
-            'can'=>[
-                'add'=> Auth::user()->can('add riwayat'),
-                'edit'=> Auth::user()->can('edit riwayat'),
-                'show'=> Auth::user()->can('show riwayat'),
-                'delete'=> Auth::user()->can('delete riwayat'),
+            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'balita_id', 'created_at', 'updated_at', 'user_id'])),
+            'data' => $riwayatImunisasi,
+            'can' => [
+                'add' => Auth::user()->can('add riwayat'),
+                'edit' => Auth::user()->can('edit riwayat'),
+                'show' => Auth::user()->can('show riwayat'),
+                'delete' => Auth::user()->can('delete riwayat'),
             ]
         ]);
     }
@@ -43,7 +58,6 @@ class RiwayatImunisasiController extends Controller
     public function create()
     {
         return Inertia::render('Riwayat/Form', []);
-
     }
 
     /**
@@ -52,26 +66,26 @@ class RiwayatImunisasiController extends Controller
     public function store(StoreRiwayatImunisasiRequest $request)
     {
         $data = [
-            'balita_id'=> $request->balita_id,
-            'data_imunisasi'=>[
-                'berat_badan'=> $request->berat_badan,
-                'tinggi_badan'=> $request->tinggi_badan,
-                'lingkar_kepala'=> $request->lingkar_kepala,
-                'kesehatan'=> $request->kesehatan,
-                'nama_orang_tua'=> $request->nama_orang_tua,
-                'nama_anak'=> $request->nama_anak,
-                'usia_anak'=> $request->usia,
-                'jenis_kelamin'=> $request->jenis_kelamin,
+            'balita_id' => $request->balita_id,
+            'data_imunisasi' => [
+                'berat_badan' => $request->berat_badan,
+                'tinggi_badan' => $request->tinggi_badan,
+                'lingkar_kepala' => $request->lingkar_kepala,
+                'kesehatan' => $request->kesehatan,
+                'nama_orang_tua' => $request->nama_orang_tua,
+                'nama_anak' => $request->nama_anak,
+                'usia_anak' => $request->usia,
+                'jenis_kelamin' => $request->jenis_kelamin,
             ],
-            'jenis_imunisasi'=> $request->jenis_imunisasi,
-            'tanggal'=> $request->tanggal,
-            'catatan'=> $request->catatan,
+            'jenis_imunisasi' => $request->jenis_imunisasi,
+            'tanggal' => $request->tanggal,
+            'catatan' => $request->catatan,
 
         ];
 
         $riwayatImunisasi = RiwayatImunisasi::create($data);
 
-        return redirect()->route('Riwayat.index')->with('message','Data Riwayat Imunisasi Bayi/Balita Berhasil Di Tambah!!');
+        return redirect()->route('Riwayat.index')->with('message', 'Data Riwayat Imunisasi Bayi/Balita Berhasil Di Tambah!!');
     }
 
     /**
@@ -80,9 +94,8 @@ class RiwayatImunisasiController extends Controller
     public function show(RiwayatImunisasi $riwayatImunisasi)
     {
         return Inertia::render('Riwayat/Show', [
-            'riwayat'=> $riwayatImunisasi->find(Request::input('slug')),
+            'riwayat' => $riwayatImunisasi->find(Request::input('slug')),
         ]);
-
     }
 
     /**
@@ -91,7 +104,7 @@ class RiwayatImunisasiController extends Controller
     public function edit(RiwayatImunisasi $riwayatImunisasi)
     {
         return Inertia::render('Riwayat/Edit', [
-            'riwayat'=> $riwayatImunisasi->find(Request::input('slug')),
+            'riwayat' => $riwayatImunisasi->find(Request::input('slug')),
         ]);
     }
 
@@ -101,25 +114,25 @@ class RiwayatImunisasiController extends Controller
     public function update(UpdateRiwayatImunisasiRequest $request, RiwayatImunisasi $riwayatImunisasi)
     {
         $data = [
-            'balita_id'=> $request->balita_id,
-            'data_imunisasi'=>[
-                'berat_badan'=> $request->berat_badan,
-                'tinggi_badan'=> $request->tinggi_badan,
-                'lingkar_kepala'=> $request->lingkar_kepala,
-                'kesehatan'=> $request->kesehatan,
-                'nama_orang_tua'=> $request->nama_orang_tua,
-                'nama_anak'=> $request->nama_anak,
-                'usia_anak'=> $request->usia,
-                'jenis_kelamin'=> $request->jenis_kelamin,
+            'balita_id' => $request->balita_id,
+            'data_imunisasi' => [
+                'berat_badan' => $request->berat_badan,
+                'tinggi_badan' => $request->tinggi_badan,
+                'lingkar_kepala' => $request->lingkar_kepala,
+                'kesehatan' => $request->kesehatan,
+                'nama_orang_tua' => $request->nama_orang_tua,
+                'nama_anak' => $request->nama_anak,
+                'usia_anak' => $request->usia,
+                'jenis_kelamin' => $request->jenis_kelamin,
             ],
-            'jenis_imunisasi'=> $request->jenis_imunisasi,
-            'tanggal'=> $request->tanggal,
-            'catatan'=> $request->catatan,
+            'jenis_imunisasi' => $request->jenis_imunisasi,
+            'tanggal' => $request->tanggal,
+            'catatan' => $request->catatan,
 
         ];
 
         $riwayatImunisasi = $riwayatImunisasi->find(Request::input('slug'))->update($data);
-        return redirect()->route('Riwayat.index')->with('message','Data Riwayat Imunisasi Bayi/Balita Berhasil Di Edit!!');
+        return redirect()->route('Riwayat.index')->with('message', 'Data Riwayat Imunisasi Bayi/Balita Berhasil Di Edit!!');
     }
 
     /**
@@ -128,6 +141,6 @@ class RiwayatImunisasiController extends Controller
     public function destroy(RiwayatImunisasi $riwayatImunisasi)
     {
         $riwayatImunisasi = $riwayatImunisasi->find(Request::input('slug'))->delete();
-        return redirect()->route('Riwayat.index')->with('message','Data Riwayat Imunisasi Bayi/Balita Berhasil Di Hapus!!');
+        return redirect()->route('Riwayat.index')->with('message', 'Data Riwayat Imunisasi Bayi/Balita Berhasil Di Hapus!!');
     }
 }
