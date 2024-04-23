@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
                     'show jadwal',
                 ]);
             })
-            ->has(OrangTua::factory()->has(Balita::factory()->has(RiwayatImunisasi::factory()->count(3)->state(function (array $attributes, Balita $balita) {
+            ->has(OrangTua::factory()->has(Balita::factory()->has(RiwayatImunisasi::factory()->count(10)->state(function (array $attributes, Balita $balita) {
                 return [
                     'balita_id' => $balita->id,
 
@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
                         'kesehatan' => fake()->randomElement(['Baik', 'Buruk']),
                     ],
                 ];
-            }))->count($rand))->count(1))
+            }))->count(3))->count(1))
             ->create();
         $org = User::factory(30)
             ->afterCreating(function (User $user) {

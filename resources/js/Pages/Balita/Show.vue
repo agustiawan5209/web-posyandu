@@ -166,7 +166,7 @@ const ChartValue = ref(false)
                                     </li>
                                 </ul>
 
-                                <table class="w-max table text-xs ">
+                                <table class="w-max table text-xs " v-if="balita.riwayat_imunisasis.length > 0">
 
                                     <thead>
                                         <tr>
@@ -189,6 +189,14 @@ const ChartValue = ref(false)
                                         </tr>
 
                                     </tbody>
+                                </table>
+                                <table class="w-full table text-xs text-center" v-else>
+
+                                    <thead>
+                                        <tr>
+                                            <th class="border whitespace-nowrap text-center p-3">Data Riwayat Imunisasi Masih Kosong</th>
+                                        </tr>
+                                    </thead>
                                 </table>
                             </div>
                         </div>

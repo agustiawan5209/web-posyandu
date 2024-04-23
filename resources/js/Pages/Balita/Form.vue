@@ -43,7 +43,7 @@ function submit() {
         onError: (err) => {
             console.log(err)
         },
-        onFinish:()=>{
+        onSuccess:()=>{
             Form.reset();
             NamaOrangTua.value = '';
         }
@@ -173,7 +173,7 @@ onMounted(() => {
                             </div>
                             <div class="col-span-full sm:col-span-3">
                                 <label for="tempat_lahir" class="text-sm">Tempat Lahir</label>
-                                <TextInput id="tempat_lahir" type="date" v-model="Form.tempat_lahir"
+                                <TextInput id="tempat_lahir" type="text" v-model="Form.tempat_lahir"
                                     class="w-full text-gray-900 text-sm" />
                                 <InputError :message="Form.errors.tempat_lahir" />
 

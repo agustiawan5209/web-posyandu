@@ -87,12 +87,14 @@ class Balita extends Model
             $query->where('nama', 'like', '%' . $search . '%')
                 ->orWhereDate('tgl_lahir', 'like', '%' . $search . '%')
                 ->orWhere('jenkel', 'like', '%' . $search . '%')
+                ->orWhere('nik', 'like', '%' . $search . '%')
+                ->orWhere('tempat_lahir', 'like', '%' . $search . '%')
                 ->orWhereHas('orangTua', function ($query) use ($search) {
                     $query->where('nama', 'like', '%' . $search . '%');
                 });
         })->when($filter['order'] ?? null, function ($query, $order) {
             $query->orderBy('id', $order);
-        })->when(in_array('Orang Tua', Auth::user()->getRoleNames()->toArray()), function ($query) {
+        })->when(Auth::check() ? in_array('Orang Tua', Auth::user()->getRoleNames()->toArray()) ?? null : null, function ($query) {
             $query->where('org_tua_id', '=', Auth::user()->orangtua->id);
         });
     }

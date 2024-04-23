@@ -46,15 +46,13 @@ class RiwayatImunisasi extends Model
     public function scopeFilter($query, $filter)
     {
         $query->when($filter['search'] ?? null, function ($query, $search) {
-            $query->WhereDate('tanggal', 'like', '%' . $search . '%')
-            ->orWhere('catatan', 'like',  '%' . $search . '%')
-            ->orWhere('data_imunisasi', 'like', '%"nama_anak": "'. $search .'"%')
-            ->orWhere('data_imunisasi', 'like', '%"nama_orang_tua": "'. $search .'"%')
-            ->orWhere('data_imunisasi', 'like', '%"jenis_kelamin": "'. $search .'"%')
-            ->orWhere('data_imunisasi', 'like', '%"usia_anak": "'. $search .'"%');
+            $query->whereJsonContains('data_imunisasi->nama_anak', $search)
+            ->orWhereJsonContains('data_imunisasi->nama_orang_tua', $search)
+            ->orWhereJsonContains('data_imunisasi->jenis_kelamin', $search)
+            ->orWhereJsonContains('data_imunisasi->kesehatan', $search);
         })->when($filter['order'] ?? null, function ($query, $order) {
             $query->orderBy('id', $order);
-        })->when(in_array('Orang Tua', Auth::user()->getRoleNames()->toArray()), function ($query) {
+        })->when(Auth::check() ? in_array('Orang Tua', Auth::user()->getRoleNames()->toArray()) ?? null : null, function ($query) {
             $query->whereHas('balita', function($query){
                 $query->where('org_tua_id', '=', Auth::user()->orangtua->id);
             });

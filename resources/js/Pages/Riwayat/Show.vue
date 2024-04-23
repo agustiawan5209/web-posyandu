@@ -63,17 +63,17 @@ console.log(props.riwayat)
                                         <td colspan="3" class="border-b-2 pt-10">Catatan Kader</td>
                                     </tr>
                                     <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">Jenis Imunisasi</td>
+                                        <td class="text-sm border-b py-2 font-bold capitalize whitespace-nowrap">Jenis Imunisasi</td>
                                         <td>:</td>
-                                        <td class="text-sm border-b text-gray-600" v-html="riwayat.jenis">  </td>
+                                        <td class="text-sm border-b text-gray-600" v-html="riwayat.jenis_imunisasi">  </td>
                                     </tr>
                                     <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">Tanggal Imunisasi</td>
+                                        <td class="text-sm border-b py-2 font-bold capitalize whitespace-nowrap">Tanggal Imunisasi</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ riwayat.tanggal }} </td>
                                     </tr>
                                     <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">Catatan Imunisasi</td>
+                                        <td class="text-sm border-b py-2 font-bold capitalize whitespace-nowrap">Catatan Imunisasi</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600" v-html="riwayat.catatan">  </td>
                                     </tr>

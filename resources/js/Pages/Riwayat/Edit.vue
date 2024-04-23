@@ -218,7 +218,7 @@ onMounted(() => {
                             </div>
                             <div class="col-span-full">
                                 <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <TextInput id="jenis_imunisasi" type="date" v-model="Form.jenis_imunisasi"
+                                <TextInput id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
                                     class="w-full text-gray-900 text-sm" />
 
                             </div>

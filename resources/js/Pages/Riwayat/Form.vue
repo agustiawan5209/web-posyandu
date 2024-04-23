@@ -156,7 +156,7 @@ onMounted(() => {
                     <div class="p-2 md:p-6 bg-gray-50">
                         <p class="font-medium mb-2">Pilih Nama Bayi/Balita</p>
                         <div class="w-full flex items-center justify-center gap-3 relative">
-                            <label for="firstname" class="text-sm whitespace-nowrap">Cari Nama Bayi/Balita</label>
+                            <label for="firstname" class="text-sm whitespace-nowrap">Cari Nama/NIK Bayi/Balita</label>
                             <TextInput id="firstname" type="text" placeholder="Cari nama lengkap" v-model="PJ"
                                 class="w-full text-gray-900 text-xs" />
 
@@ -210,11 +210,11 @@ onMounted(() => {
                             </div>
                             <div class="col-span-full">
                                 <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <TextInput id="jenis_imunisasi" type="date" v-model="Form.jenis_imunisasi"
+                                <TextInput id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
                                     class="w-full text-gray-900 text-sm" />
 
                             </div>
-                            <div class="col-span-full">
+                            <div class="col-span-1">
                                 <label for="tanggal" class="text-sm">Tanggal Imunisasi</label>
                                 <TextInput id="tanggal" type="date" v-model="Form.tanggal"
                                     class="w-full text-gray-900 text-sm" />

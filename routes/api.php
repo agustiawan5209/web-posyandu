@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth')->group(function(){
-});
 Route::get('get-user', [ApiModelController::class, 'getUser'])->name('api.user.getUser');
 Route::get('get-orangtua', [ApiModelController::class, 'getOrgTua'])->name('api.orangtua.getOrgTua');
 Route::get('get-anak', [ApiModelController::class, 'getBalita'])->name('api.balita.getBalita');
