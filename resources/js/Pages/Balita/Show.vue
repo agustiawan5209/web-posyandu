@@ -93,9 +93,19 @@ const ChartValue = ref(false)
                                         <col>
                                     </colgroup>
                                     <tr class="">
+                                        <td class="text-sm border-b py-2 font-bold capitalize">Nomor Induk Kependudukan (NIK) - Bayi/Balita</td>
+                                        <td>:</td>
+                                        <td class="text-sm border-b text-gray-600"> {{ balita.nik }} </td>
+                                    </tr>
+                                    <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">Nama</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ balita.nama }} </td>
+                                    </tr>
+                                    <tr class="">
+                                        <td class="text-sm border-b py-2 font-bold capitalize">Tempat Lahir</td>
+                                        <td>:</td>
+                                        <td class="text-sm border-b text-gray-600"> {{ balita.tempat_lahir }} </td>
                                     </tr>
                                     <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">Tanggal Lahir</td>
