@@ -25,7 +25,7 @@ const props = defineProps({
     },
 })
 function roleToCheck() {
-   return can.add;
+   return props.can.add;
 }
 
 
