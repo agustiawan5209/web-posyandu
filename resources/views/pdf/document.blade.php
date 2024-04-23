@@ -65,7 +65,7 @@
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Tempat/Tanggal Lahir </td>
                 <td style="padding: 6px 2px; font-weight:700;"> :
-                    {{ $data['tempat_lahir'] }}/{{ $data['tgl_lahir'] }}</td>
+                    {{ $data['tempat_lahir'] }}/ {{ $data['tgl_lahir'] }}</td>
             </tr>
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Alamat </td>

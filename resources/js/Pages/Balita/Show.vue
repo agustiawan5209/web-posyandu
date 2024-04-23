@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage, Link } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
@@ -14,6 +14,7 @@ import { ref, defineProps, watch, onMounted } from 'vue';
 import ChartBeratBadan from '@/Components/Chart/ChartBeratBadan.vue';
 import ChartTinggiBadan from '@/Components/Chart/ChartTinggiBadan.vue';
 import ChartLingkarKepala from '@/Components/Chart/ChartLingkarKepala.vue';
+import axios from 'axios';
 
 const page = usePage();
 const props = defineProps({
@@ -58,6 +59,30 @@ const columsReplace = (element) => {
 
 
 const ChartValue = ref(false)
+const uploadPercentage = ref(0);
+
+function cetakSertifikat() {
+    axios.get(route('pdf', {id: props.balita.id}), {
+        responseType: 'blob',
+        onDownloadProgress: function (progressEvent) {
+            uploadPercentage.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        },
+
+    })
+        .then((res) => {
+            if (res.status == 200) {
+                const doc = window.URL.createObjectURL(new Blob([res.data]));
+                const a = document.createElement('a');
+                a.href = doc;
+                a.setAttribute('download', 'sertifikat-' + props.balita.nama + '.pdf');
+                document.body.appendChild(a);
+
+                a.click();
+
+            }
+        })
+        .catch(err => console.log(err))
+}
 </script>
 
 <template>
@@ -70,8 +95,14 @@ const ChartValue = ref(false)
         </template>
 
         <div class="md:py-4 relative box-content">
+            <progress v-if="uploadPercentage > 0" max="100" :value.prop="uploadPercentage"></progress>
+
             <section class=" py-2 px-0 md:px-6  md:py-6 bg-gray-100 text-gray-900">
                 <PrimaryButton type="button" onclick="history.back();return false;">Kembali</PrimaryButton>
+                <PrimaryButton @click="cetakSertifikat()" type="button"
+                    class="ml-3 flex justify-center gap-4 !bg-red-500">
+                    <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-white" /> <span>Cetak Sertifikat Imunisasi</span>
+                </PrimaryButton>
                 <form novalidate="" action="" class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1 px-3 md:px-0">
                         <p class="font-medium">Detail Informasi Bayi/Balita</p>
@@ -93,7 +124,9 @@ const ChartValue = ref(false)
                                         <col>
                                     </colgroup>
                                     <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">Nomor Induk Kependudukan (NIK) - Bayi/Balita</td>
+                                        <td class="text-sm border-b py-2 font-bold capitalize">Nomor Induk Kependudukan
+                                            (NIK) -
+                                            Bayi/Balita</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ balita.nik }} </td>
                                     </tr>
@@ -128,13 +161,15 @@ const ChartValue = ref(false)
                     </fieldset>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50"
                         v-if="balita.riwayat_imunisasis.length > 0">
-                        <PrimaryButton type="button" class="whitespace-nowrap col-span-full md:col-span-1" @click="ChartValue = !ChartValue">Tampilkan Grafik Bayi/Balita
+                        <PrimaryButton type="button" class="whitespace-nowrap col-span-full md:col-span-1"
+                            @click="ChartValue = !ChartValue">Tampilkan Grafik Bayi/Balita
                         </PrimaryButton>
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3" v-if="ChartValue">
                             <div class="col-span-full sm:col-span-3  border bg-white">
                                 <ul class="flex flex-col space-y-20">
                                     <li class="flex gap-3 py-2 border-b">
-                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Berat Badan Bayi/Balita</span>
+                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Berat Badan
+                                            Bayi/Balita</span>
                                     </li>
                                 </ul>
                                 <ChartBeratBadan :id="balita.id" />
@@ -142,7 +177,8 @@ const ChartValue = ref(false)
                             <div class="col-span-full sm:col-span-3  border bg-white">
                                 <ul class="flex flex-col space-y-20">
                                     <li class="flex gap-3 py-2 border-b">
-                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Tinggi Badan Bayi/Balita</span>
+                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Tinggi Badan
+                                            Bayi/Balita</span>
                                     </li>
                                 </ul>
                                 <ChartTinggiBadan :id="balita.id" />
@@ -150,7 +186,8 @@ const ChartValue = ref(false)
                             <div class="col-span-full sm:col-span-3  border bg-white">
                                 <ul class="flex flex-col space-y-20">
                                     <li class="flex gap-3 py-2 border-b">
-                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Lingkar Kepala Bayi/Balita</span>
+                                        <span class="text-xs font-semibold pl-3">Pertumbuhan Lingkar Kepala
+                                            Bayi/Balita</span>
                                     </li>
                                 </ul>
                                 <ChartLingkarKepala :id="balita.id" />
@@ -184,7 +221,8 @@ const ChartValue = ref(false)
                                                 v-for="(item, key) in riwayat.data_imunisasi">
                                                 {{ item }}
                                             </td>
-                                            <td class="text-xs px-1 border w-96 leading-4 tracking-wide" v-html="riwayat.catatan"></td>
+                                            <td class="text-xs px-1 border w-96 leading-4 tracking-wide"
+                                                v-html="riwayat.catatan"></td>
 
                                         </tr>
 
@@ -194,7 +232,9 @@ const ChartValue = ref(false)
 
                                     <thead>
                                         <tr>
-                                            <th class="border whitespace-nowrap text-center p-3">Data Riwayat Imunisasi Masih Kosong</th>
+                                            <th class="border whitespace-nowrap text-center p-3">Data Riwayat Imunisasi
+                                                Masih
+                                                Kosong</th>
                                         </tr>
                                     </thead>
                                 </table>
