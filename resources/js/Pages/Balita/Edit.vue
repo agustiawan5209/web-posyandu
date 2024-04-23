@@ -29,6 +29,8 @@ const props = defineProps({
 const Form = useForm({
     slug: props.balita.id,
     nama: props.balita.nama,
+    nik: props.balita.nik,
+    tempat_lahir: props.balita.tempat_lahir,
     tgl_lahir: props.balita.tgl_lahir,
     jenkel: props.balita.jenkel,
     org_tua_id: props.balita.org_tua_id,
@@ -156,10 +158,23 @@ onMounted(() => {
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                             <div class="col-span-full sm:col-span-3">
+                                <label for="nik" class="text-sm">Nomor Induk Kependudukan (NIK) - Bayi/Balita</label>
+                                <TextInput id="nik" type="text" placeholder="Nomor Induk Kependudukan (NIK)" v-model="Form.nik"
+                                    class="w-full text-gray-900 text-sm" />
+                                <InputError :message="Form.errors.nik" />
+                            </div>
+                            <div class="col-span-full sm:col-span-3">
                                 <label for="firstname" class="text-sm">Nama Lengkap Anak</label>
                                 <TextInput id="firstname" type="text" placeholder="nama lengkap" v-model="Form.nama"
                                     class="w-full text-gray-900 text-sm" />
                                 <InputError :message="Form.errors.nama" />
+                            </div>
+                            <div class="col-span-full sm:col-span-3">
+                                <label for="tempat_lahir" class="text-sm">Tempat Lahir</label>
+                                <TextInput id="tempat_lahir" type="date" v-model="Form.tempat_lahir"
+                                    class="w-full text-gray-900 text-sm" />
+                                <InputError :message="Form.errors.tempat_lahir" />
+
                             </div>
                             <div class="col-span-full sm:col-span-3">
                                 <label for="tgl_lahir" class="text-sm">Tanggal Lahir</label>
