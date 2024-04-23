@@ -23,7 +23,9 @@ class UpdateBalitaRequest extends FormRequest
     {
         return [
             'slug' => 'required|integer|exists:balitas,id',
+            'nik' => 'required|numeric|max:16',
             'nama' => 'required|string|max:50',
+            'tempat_lahir' => 'required|string|max:50',
             'tgl_lahir' => 'required|date',
             'jenkel' => 'required|string|in:Laki-Laki,Perempuan',
             'org_tua_id' => 'required|integer|exists:orang_tuas,id',
