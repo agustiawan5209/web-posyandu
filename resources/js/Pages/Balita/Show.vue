@@ -56,27 +56,7 @@ const columsReplace = (element) => {
     return element.replace(/_|\b_id\b/g, ' ');
 };
 
-// const DataberatBadan = ref([])
-// const LabelBeratBadan = ref([])
-// for (let i = 0; i < props.balita.riwayat_imunisasis.length; i++) {
-//     const element = props.balita.riwayat_imunisasis[i];
-//     DataberatBadan.value[i] = element.data_imunisasi.berat_badan
-//     LabelBeratBadan.value[i] = element.tanggal
 
-// }
-
-// const ChartDataBeratBadan = ref([{
-//     labels: LabelBeratBadan.value,
-//     datasets: [{
-//         label: 'Dataset 1',
-//         data: DataberatBadan.value,
-//         borderColor: '#65B741',
-//         backgroundColor: '#FFB534',
-//     }]
-// }])
-// const ChartOptionsBeratBadan = ref({
-//     responsive: true
-// })
 const ChartValue = ref(false)
 </script>
 
@@ -91,6 +71,7 @@ const ChartValue = ref(false)
 
         <div class="md:py-4 relative box-content">
             <section class=" py-2 px-0 md:px-6  md:py-6 bg-gray-100 text-gray-900">
+                <PrimaryButton type="button" onclick="history.back();return false;">Kembali</PrimaryButton>
                 <form novalidate="" action="" class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1 px-3 md:px-0">
                         <p class="font-medium">Detail Informasi Bayi/Balita</p>

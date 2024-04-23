@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage,Link } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
@@ -81,7 +81,7 @@ const HitungUsia = (tgl) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Edit OrangTua</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Detail OrangTua</h2>
         </template>
 
         <Modal :show="ModalVar">
@@ -193,7 +193,8 @@ const HitungUsia = (tgl) => {
                         <table class="w-full overflow-x-auto">
                             <caption class="py-2 border-b">
                                 <div class="relative max-w-full flex ">
-                                    <PrimaryButton type="button" @click="OpenModal()" class="w-[20%] !text-xs whitespace-nowrap capitalize">Tambah Data Balita/Anak
+                                    <PrimaryButton type="button" @click="OpenModal()"
+                                        class="w-[20%] !text-xs whitespace-nowrap capitalize">Tambah Data Balita/Anak
                                     </PrimaryButton>
 
                                     <span class="text-lg w-full text-center">Data Balita/Anak</span>
@@ -206,10 +207,11 @@ const HitungUsia = (tgl) => {
                                     <th class="border border-gray-600 capitalize text-sm py-2">Usia</th>
                                     <th class="border border-gray-600 capitalize text-sm py-2">Jenis Kelamin</th>
                                     <th class="border border-gray-600 capitalize text-sm py-2">Tanggal Lahir</th>
+                                    <th class="border border-gray-600 capitalize text-sm py-2">Detail</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="text-xs" v-for="(item, idx) in orangTua.anak" :key="item.id">
+                                <tr class="text-xs" v-for="(item, idx) in orangTua.balita" :key="item.id">
                                     <td class="px-1 md:px-3 py-2 border border-gray-600">{{ idx + 1 }}</td>
                                     <td class="px-1 md:px-3 py-2 border border-gray-600">
                                         {{ item.nama }}
@@ -223,7 +225,15 @@ const HitungUsia = (tgl) => {
                                     </td>
                                     <td class="px-1 md:px-3 py-2 border border-gray-600">
                                         {{ item.tgl_lahir }}
-
+                                    </td>
+                                    <td class="px-1 md:px-3 py-2 border border-gray-600">
+                                        <Link
+                                            :href="route('Balita.show', { slug: item.id })"
+                                            class="flex justify-start gap-3">
+                                            <font-awesome-icon class="text-blue-500 hover:text-blue-700"
+                                                :icon="['fas', 'eye']" />
+                                            Detail
+                                        </Link>
                                     </td>
                                 </tr>
                             </tbody>
