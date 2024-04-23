@@ -30,11 +30,13 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'edit orangtua']);
         Permission::create(['name' => 'delete orangtua']);
         Permission::create(['name' => 'show orangtua']);
+        Permission::create(['name' => 'reset orangtua']);
         // staff Permission
         Permission::create(['name' => 'add staff']);
         Permission::create(['name' => 'edit staff']);
         Permission::create(['name' => 'delete staff']);
         Permission::create(['name' => 'show staff']);
+        Permission::create(['name' => 'reset staff']);
         // jadwal Permission
         Permission::create(['name' => 'add jadwal']);
         Permission::create(['name' => 'edit jadwal']);

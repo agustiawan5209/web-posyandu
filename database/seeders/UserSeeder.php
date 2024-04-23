@@ -84,6 +84,7 @@ class UserSeeder extends Seeder
                         'show sertifikat',
 
                         'show staff',
+                        'reset orangtua'
                     ]);
                 }
 

@@ -54,6 +54,7 @@ class RoleSeeder extends Seeder
             'edit staff',
             'delete staff',
             'show staff',
+            'reset staff',
             // Sertifikat
             'add sertifikat',
             'edit sertifikat',
