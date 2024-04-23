@@ -35,7 +35,7 @@ onMounted(() => {
                         key: i.toString(),
                         highlight: {
                             color: 'blue',
-                            fillMode: 'solid',
+                            fillMode: 'outline',
                             contentClass: 'italic',
                         },
                         dot: 'red',
@@ -59,7 +59,7 @@ onMounted(() => {
 
 
 <template>
-    <div class="w-full h-full" v-if="Loaded">
-        <DatePicker v-model.lazy="dates" @click="getTanggal($event)" :attributes="AttributeData" expanded />
+    <div class="w-full h-full box-content" v-if="Loaded">
+        <DatePicker v-model.lazy="dates"  :attributes="AttributeData" expanded :locale="{ id: 'id', firstDayOfWeek: 2, masks: { weekdays: 'WWWW' } }"/>
     </div>
 </template>

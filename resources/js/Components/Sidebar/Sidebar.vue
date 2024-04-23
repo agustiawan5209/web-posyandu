@@ -27,7 +27,6 @@ function ArrayToString(){
         })
     }
 }
-console.log(ArrayToString())
 
 </script>
 
