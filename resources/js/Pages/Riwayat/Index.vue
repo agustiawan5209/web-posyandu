@@ -23,12 +23,17 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    can:{
+        type: Object,
+        default: () => ({}),
+    },
 })
+console.log(props.can)
 const crud = ref({
-    tambah: true,
-    edit: true,
-    show: true,
-    delete: true,
+    tambah: props.can.add,
+    edit: props.can.edit,
+    show: props.can.show,
+    delete: props.can.delete,
 
 })
 

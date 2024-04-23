@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\RiwayatImunisasi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreRiwayatImunisasiRequest;
 use App\Http\Requests\UpdateRiwayatImunisasiRequest;
@@ -26,6 +27,12 @@ class RiwayatImunisasiController extends Controller
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at','balita_id', 'created_at', 'updated_at', 'user_id'])),
             'data' => RiwayatImunisasi::filter(Request::only('search', 'order'))->with(['balita'])->paginate(10),
+            'can'=>[
+                'add'=> Auth::user()->can('add riwayat'),
+                'edit'=> Auth::user()->can('edit riwayat'),
+                'show'=> Auth::user()->can('show riwayat'),
+                'delete'=> Auth::user()->can('delete riwayat'),
+            ]
         ]);
     }
 

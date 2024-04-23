@@ -14,26 +14,26 @@ import FormAnak from '../Anak/Form.vue';
 
 const Page = usePage().props.auth;
 
-function roleToCheck(role) {
-    const Roles = Page.role;
-    if (Array.isArray(Roles)) {
-        return Roles.includes(role)
-    }else{
-        return false;
-    }
-}
-
 const props = defineProps({
     orangTua: {
         type: Object,
         default: () => ({})
     },
+    can: {
+        type: Object,
+        default: () => ({})
+    },
 })
+function roleToCheck() {
+   return can.add;
+}
+
+
 const Form = useForm({
     nama: '',
     tgl_lahir: '',
     jenkel: '',
-    org_tua_id: roleToCheck('Orang Tua') ? Page.user.id : '',
+    org_tua_id: roleToCheck() ? Page.user.id : '',
 })
 const NamaOrangTua= ref('')
 function submit() {
@@ -134,7 +134,7 @@ onMounted(() => {
                         <p class="font-medium">Data Tambah Balita/Anak</p>
                         <p class="text-xs">Tambah Data Balita dengan Memilih Nama Orang Tua</p>
                     </div>
-                    <div class=" bg-gray-100" v-if="roleToCheck('Kader') || roleToCheck('Kepala')">
+                    <div class=" bg-gray-100" v-if="roleToCheck()">
                         <p class="font-medium mb-2">Pilih Data Orang Tua</p>
                         <div class="w-full flex items-center justify-center gap-3 relative">
                             <label for="firstname" class="text-sm whitespace-nowrap">Cari Data Orang Tua</label>

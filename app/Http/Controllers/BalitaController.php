@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Balita;
 use App\Models\OrangTua;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreBalitaRequest;
 use App\Http\Requests\UpdateBalitaRequest;
@@ -26,6 +27,9 @@ class BalitaController extends Controller
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'org_tua_id', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
             'data' => Balita::filter(Request::only('search', 'order'))->paginate(10),
+            'can'=>[
+                'add'=> Auth::user()->can('add orangtua'),
+            ]
         ]);
     }
 
@@ -37,6 +41,9 @@ class BalitaController extends Controller
         return Inertia::render("Balita/Form", [
             'balita' => Balita::where('org_tua_id', '=', Request::input('orang_tua'))->get(),
             'orangTua'=> OrangTua::all(),
+            'can'=>[
+                'add'=> Auth::user()->can('add orangtua'),
+            ]
         ]);
     }
 
@@ -77,6 +84,9 @@ class BalitaController extends Controller
         return Inertia::render("Balita/Edit", [
             'balita' => Balita::find(Request::input('slug')),
             'orangTua'=> OrangTua::all(),
+            'can'=>[
+                'add'=> Auth::user()->can('add orangtua'),
+            ]
         ]);
     }
 

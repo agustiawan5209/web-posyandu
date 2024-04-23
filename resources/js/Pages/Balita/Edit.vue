@@ -21,6 +21,10 @@ const props = defineProps({
         type: Object,
         default: () => ({})
     },
+    can: {
+        type: Object,
+        default: () => ({})
+    },
 })
 const Form = useForm({
     slug: props.balita.id,
@@ -128,7 +132,7 @@ onMounted(() => {
                         <p class="font-medium">Data Edit Balita/Anak</p>
                         <p class="text-xs">Edit Data Balita dengan Memilih Nama Orang Tua</p>
                     </div>
-                    <div class=" bg-gray-100">
+                    <div class=" bg-gray-100" v-if="can.add">
                         <p class="font-medium mb-2">Pilih Data Orang Tua</p>
                         <div class="w-full flex items-center justify-center gap-3 relative">
                             <label for="firstname" class="text-sm whitespace-nowrap">Cari Data Orang Tua</label>

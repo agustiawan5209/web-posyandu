@@ -118,7 +118,7 @@ function deleteItem() {
 }
 
 function cekAksi() {
-    if (props.crud.tambah || props.crud.edit || props.crud.hapus || props.crud.delete) {
+    if (props.crud.tambah || props.crud.edit || props.crud.show || props.crud.delete) {
         return true;
     } else {
         return false;

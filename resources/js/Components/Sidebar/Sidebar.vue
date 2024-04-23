@@ -10,7 +10,6 @@ import Sidebar from '@/Components/Sidebar/Sidebar.vue';
 
 const showingNavigationDropdown = ref(false);
 const Page = usePage().props.auth;
-console.log(Page.role)
 function roleToCheck(role) {
     const Roles = Page.role;
     if (Array.isArray(Roles)) {
@@ -19,8 +18,6 @@ function roleToCheck(role) {
         return false;
     }
 }
-
-console.log(roleToCheck('Orang ') ?? roleToCheck('Kader'))
 </script>
 
 

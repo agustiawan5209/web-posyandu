@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class RiwayatImunisasi extends Model
 {
@@ -52,6 +53,10 @@ class RiwayatImunisasi extends Model
             ->orWhere('data_imunisasi', 'like', '%"usia_anak": "'. $search .'"%');
         })->when($filter['order'] ?? null, function ($query, $order) {
             $query->orderBy('id', $order);
+        })->when(in_array('Orang Tua', Auth::user()->getRoleNames()->toArray()), function ($query) {
+            $query->whereHas('balita', function($query){
+                $query->where('org_tua_id', '=', Auth::user()->orangtua->id);
+            });
         });
     }
 }
