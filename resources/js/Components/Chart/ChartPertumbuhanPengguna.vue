@@ -1,28 +1,37 @@
 <template>
     <div class="container border p-4" v-if="loaded">
-        <div class="flex">
+        <div class="flex justify-start gap-7">
             <select name="tahun" id="tahun" v-model="tahun"
                 class="w-[30%] border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm">
                 <option v-for="year in availableYears()" :key="year" :value="year">{{ year }}</option>
             </select>
+            <select name="tahun" id="tahun" v-model="jenisBar"
+                class="w-[30%] border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm">
+                <option value="Bar">Bar</option>
+                <option value="Line">Line</option>
+            </select>
         </div>
         <div class="relative" v-if="selectChart">
-            <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+            <Bar id="my-chart-id" :options="chartOptions" :data="chartData" v-if="jenisBar == 'Bar'" />
+            <Line id="my-chart-id" :options="chartOptions" :data="chartData" v-if="jenisBar == 'Line'" />
+
         </div>
     </div>
 </template>
 
 <script>
 import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { Line } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend,PointElement, BarElement,LineElement, CategoryScale, LinearScale } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, Legend, BarElement,PointElement, CategoryScale, LinearScale, LineElement)
 
 export default {
     name: 'BarChart',
-    components: { Bar },
+    components: { Bar,Line },
     data: () => ({
         loaded: false,
+        jenisBar: 'Bar',
         chartData: null,
         chartOptions: {
             responsive: true,
@@ -32,7 +41,7 @@ export default {
                 // },
                 title: {
                     display: true,
-                    text: 'Pertumbuhan Pengguna '
+                    text: 'Jumlah Riwayat Imunisasi  '
                 }
             }
         },
@@ -78,7 +87,7 @@ export default {
                                     '#A1EEBD',
                                 ],
                                 borderColor: '#00A9FF',
-                                borderWidth: 1,
+                                borderWidth: 2,
                             }]
                         }
                         this.loaded = true;
