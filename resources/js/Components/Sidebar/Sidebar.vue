@@ -10,14 +10,25 @@ import Sidebar from '@/Components/Sidebar/Sidebar.vue';
 
 const showingNavigationDropdown = ref(false);
 const Page = usePage().props.auth;
+const Roles = Page.role;
 function roleToCheck(role) {
-    const Roles = Page.role;
     if (Array.isArray(Roles)) {
         return Roles.includes(role)
     }else{
         return false;
     }
 }
+
+function ArrayToString(){
+    if (Array.isArray(Roles)) {
+        return Roles.reduce((a,b)=>{
+
+            return String(a+ ','+b).toString();
+        })
+    }
+}
+console.log(ArrayToString())
+
 </script>
 
 
@@ -29,7 +40,7 @@ function roleToCheck(role) {
                 class="m-auto h-10 w-10 rounded-md object-cover lg:h-12 lg:w-12" />
             <h5 class="mt-4 text-xl font-semibold text-gray-600 lg:block">{{ $page.props.auth.user.name }}
             </h5>
-            <span class=" text-gray-400 lg:block">{{ $page.props.auth.role }}</span>
+            <span class=" text-gray-400 lg:block">{{ ArrayToString() }}</span>
         </div>
 
         <ul class="mt-8 space-y-1 tracking-wide text-sm">
