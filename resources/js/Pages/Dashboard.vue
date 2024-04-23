@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import ChartJenisImunisasi from '@/Components/Chart/ChartJenisImunisasi.vue';
+import ChartPertumbuhanPengguna from '@/Components/Chart/ChartPertumbuhanPengguna.vue';
 import CardCalendar from '@/Components/Card/CardCalendar.vue';
 import ChartJumlah from '@/Components/Chart/ChartJumlah.vue';
 import HeaderStats from '@/Components/Header/HeaderStats.vue';
@@ -36,6 +36,9 @@ const props = defineProps({
                             <ChartJumlah />
 
                         </div>
+                    </div>
+                    <div class="relative w-full">
+                        <ChartPertumbuhanPengguna />
                     </div>
                 </div>
             </div>

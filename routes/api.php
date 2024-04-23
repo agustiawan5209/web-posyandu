@@ -30,3 +30,4 @@ Route::get('get-tinggi-data/{id}', [ApiModelController::class, 'getTinggiBalita'
 Route::get('get-lingkarkepala-data/{id}', [ApiModelController::class, 'getLingkarKepalaBalita'])->name('api.balita.getLingkarKepala');
 Route::get('get-doughnat-data', [ApiModelController::class, 'getDoughnatChart'])->name('api.Chart.getDoughnatChart');
 Route::get('get-jadwal-data', [ApiModelController::class, 'getJadwal'])->name('api.jadwal.getJadwal');
+Route::get('get-pengguna-data/{tahun}', [ApiModelController::class, 'getJumlahPengguna'])->name('api.pengguna.jumlah');
