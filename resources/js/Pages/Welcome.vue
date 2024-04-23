@@ -19,6 +19,8 @@ defineProps({
         required: true,
     },
 });
+
+const Year = new Date().getFullYear()
 </script>
 
 <template>
@@ -75,7 +77,6 @@ defineProps({
     <footer class="w-full bg-gray-100 dark:bg-gray-900 py-16">
         <div class="md:px-12 lg:px-28">
             <div class="container m-auto space-y-6 text-gray-600 dark:text-gray-300">
-                <img src="images/logo.svg" alt="logo tailus" class="m-auto w-40" />
                 <ul role="list" class="flex flex-col items-center justify-center gap-4 py-4 sm:flex-row sm:gap-8">
                     <li role="listitem"><a href="#" class="hover:text-primary">Home</a></li>
                     <li role="listitem"><a href="#" class="hover:text-primary">Features</a></li>
@@ -118,7 +119,7 @@ defineProps({
                 </div>
 
                 <div class="text-center">
-                    <span class="text-sm tracking-wide">Copyright © tailus <span id="year"></span> | All right
+                    <span class="text-sm tracking-wide">Copyright © Puskesmas Bonto Ujung <span id="year">{{Year}}</span> | All right
                         reserved</span>
                 </div>
             </div>

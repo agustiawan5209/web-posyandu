@@ -19,7 +19,10 @@ const props = defineProps({
         default: () => ({})
     }
 })
-console.log(props.riwayat)
+const columsReplace = (element) => {
+
+return element.replace(/_|\b_id\b/g, ' ');
+};
 
 </script>
 
@@ -55,7 +58,7 @@ console.log(props.riwayat)
                                     <col>
                                     </colgroup>
                                     <tr class="" v-for="(item, key) in riwayat.data_imunisasi">
-                                        <td class="text-sm border-b py-2 font-bold capitalize">{{ key }}</td>
+                                        <td class="text-sm border-b py-2 font-bold capitalize">{{ columsReplace(key) }}</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ item }} </td>
                                     </tr>
