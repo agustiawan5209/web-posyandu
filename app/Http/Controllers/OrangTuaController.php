@@ -65,7 +65,15 @@ class OrangTuaController extends Controller
         $role = Role::findByName('Orang Tua');
         if ($role) {
             $user->assignRole($role); // Assign 'user' role to the user
+            $user->givePermissionTo([
+                'show riwayat',
+                'add balita',
+                'edit balita',
+                'delete balita',
+                'show balita',
+            ]);
         }
+
 
         event(new Registered($user));
 

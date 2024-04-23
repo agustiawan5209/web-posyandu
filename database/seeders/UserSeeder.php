@@ -26,6 +26,13 @@ class UserSeeder extends Seeder
                 if ($role) {
                     $user->assignRole($role); // Assign 'user' role to the user
                 }
+                $user->givePermissionTo([
+                    'show riwayat',
+                    'add balita',
+                    'edit balita',
+                    'delete balita',
+                    'show balita',
+                ]);
             })
             ->has(OrangTua::factory()->has(Balita::factory()->has(RiwayatImunisasi::factory()->count(3)->state(function (array $attributes, Balita $balita) {
                 return [
@@ -49,7 +56,24 @@ class UserSeeder extends Seeder
                 $role = Role::findByName('Kader'); // Replace 'user' with your actual role name
                 if ($role) {
                     $user->assignRole($role); // Assign 'user' role to the user
+                    $user->givePermissionTo([
+                        'add riwayat',
+                        'edit riwayat',
+                        'delete riwayat',
+                        'show riwayat',
+                        // Balita
+                        'add balita',
+                        'edit balita',
+                        'delete balita',
+                        'show balita',
+                        // orang tua
+                        'add orangtua',
+                        'edit orangtua',
+                        'delete orangtua',
+                        'show orangtua',
+                    ]);
                 }
+
                 PegawaiPosyandu::create([
                     'jabatan' => 'Kader',
                     'user_id' => $user->id,

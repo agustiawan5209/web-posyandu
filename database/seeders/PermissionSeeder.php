@@ -1,0 +1,39 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+class PermissionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Riwayat Permission
+        Permission::create(['name' => 'add riwayat']);
+        Permission::create(['name' => 'edit riwayat']);
+        Permission::create(['name' => 'delete riwayat']);
+        Permission::create(['name' => 'show riwayat']);
+
+        // balita Permission
+        Permission::create(['name' => 'add balita']);
+        Permission::create(['name' => 'edit balita']);
+        Permission::create(['name' => 'delete balita']);
+        Permission::create(['name' => 'show balita']);
+
+        // orangtua Permission
+        Permission::create(['name' => 'add orangtua']);
+        Permission::create(['name' => 'edit orangtua']);
+        Permission::create(['name' => 'delete orangtua']);
+        Permission::create(['name' => 'show orangtua']);
+        // staff Permission
+        Permission::create(['name' => 'add staff']);
+        Permission::create(['name' => 'edit staff']);
+        Permission::create(['name' => 'delete staff']);
+        Permission::create(['name' => 'show staff']);
+    }
+}

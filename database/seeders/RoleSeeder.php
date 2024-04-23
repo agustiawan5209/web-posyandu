@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Spatie\Permission\Models\Permission;
 
 class RoleSeeder extends Seeder
 {
@@ -18,6 +19,8 @@ class RoleSeeder extends Seeder
         $orangtua = Role::create(['name' => 'Orang Tua']);
         $staff = Role::create(['name' => 'Kader']);
 
+
+
         $user = User::factory()->create([
             'name' => 'Admin',
             'username' => 'Admin',
@@ -26,6 +29,7 @@ class RoleSeeder extends Seeder
         ]);
 
         $user->assignRole($role);
+        $user->givePermissionTo(Permission::all());
 
     }
 }

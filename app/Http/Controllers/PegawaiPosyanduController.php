@@ -69,7 +69,24 @@ class PegawaiPosyanduController extends Controller
         $role = Role::findByName($request->jabatan);
         if ($role) {
             $user->assignRole($role); // Assign 'user' role to the user
+            $user->givePermissionTo([
+                'add riwayat',
+                'edit riwayat',
+                'delete riwayat',
+                'show riwayat',
+                // Balita
+                'add balita',
+                'edit balita',
+                'delete balita',
+                'show balita',
+                // orang tua
+                'add orangtua',
+                'edit orangtua',
+                'delete orangtua',
+                'show orangtua',
+            ]);
         }
+
 
         event(new Registered($user));
 
