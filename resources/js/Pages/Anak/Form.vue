@@ -8,7 +8,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { ref, watch, defineProps, defineEmits, inject, defineExpose, onMounted } from 'vue';
+import { ref, watch, defineProps, inject } from 'vue';
 
 const swal = inject('$swal');
 
@@ -44,7 +44,7 @@ function submit() {
                 <p class="font-medium">Form Tambah Balita/Anak</p>
                 <p class="text-xs">. Nama Orang Tua = {{ orangTua.nama }}</p>
             </div>
-            <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
+            <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50 tab">
                 <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                     <div class="col-span-full sm:col-span-3">
                         <label for="firstname" class="text-sm">Nama Lengkap Anak</label>
