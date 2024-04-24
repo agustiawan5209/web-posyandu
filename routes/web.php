@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(function () {
 
     // Router Orang Tua
     Route::group(['prefix' => 'orang-tua', 'as' => "OrangTua."], function () {
@@ -105,8 +105,8 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
-     // Router Jadwal
-     Route::group(['prefix' => 'jadwal-imunisasi', 'as' => "Jadwal."], function () {
+    // Router Jadwal
+    Route::group(['prefix' => 'jadwal-imunisasi', 'as' => "Jadwal."], function () {
         Route::controller(JadwalImunisasiController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data/jadwal-imunisasi', 'create')->name('create');
@@ -119,8 +119,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-     // Router Riwayat
-     Route::group(['prefix' => 'riwayat-imunisasi', 'as' => "Riwayat."], function () {
+    // Router Riwayat
+    Route::group(['prefix' => 'riwayat-imunisasi', 'as' => "Riwayat."], function () {
         Route::controller(RiwayatImunisasiController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data/riwayat-imunisasi', 'create')->name('create');
@@ -133,8 +133,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-     // Router Sertifikat
-     Route::group(['prefix' => 'data-imunisasi', 'as' => "Sertifikat."], function () {
+    // Router Sertifikat
+    Route::group(['prefix' => 'data-imunisasi', 'as' => "Sertifikat."], function () {
         Route::controller(SertifikatController::class)->group(function () {
             Route::get('/data-imunisasi', 'index')->name('index');
             Route::get('/tambah-data-imunisasi/sertifikat-imunisasi', 'create')->name('create');
@@ -148,4 +148,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('pdf-document', [PDFController::class,'generatePDF'])->name('pdf');
+Route::get('pdf-document', [PDFController::class, 'generatePDF'])->name('pdf');

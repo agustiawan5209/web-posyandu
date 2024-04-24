@@ -99,7 +99,7 @@ function ArrayToString(){
                 </NavLink>
             </li>
 
-            <li v-if="roleToCheck('Kepala')">
+            <li v-if="roleToCheck('Kepala') || roleToCheck('Orang Tua') ">
                 <NavLink :href="route('Sertifikat.index')"
                     :active="route().current('Sertifikat.index') || route().current('Sertifikat.create') || route().current('Sertifikat.edit') || route().current('Sertifikat.show')"
                     :icon="['far', 'calendar-days']">

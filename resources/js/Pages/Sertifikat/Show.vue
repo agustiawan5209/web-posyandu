@@ -23,8 +23,40 @@ const columsReplace = (element) => {
 
     return element.replace(/_|\b_id\b/g, ' ');
 };
-console.log(props.sertifikat)
 
+const Page = usePage().props.auth;
+const Roles = Page.role;
+function roleToCheck(role) {
+    if (Array.isArray(Roles)) {
+        return Roles.includes(role)
+    } else {
+        return false;
+    }
+}
+const uploadPercentage = ref(0);
+
+function cetakSertifikat() {
+    axios.get(props.sertifikat.file_url, {
+        responseType: 'blob',
+        onDownloadProgress: function (progressEvent) {
+            uploadPercentage.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        },
+
+    })
+        .then((res) => {
+            if (res.status == 200) {
+                const doc = window.URL.createObjectURL(new Blob([res.data]));
+                const a = document.createElement('a');
+                a.href = doc;
+                a.setAttribute('download', 'sertifikat-' + props.sertifikat.nomor + '.pdf');
+                document.body.appendChild(a);
+
+                a.click();
+
+            }
+        })
+        .catch(err => console.log(err))
+}
 </script>
 
 <template>
@@ -42,12 +74,22 @@ console.log(props.sertifikat)
                     <div class="space-y-2 col-span-full lg:col-span-1 px-3 md:px-0">
                         <p class="font-medium">Detail Informasi Sertifikat Imunisasi</p>
                         <p class="text-xs">Detail data Sertifikat Imunisasi dari puskesmas</p>
+                        <div class="col-span-full" v-if="roleToCheck('Orang Tua')">
+                            <progress v-if="uploadPercentage > 0" max="100" :value.prop="uploadPercentage"></progress>
+
+                            <PrimaryButton @click="cetakSertifikat()" type="button"
+                                class="ml-3 flex justify-center gap-4 !bg-red-500">
+                                <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-white" /> <span>Cetak
+                                    Sertifikat
+                                    Imunisasi</span>
+                            </PrimaryButton>
+                        </div>
                     </div>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                             <div class="col-span-full  ">
                                 <div class="container">
-                                    <CardEmbedPDF :pdf-url="sertifikat.file_url"/>
+                                    <CardEmbedPDF :pdf-url="sertifikat.file_url" />
                                 </div>
 
                                 <table class="w-full table">
@@ -57,7 +99,8 @@ console.log(props.sertifikat)
                                         <col>
                                     </colgroup>
                                     <tr class="">
-                                        <td class="text-sm border-b py-2 font-bold capitalize whitespace-nowrap">Nomor Sertifikat</td>
+                                        <td class="text-sm border-b py-2 font-bold capitalize whitespace-nowrap">Nomor
+                                            Sertifikat</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600" v-html="sertifikat.nomor"> </td>
                                     </tr>

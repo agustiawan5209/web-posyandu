@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use PDF;
 use Carbon\Carbon;
 use App\Models\Balita;
+use App\Models\Sertifikat;
 use Illuminate\Support\Facades\Storage;
 
 class PDFController extends Controller

@@ -59,30 +59,7 @@ const columsReplace = (element) => {
 
 
 const ChartValue = ref(false)
-const uploadPercentage = ref(0);
 
-function cetakSertifikat() {
-    axios.get(route('pdf', {id: props.balita.id}), {
-        responseType: 'blob',
-        onDownloadProgress: function (progressEvent) {
-            uploadPercentage.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        },
-
-    })
-        .then((res) => {
-            if (res.status == 200) {
-                const doc = window.URL.createObjectURL(new Blob([res.data]));
-                const a = document.createElement('a');
-                a.href = doc;
-                a.setAttribute('download', 'sertifikat-' + props.balita.nama + '.pdf');
-                document.body.appendChild(a);
-
-                a.click();
-
-            }
-        })
-        .catch(err => console.log(err))
-}
 </script>
 
 <template>
@@ -95,14 +72,10 @@ function cetakSertifikat() {
         </template>
 
         <div class="md:py-4 relative box-content">
-            <progress v-if="uploadPercentage > 0" max="100" :value.prop="uploadPercentage"></progress>
 
             <section class=" py-2 px-0 md:px-6  md:py-6 bg-gray-100 text-gray-900">
                 <PrimaryButton type="button" onclick="history.back();return false;">Kembali</PrimaryButton>
-                <PrimaryButton @click="cetakSertifikat()" type="button"
-                    class="ml-3 flex justify-center gap-4 !bg-red-500">
-                    <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-white" /> <span>Cetak Sertifikat Imunisasi</span>
-                </PrimaryButton>
+
                 <form novalidate="" action="" class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1 px-3 md:px-0">
                         <p class="font-medium">Detail Informasi Bayi/Balita</p>

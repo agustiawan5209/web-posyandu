@@ -14,18 +14,53 @@ use App\Http\Requests\UpdateSertifikatRequest;
 
 class SertifikatController extends Controller
 {
+
+    public function checkRoleForQuery()
+    {
+        if (Auth::check()) {
+            $role = Auth::user()->getRoleNames()->toArray();
+
+            if (in_array('Orang Tua', $role)) {
+                if (Request::exists('slug')) {
+                    $sertifikat = Sertifikat::whereHas('balita', function ($query) {
+                        $query->where('org_tua_id', '!=', Auth::user()->orangtua->id);
+                    })
+                        ->with(['balita'])
+                        ->find(Request::input('slug'));
+                    if ($sertifikat != null) {
+                        abort(403, 'Maaf Akses Di tolak');
+                    }
+                } else {
+                    abort(403, 'Data ID Hilang Akses Di tolak');
+                }
+            }
+        }
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        // $this->cekRoleForQuery();
         $tableName = 'sertifikats'; // Ganti dengan nama tabel yang Anda inginkan
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
+        $role = Auth::user()->getRoleNames()->toArray();
 
+        if (in_array('Kepala', $role) || in_array('Kader', $role)) {
+            $sertifikat = Sertifikat::filter(Request::only('search', 'order'))->with(['balita'])->paginate(10);
+        }
+
+        if (in_array('Orang Tua', $role)) {
+            $sertifikat = Sertifikat::filter(Request::only('search', 'order'))->whereHas('balita', function ($query) {
+                $query->where('org_tua_id', '=', Auth::user()->orangtua->id);
+            })
+                ->with(['balita'])
+                ->paginate(10);
+        }
         return Inertia::render('Sertifikat/Index', [
             'search' =>  Request::input('search'),
-            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'balita_id'])),
-            'data' => Sertifikat::filter(Request::only('search', 'order'))->with(['balita'])->paginate(10),
+            'table_colums' => array_values(array_diff($columns, ['file_url', 'file', 'remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'balita_id'])),
+            'data' => $sertifikat,
             'can' => [
                 'add' => Auth::user()->can('add sertifikat'),
                 'edit' => Auth::user()->can('edit sertifikat'),
@@ -94,6 +129,10 @@ class SertifikatController extends Controller
      */
     public function show(Sertifikat $sertifikat)
     {
+        Request::validate([
+            'slug'=> 'required|exists:sertifikats,id',
+        ]);
+        $this->checkRoleForQuery();
         return Inertia::render('Sertifikat/Show', [
             'sertifikat' => $sertifikat->find(Request::input('slug')),
         ]);
@@ -104,6 +143,9 @@ class SertifikatController extends Controller
      */
     public function edit(Sertifikat $sertifikat)
     {
+        Request::validate([
+            'slug'=> 'required|exists:sertifikats,id',
+        ]);
         return Inertia::render('Sertifikat/Edit', [
             'sertfikat' => $sertifikat->find(Request::input('slug')),
         ]);
