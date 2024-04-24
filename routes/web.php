@@ -71,7 +71,7 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
-    // Route Balita/Anak
+    // Route Bayi/Balita
     Route::group(['prefix' => 'balita', 'as' => "Balita."], function () {
         Route::controller(BalitaController::class)->group(function () {
             Route::get('/', 'index')->name('index');

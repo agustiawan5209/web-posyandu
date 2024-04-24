@@ -131,7 +131,7 @@ onMounted(() => {
                 <form @submit.prevent="submit()" novalidate="" action=""
                     class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1">
-                        <p class="font-medium">Data Edit Balita/Anak</p>
+                        <p class="font-medium">Data Edit Bayi/Balita</p>
                         <p class="text-xs">Edit Data Balita dengan Memilih Nama Orang Tua</p>
                     </div>
                     <div class=" bg-gray-100" v-if="can.add">

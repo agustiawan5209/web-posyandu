@@ -93,7 +93,7 @@ const HitungUsia = (tgl) => {
                 <form @submit.prevent="submit()" novalidate="" action=""
                     class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1">
-                        <p class="font-medium">Form Tambah Balita/Anak</p>
+                        <p class="font-medium">Form Tambah Bayi/Balita</p>
                         <p class="text-xs">. Nama Orang Tua = {{ orangTua.nama }}</p>
                     </div>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
@@ -198,10 +198,10 @@ const HitungUsia = (tgl) => {
                             <caption class="py-2 border-b" >
                                 <div class="relative max-w-full flex ">
                                     <PrimaryButton type="button" @click="OpenModal()" v-if="can.add"
-                                        class="w-[20%] !text-xs whitespace-nowrap capitalize">Tambah Data Balita/Anak
+                                        class="w-[20%] !text-xs whitespace-nowrap capitalize">Tambah Data Bayi/Balita
                                     </PrimaryButton>
 
-                                    <span class="text-lg w-full text-center">Data Balita/Anak</span>
+                                    <span class="text-lg w-full text-center">Data Bayi/Balita</span>
                                 </div>
                             </caption>
                             <thead>
