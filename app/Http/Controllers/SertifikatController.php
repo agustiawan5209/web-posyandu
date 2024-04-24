@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use NumberFormatter;
 use App\Models\Sertifikat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,6 @@ class SertifikatController extends Controller
     {
         $tableName = 'sertifikats'; // Ganti dengan nama tabel yang Anda inginkan
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
-
-        // dd(OrangTua::with(['balita'])->find(1));
 
         return Inertia::render('Sertifikat/Index', [
             'search' =>  Request::input('search'),
@@ -43,14 +42,19 @@ class SertifikatController extends Controller
         return Inertia::render('Sertifikat/Form',[]);
     }
 
+    function intToRomanNumeral(int $num) {
+        static $nf = new NumberFormatter('@numbers=roman', NumberFormatter::DECIMAL);
+        return $nf->format($num);
+    }
     public function generateNomorSurat()
     {
         // Customize this as per your format
-        $prefix = 'SERTIFIKAT/';
-        $dateComponent = date('Ymd');
+        $prefix = 'PBU/';
         $sequentialNumber = $this->getNextSequentialNumber();
-
-        return $prefix . $dateComponent . '/' . $sequentialNumber;
+        $y = date('Y');
+        $m = $this->intToRomanNumeral(date('m'));
+        $d = $this->intToRomanNumeral(date('d'));
+        return $prefix . "$y/$m/$d" . '/' . $sequentialNumber;
     }
     protected function getNextSequentialNumber()
     {
@@ -58,7 +62,7 @@ class SertifikatController extends Controller
         $lastRecord = Sertifikat::latest()->first();
 
         if ($lastRecord) {
-            $lastReferenceNumber = $lastRecord->reference_number;
+            $lastReferenceNumber = $lastRecord->nomor;
             // Extract and increment the sequential number
             preg_match('/\/(\d+)$/', $lastReferenceNumber, $matches);
             $sequentialNumber = (int)$matches[1] + 1;
@@ -76,6 +80,9 @@ class SertifikatController extends Controller
     {
         $data = $request->all();
         $data['nomor']= $this->generateNomorSurat();
+        // PDF
+        $pdf = new PDFController();
+        $data['file']=  $pdf->generatePDF($request);
         $sertifikat = Sertifikat::create($data);
         return redirect()->route('Sertifikat.index')->with('message','Data Sertifikat Berhasil Di Tambah!!');
     }

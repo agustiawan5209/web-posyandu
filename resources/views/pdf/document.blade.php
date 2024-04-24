@@ -7,6 +7,7 @@
         * {
             margin: 0;
             letter-spacing: 0px;
+
         }
 
         .page-break {
@@ -26,6 +27,9 @@
         h5,
         h6 {
             text-align: center;
+        }
+        tr td{
+            font-size: 14px;
         }
     </style>
 </head>
@@ -53,7 +57,7 @@
     </h1>
     <h4>No: {{ $nomor }}</h4>
 
-    <table style="margin-left: 60px; margin-top:40px;">
+    <table style="margin-left: 60px; margin-top:30px;">
         <thead>
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;" colspan="2">Dengan Ini Menyatakan Bahwa.</td>
@@ -68,12 +72,16 @@
                     {{ $data['tempat_lahir'] }}/ {{ $data['tgl_lahir'] }}</td>
             </tr>
             <tr>
-                <td style="padding: 6px 2px; font-weight:700;">Alamat </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['alamat'] }}</td>
-            </tr>
-            <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Nama Wali/Orang Tua </td>
                 <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['nama_orang_tua'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 6px 2px; font-weight:700;">Alamat Wali/Orang Tua </td>
+                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['alamat_orang_tua'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 6px 2px; font-weight:700;">No. Telpon Wali/Orang Tua </td>
+                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['no_telpon_orang_tua'] }}</td>
             </tr>
 
             <tr>
@@ -86,7 +94,7 @@
     </table>
     {{-- TABEL imunisasi --}}
 
-    <table style="margin-left: 60px;margin-bottom: 10px; margin-top:20px; border: #000;" border="1" cellspacing="0">
+    <table style="margin-left: 60px;margin-bottom: 10px; margin-top:10px; border: #000;" border="1" cellspacing="0">
         <thead>
             <tr>
                 <th style="padding: 3px 10px;" colspan="2">Catatan Pemberian Imunisasi</th>
@@ -97,46 +105,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td style="padding: 3px 10px;">HB O</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">BCG</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">HB O</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">POLIO 1</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">DPT/HB 1</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">POLIO 2</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">DPT/HB 2</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">POLIO 3</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">DPT/HB 3</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
-                <td style="padding: 3px 10px;">CAMPAK</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
+            @foreach ($data['jenis_imunisasi'] as $key => $item)
+                <tr>
+                    <td style="padding: 3px 10px;">{{ $key }}</td>
+                    <td style="padding: 3px 10px;">
+                        @if ($item === 'true')
+                        <span style="color: rgb(8, 153, 56)">Selesai</span>
+                        @else
+                        <span style="color: rgb(207, 7, 7)">Belum</span>
+
+                        @endif
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 
