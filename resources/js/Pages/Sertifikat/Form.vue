@@ -21,7 +21,7 @@ const props = defineProps({
 const Form = useForm({
     balita_id: '',
     nik: '',
-    nama_anak: '',
+    nama_balita: '',
     tempat_lahir: '',
     tgl_lahir: '',
     tinggi_badan: '',
@@ -29,14 +29,14 @@ const Form = useForm({
     nama_orang_tua: '',
     alamat_orang_tua: '',
     no_telpon_orang_tua: '',
-    jenis_imunisasi: '',
+    jenis_imunisasi: [],
     catatan: '',
 })
 
 const NamaOrangTua = ref('')
 const NamaAnak = ref('')
 function submit() {
-    Form.post(route('Riwayat.store'), {
+    Form.post(route('Sertifikat.store'), {
         preserveState: true,
         onError: (err) => {
             console.log(err)
@@ -106,7 +106,7 @@ function SelectChangeElement(event) {
     Form.nama_orang_tua = Value.orang_tua.nama;
     Form.alamat_orang_tua = Value.orang_tua.alamat;
     Form.no_telpon_orang_tua = Value.orang_tua.no_telpon;
-    Form.nama_anak = Value.nama;
+    Form.nama_balita = Value.nama;
     Form.nik = Value.nik;
     Form.jenkel = Value.jenkel;
     Form.tempat_lahir = Value.tempat_lahir;
@@ -129,6 +129,20 @@ onMounted(() => {
     })
 
 })
+const JenisImunisasi = ref([
+    'Vitamin A - 1',
+    'Vitamin A - 2',
+    'Oralit',
+    'BH (NOL)',
+    'BCG',
+    'POLIO - 1',
+    'POLIO - 2',
+    'POLIO - 3',
+    'DPT/HB - 1',
+    'DPT/HB - 2',
+    'DPT/HB - 3',
+    'Campak',
+]);
 
 </script>
 
@@ -197,7 +211,7 @@ onMounted(() => {
                             <div class="col-span-full sm:col-span-3">
                                 <label for="namaAnak" class="text-sm">Nama Bayi/Balita</label>
                                 <TextInput id="namaAnak" readonly type="text" placeholder="nama lengkap"
-                                    v-model="Form.nama_anak" class="w-full text-gray-900 text-sm" />
+                                    v-model="Form.nama_balita" class="w-full text-gray-900 text-sm" />
                             </div>
                             <div class="col-span-full sm:col-span-3">
                                 <label for="tempat_lahir" class="text-sm">Tempat Lahir</label>
@@ -218,33 +232,57 @@ onMounted(() => {
 
                                 <div class="flex items-center gap-4">
                                     <div class="flex items-center">
-                                        <input id="jenkel-1" type="radio" value="Laki-Laki" name="jenkel" v-model="Form.jenkel"
+                                        <input id="jenkel-1" type="radio" value="Laki-Laki" name="jenkel"
+                                            v-model="Form.jenkel"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 ">
-                                        <label for="jenkel-1" class="ms-2 text-sm font-medium text-gray-900">Laki-Laki</label>
+                                        <label for="jenkel-1"
+                                            class="ms-2 text-sm font-medium text-gray-900">Laki-Laki</label>
                                     </div>
                                     <div class="flex items-center">
-                                        <input id="jenkel-2" type="radio" value="Perempuan" name="jenkel" v-model="Form.jenkel"
+                                        <input id="jenkel-2" type="radio" value="Perempuan" name="jenkel"
+                                            v-model="Form.jenkel"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 ">
-                                        <label for="jenkel-2" class="ms-2 text-sm font-medium text-gray-900">Perempuan</label>
+                                        <label for="jenkel-2"
+                                            class="ms-2 text-sm font-medium text-gray-900">Perempuan</label>
                                     </div>
                                 </div>
 
                                 <InputError :message="Form.errors.jenkel" />
 
                             </div>
-                            <div class="col-span-full sm:col-span-3">
+                            <div class="col-span-full">
                                 <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <TextInput id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
-                                    class="w-full text-gray-900 text-sm" />
+                                <table class="table w-full border">
+                                    <colgroup>
+                                        <col class="w-96">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th class="px-2 py-1 text-xs border border-gray-700" colspan="2">Catatan
+                                                Pemberian
+                                                Imunisasi</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="px-2 py-1 text-xs border border-gray-700">Antigen</th>
+                                            <th class="px-2 py-1 text-xs border border-gray-700">Tanggal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="item in JenisImunisasi">
+                                            <td class="font-semibold px-2 py-1 text-xs border border-gray-700">{{ item
+                                                }}</td>
+                                            <td class="px-2 py-1 text-xs border border-gray-700">
+                                                <div class="flex justify-start gap-4">
+                                                    <Checkbox :id="item" v-model="Form.jenis_imunisasi[item]" />
+                                                <InputLabel :for="item" :value="Form.jenis_imunisasi[item] ?'Selesai' : 'Belum'" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
                             </div>
-                            <div class="col-span-1">
-                                <label for="tanggal" class="text-sm">Tanggal Imunisasi</label>
-                                <TextInput id="tanggal" type="date" v-model="Form.tanggal"
-                                    class="w-full text-gray-900 text-sm" />
-
-                            </div>
-                            <div class="col-span-full sm:col-span-3">
+                            <div class="col-span-full ">
                                 <label for="catatan" class="text-sm">catatan</label>
                                 <quill-editor id="catatan" contentType="html" theme="snow"
                                     v-model:content="Form.catatan"

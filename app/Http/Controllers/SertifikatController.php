@@ -43,12 +43,40 @@ class SertifikatController extends Controller
         return Inertia::render('Sertifikat/Form',[]);
     }
 
+    public function generateNomorSurat()
+    {
+        // Customize this as per your format
+        $prefix = 'SERTIFIKAT/';
+        $dateComponent = date('Ymd');
+        $sequentialNumber = $this->getNextSequentialNumber();
+
+        return $prefix . $dateComponent . '/' . $sequentialNumber;
+    }
+    protected function getNextSequentialNumber()
+    {
+        // Example: Fetch the last record and increment the sequential number
+        $lastRecord = Sertifikat::latest()->first();
+
+        if ($lastRecord) {
+            $lastReferenceNumber = $lastRecord->reference_number;
+            // Extract and increment the sequential number
+            preg_match('/\/(\d+)$/', $lastReferenceNumber, $matches);
+            $sequentialNumber = (int)$matches[1] + 1;
+        } else {
+            // If no records exist, start from 1
+            $sequentialNumber = 1;
+        }
+
+        return str_pad($sequentialNumber, 4, '0', STR_PAD_LEFT); // Adjust length as needed
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreSertifikatRequest $request)
     {
-        $sertifikat = Sertifikat::create($request->all());
+        $data = $request->all();
+        $data['nomor']= $this->generateNomorSurat();
+        $sertifikat = Sertifikat::create($data);
         return redirect()->route('Sertifikat.index')->with('message','Data Sertifikat Berhasil Di Tambah!!');
     }
 
@@ -78,7 +106,7 @@ class SertifikatController extends Controller
      */
     public function update(UpdateSertifikatRequest $request, Sertifikat $sertifikat)
     {
-
+        $data = $request->all();
         $sertifikat = Sertifikat::find($request->slug)->update($request->all());
         return redirect()->route('Sertifikat.index')->with('message','Data Sertifikat Berhasil Di Edit!!');
     }

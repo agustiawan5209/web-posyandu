@@ -151,6 +151,11 @@ function cetakSertifikat() {
                                         <td class="text-sm border-b text-gray-600"> {{ balita.hitung_usia }} </td>
                                     </tr>
                                     <tr class="">
+                                        <td class="text-sm border-b py-2 font-bold capitalize">Jenis Kelamin</td>
+                                        <td>:</td>
+                                        <td class="text-sm border-b text-gray-600"> {{ balita.jenkel }} </td>
+                                    </tr>
+                                    <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">Nama Orang Tua</td>
                                         <td>:</td>
                                         <td class="text-sm border-b text-gray-600"> {{ balita.nama_orang_tua }} </td>

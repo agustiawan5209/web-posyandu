@@ -24,13 +24,13 @@ class StoreSertifikatRequest extends FormRequest
         return [
             'balita_id' => 'required|integer|exists:balitas,id',
             'nik' => 'required|string|max:50',
-            'nama_anak' => 'required|string|max:50',
+            'nama_balita' => 'required|string|max:50',
             'tgl_lahir' => 'required|date',
             'tempat_lahir' => 'required|string|max:50',
             'jenkel' => 'required|string|in:Laki-Laki,Perempuan',
             'nama_orang_tua' => 'required|string|max:50',
             'alamat_orang_tua' => 'required|string|max:100',
-            'no_telpon_orang_tua' => 'required|string|max:15',
+            'no_telpon_orang_tua' => 'required|string|max:20',
             // 'file' => 'required|string',
         ];
     }

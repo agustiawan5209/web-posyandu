@@ -13,7 +13,8 @@ class Sertifikat extends Model
     protected $fillable =[
         'balita_id',
         'nik',
-        'nama_anak',
+        'nomor',
+        'nama_balita',
         'tgl_lahir',
         'tempat_lahir',
         'jenkel',
@@ -24,7 +25,7 @@ class Sertifikat extends Model
     ];
 
     public function balita(){
-        return $this->belongsTo(Balita::class, 'id','balita_id');
+        return $this->hasOne(Balita::class,'id', 'balita_id');
     }
 
 
@@ -33,7 +34,7 @@ class Sertifikat extends Model
     public function scopeFilter($query, $filter)
     {
         $query->when($filter['search'] ?? null, function ($query, $search) {
-            $query->where('nama_anak', 'like', '%' . $search . '%')
+            $query->where('nama_balita', 'like', '%' . $search . '%')
                 ->orWhere('tgl_lahir', 'like', '%' . $search . '%')
                 ->orWhere('tempat_lahir', 'like', '%' . $search . '%')
                 ->orWhere('jenkel', 'like', '%' . $search . '%')
