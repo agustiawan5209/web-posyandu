@@ -20,18 +20,17 @@ const props = defineProps({
 })
 const Form = useForm({
     balita_id: '',
-    data_imunisasi: [],
-    tanggal: '',
-    catatan: '',
-    berat_badan: '',
-    tinggi_badan: '',
-    lingkar_kepala: '',
-    kesehatan: '',
+    nik: '',
     nama_anak: '',
+    tempat_lahir: '',
+    tgl_lahir: '',
+    tinggi_badan: '',
+    jenkel: '',
     nama_orang_tua: '',
-    usia: '',
-    jenis_kelamin: '',
+    alamat_orang_tua: '',
+    no_telpon_orang_tua: '',
     jenis_imunisasi: '',
+    catatan: '',
 })
 
 const NamaOrangTua = ref('')
@@ -105,9 +104,13 @@ function SelectChangeElement(event) {
     const Value = JSON.parse(event.target.value);
     PJ.value = '';
     Form.nama_orang_tua = Value.orang_tua.nama;
+    Form.alamat_orang_tua = Value.orang_tua.alamat;
+    Form.no_telpon_orang_tua = Value.orang_tua.no_telpon;
     Form.nama_anak = Value.nama;
-    Form.usia = Value.hitung_usia;
-    Form.jenis_kelamin = Value.jenkel;
+    Form.nik = Value.nik;
+    Form.jenkel = Value.jenkel;
+    Form.tempat_lahir = Value.tempat_lahir;
+    Form.tgl_lahir = Value.tgl_lahir;
     Form.balita_id = Value.id;
     if (SelectElement.value) {
         const childElements = SelectElement.value.childNodes
@@ -131,20 +134,20 @@ onMounted(() => {
 
 <template>
 
-    <Head title="Form Balita" />
+    <Head title="Form Sertifikat" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Tambah Balita</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Tambah Sertifikat</h2>
         </template>
 
         <div class="py-4 relative box-content">
             <section class="p-6 bg-gray-100 text-gray-900">
 
                 <form @submit.prevent="submit()" novalidate="" action=""
-                    class="container flex flex-col mx-auto space-y-12">
+                    class="container flex flex-col mx-auto space-y-3">
                     <div class="space-y-2 col-span-full lg:col-span-1">
-                        <p class="font-medium">Data Tambah Balita/Anak</p>
+                        <p class="font-medium">Data Tambah Sertifikat</p>
                         <p class="text-xs">Tambah Data Balita dengan Memilih Nama Orang Tua</p>
                         <ul class="list-decimal pl-10 space-y-2 text-xs " v-if="Form.errors">
                             <li class="text-xs text-red-500" v-for="item in Form.errors">
@@ -154,7 +157,7 @@ onMounted(() => {
                         </ul>
                     </div>
                     <div class="p-2 md:p-6 bg-gray-50">
-                        <p class="font-medium mb-2">Pilih Nama Bayi/Balita</p>
+                        <p class="font-medium mb-2">Pilih Bayi</p>
                         <div class="w-full flex items-center justify-center gap-3 relative">
                             <label for="firstname" class="text-sm whitespace-nowrap">Cari Nama/NIK Bayi/Balita</label>
                             <TextInput id="firstname" type="text" placeholder="Cari nama lengkap" v-model="PJ"
@@ -173,42 +176,63 @@ onMounted(() => {
                                 v-model="Form.nama_orang_tua" class="w-full text-gray-900 text-sm" />
                         </div>
                         <div class="col-span-full sm:col-span-3">
-                            <label for="namaAnak" class="text-sm">Nama Bayi/Balita</label>
-                            <TextInput id="namaAnak" readonly type="text" placeholder="nama lengkap"
-                                v-model="Form.nama_anak" class="w-full text-gray-900 text-sm" />
+                            <label for="alamat_orang_tua" class="text-sm">Alamat Orang Tua</label>
+                            <TextInput id="alamat_orang_tua" readonly type="text" placeholder="Alamat Orang Tua"
+                                v-model="Form.alamat_orang_tua" class="w-full text-gray-900 text-sm" />
                         </div>
+                        <div class="col-span-full sm:col-span-3">
+                            <label for="no_telpon_orang_tua" class="text-sm">No. Telpon Orang Tua</label>
+                            <TextInput id="no_telpon_orang_tua" readonly type="text" placeholder="No. Telpon"
+                                v-model="Form.no_telpon_orang_tua" class="w-full text-gray-900 text-sm" />
+                        </div>
+
                     </div>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
-                            <div class="col-span-full">
-                                <label for="berat_badan" class="text-sm">Jumlah Berat Badan Bayi/Balita (KG)</label>
+                            <div class="col-span-full sm:col-span-3">
+                                <label for="nik" class="text-sm">Nomor Induk Kependudukan (NIK) - Bayi/Balita</label>
+                                <TextInput id="nik" readonly type="number" placeholder="Nomor Induk Kependudukan (NIK)"
+                                    v-model="Form.nik" class="w-full text-gray-900 text-sm" />
+                            </div>
+                            <div class="col-span-full sm:col-span-3">
+                                <label for="namaAnak" class="text-sm">Nama Bayi/Balita</label>
+                                <TextInput id="namaAnak" readonly type="text" placeholder="nama lengkap"
+                                    v-model="Form.nama_anak" class="w-full text-gray-900 text-sm" />
+                            </div>
+                            <div class="col-span-full sm:col-span-3">
+                                <label for="tempat_lahir" class="text-sm">Tempat Lahir</label>
 
-                                <TextInput id="berat_badan" type="number" placeholder="Berat Badan (KG)"
-                                    v-model="Form.berat_badan" class="w-full text-gray-900 text-sm" />
+                                <TextInput id="tempat_lahir" type="text" placeholder="Tempat Lahir"
+                                    v-model="Form.tempat_lahir" class="w-full text-gray-900 text-sm" />
 
                             </div>
-                            <div class="col-span-full">
-                                <label for="berat_badan" class="text-sm">Tinggi Badan Bayi/Balita (CM)</label>
+                            <div class="col-span-1">
+                                <label for="tgl_lahir" class="text-sm">Tanggal Lahir</label>
 
-                                <TextInput id="berat_badan" type="number" placeholder="Tinggi Badan (CM)"
-                                    v-model="Form.tinggi_badan" class="w-full text-gray-900 text-sm" />
-
-                            </div>
-                            <div class="col-span-full">
-                                <label for="berat_badan" class="text-sm">Ukuran Lingkar Kepala Bayi/Balita</label>
-
-                                <TextInput id="berat_badan" type="number" placeholder="Lingkar Kepala"
-                                    v-model="Form.lingkar_kepala" class="w-full text-gray-900 text-sm" />
+                                <TextInput id="tgl_lahir" type="date" placeholder="Tanggal lahir"
+                                    v-model="Form.tgl_lahir" class="w-full text-gray-900 text-sm" />
 
                             </div>
-                            <div class="col-span-full">
-                                <label for="kesehatan_bayi" class="text-sm">Kesehatan Bayi</label>
+                            <div class="col-span-full sm:col-span-3">
+                                <label for="jenkel" class="text-sm mb-8">Jenis Kelamin</label>
 
-                                <TextInput id="kesehatan_bayi" type="text" placeholder="Kesehatan Bayi"
-                                    v-model="Form.kesehatan" class="w-full text-gray-900 text-sm" />
+                                <div class="flex items-center gap-4">
+                                    <div class="flex items-center">
+                                        <input id="jenkel-1" type="radio" value="Laki-Laki" name="jenkel" v-model="Form.jenkel"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 ">
+                                        <label for="jenkel-1" class="ms-2 text-sm font-medium text-gray-900">Laki-Laki</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="jenkel-2" type="radio" value="Perempuan" name="jenkel" v-model="Form.jenkel"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500  focus:ring-2 ">
+                                        <label for="jenkel-2" class="ms-2 text-sm font-medium text-gray-900">Perempuan</label>
+                                    </div>
+                                </div>
+
+                                <InputError :message="Form.errors.jenkel" />
 
                             </div>
-                            <div class="col-span-full">
+                            <div class="col-span-full sm:col-span-3">
                                 <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
                                 <TextInput id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
                                     class="w-full text-gray-900 text-sm" />
@@ -220,7 +244,7 @@ onMounted(() => {
                                     class="w-full text-gray-900 text-sm" />
 
                             </div>
-                            <div class="col-span-full">
+                            <div class="col-span-full sm:col-span-3">
                                 <label for="catatan" class="text-sm">catatan</label>
                                 <quill-editor id="catatan" contentType="html" theme="snow"
                                     v-model:content="Form.catatan"

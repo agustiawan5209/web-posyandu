@@ -152,7 +152,7 @@ onMounted(() => {
                 <form @submit.prevent="submit()" novalidate="" action=""
                     class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1">
-                        <p class="font-medium">Data Edit Balita/Anak</p>
+                        <p class="font-medium">Data Edit Bayi/Balita</p>
                         <p class="text-xs">Edit Data Balita dengan Memilih Nama Orang Tua</p>
                         <ul class="list-decimal pl-10 space-y-2 text-xs " v-if="Form.errors">
                             <li class="text-xs text-red-500" v-for="item in Form.errors">
