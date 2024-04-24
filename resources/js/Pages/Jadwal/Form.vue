@@ -97,6 +97,21 @@ onMounted(() => {
 
 })
 
+const JenisImunisasi = ref([
+    'Vitamin A - 1',
+    'Vitamin A - 2',
+    'Oralit',
+    'BH (NOL)',
+    'BCG',
+    'POLIO - 1',
+    'POLIO - 2',
+    'POLIO - 3',
+    'DPT/HB - 1',
+    'DPT/HB - 2',
+    'DPT/HB - 3',
+    'Campak',
+]);
+
 </script>
 
 <template>
@@ -126,8 +141,11 @@ onMounted(() => {
                             </div>
                             <div class="col-span-full sm:col-span-3">
                                 <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <TextInput id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
-                                    placeholder="Jenis Imunisasi" class="w-full text-gray-900" />
+                                <select id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
+                                    placeholder="Jenis Imunisasi" class="border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm" >
+                                <option value="">---</option>
+                                <option v-for="item in JenisImunisasi" :value="key">{{key}}</option>
+                                </select>
                                 <InputError :message="Form.errors.jenis_imunisasi" />
 
                             </div>
@@ -141,8 +159,8 @@ onMounted(() => {
 
                             <div class="col-span-full sm:col-span-2 relative">
                                 <label for="penanggung_jawab" class="text-sm">Penanggung Jawab</label>
-                                <TextInput id="penanggung_jawab" type="text" placeholder="Penanggung Jawab" v-model="Form.penanggung_jawab"
-                                    class="w-full text-gray-900" />
+                                <TextInput id="penanggung_jawab" type="text" placeholder="Penanggung Jawab"
+                                    v-model="Form.penanggung_jawab" class="w-full text-gray-900" />
 
                                 <div class="w-full mx-auto absolute z-10 -bottom-24" v-if="ShowSelect">
                                     <select id="countries" multiple ref="SelectElement"

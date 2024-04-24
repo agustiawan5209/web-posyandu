@@ -126,6 +126,20 @@ onMounted(() => {
     })
 
 })
+const JenisImunisasi = ref([
+    'Vitamin A - 1',
+    'Vitamin A - 2',
+    'Oralit',
+    'BH (NOL)',
+    'BCG',
+    'POLIO - 1',
+    'POLIO - 2',
+    'POLIO - 3',
+    'DPT/HB - 1',
+    'DPT/HB - 2',
+    'DPT/HB - 3',
+    'Campak',
+]);
 
 </script>
 
@@ -208,10 +222,14 @@ onMounted(() => {
                                     v-model="Form.kesehatan" class="w-full text-gray-900 text-sm" />
 
                             </div>
-                            <div class="col-span-full">
+                            <div class="col-span-full sm:col-span-3">
                                 <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <TextInput id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
-                                    class="w-full text-gray-900 text-sm" />
+                                <select id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
+                                    placeholder="Jenis Imunisasi" class="border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm" >
+                                <option value="">---</option>
+                                <option v-for="item in JenisImunisasi" :value="key">{{key}}</option>
+                                </select>
+                                <InputError :message="Form.errors.jenis_imunisasi" />
 
                             </div>
                             <div class="col-span-1">

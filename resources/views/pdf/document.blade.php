@@ -134,10 +134,6 @@
                 <td style="padding: 3px 10px;"></td>
             </tr>
             <tr>
-                <td style="padding: 3px 10px;">POLIO 4</td>
-                <td style="padding: 3px 10px;"></td>
-            </tr>
-            <tr>
                 <td style="padding: 3px 10px;">CAMPAK</td>
                 <td style="padding: 3px 10px;"></td>
             </tr>
