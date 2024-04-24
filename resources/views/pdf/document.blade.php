@@ -64,7 +64,7 @@
             </tr>
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Nama </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['nama_anak'] }}</td>
+                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['nama_balita'] }}</td>
             </tr>
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Tempat/Tanggal Lahir </td>

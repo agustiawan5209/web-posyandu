@@ -93,7 +93,7 @@ class SertifikatController extends Controller
     public function show(Sertifikat $sertifikat)
     {
         return Inertia::render('Sertifikat/Show',[
-            'sertfikat'=> $sertifikat->find(Request::input('slug')),
+            'sertifikat'=> $sertifikat->find(Request::input('slug')),
         ]);
 
     }

@@ -103,7 +103,7 @@ function ArrayToString(){
                 <NavLink :href="route('Sertifikat.index')"
                     :active="route().current('Sertifikat.index') || route().current('Sertifikat.create') || route().current('Sertifikat.edit') || route().current('Sertifikat.show')"
                     :icon="['far', 'calendar-days']">
-                    <span class="group-hover:text-gray-700 capitalize">Data Imunisasi</span>
+                    <span class="group-hover:text-gray-700 capitalize">Sertifikat Imunisasi</span>
                 </NavLink>
             </li>
             <!-- Setting -->

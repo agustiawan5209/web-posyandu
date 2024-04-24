@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,16 @@ class Sertifikat extends Model
         'no_telpon_orang_tua',
         'file',
     ];
+    protected $appends = [
+        'file_url'
+    ];
+
+    public function fileUrl() : Attribute
+    {
+        return new Attribute(
+            get: fn()=> url('storage/'. $this->file),
+        );
+    }
 
     public function balita(){
         return $this->hasOne(Balita::class,'id', 'balita_id');

@@ -13,10 +13,10 @@ class PDFController extends Controller
     public function generatePDF(Request $request)
     {
         $carbon = Carbon::setLocale('id');
-        if ($request->nik != null) {
+        if ($request->has('nik') && $request->has('nama_balita')) {
             $doc = [
                 'nik' => $request->nik,
-                'nama_anak' => $request->nama,
+                'nama_balita' => $request->nama_balita,
                 'tempat_lahir' => $request->tempat_lahir,
                 'tgl_lahir' => Carbon::parse($request->tgl_lahir)->translatedFormat('j F Y'),
                 'nama_orang_tua' => $request->nama_orang_tua,
@@ -40,7 +40,7 @@ class PDFController extends Controller
         } else {
             $doc =  [
                 'nik' => '282928928928',
-                'nama_anak' => 'Andi',
+                'nama_balita' => 'Andi',
                 'tempat_lahir' => 'Makassar',
                 'tgl_lahir' => Carbon::parse('20-02-2024')->translatedFormat('j F Y'),
                 'alamat' => 'Jl. Sungai Bakti, Lorong 11',
@@ -65,7 +65,7 @@ class PDFController extends Controller
         }
         $data = [
             'title' => 'Sertifikat Imunisasi',
-            'nomor' => $request->nomor,
+            'nomor' => $request->nomor ?? 'PBU-0000/0000',
             'data' => $doc,
         ];
         $namaPDF = 'sertifikat/' . $data['nomor'] . '.pdf';
@@ -76,6 +76,6 @@ class PDFController extends Controller
         //     Storage::disk('public')->delete('PdfFile/PDFExport.pdf');
         // }
         Storage::put('public/' . $namaPDF, $pdf->download()->getOriginalContent());
-        return $namaPDF;
+        return $pdf->stream($namaPDF);
     }
 }
