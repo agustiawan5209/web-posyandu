@@ -115,7 +115,9 @@ class PegawaiPosyanduController extends Controller
      */
     public function show(PegawaiPosyandu $pegawaiPosyandu)
     {
-
+        Request::validate([
+            'slug'=> 'required|exists:pegawai_posyandus,id',
+        ]);
         return Inertia::render('Pegawai/Show', [
             'pegawai' => $pegawaiPosyandu->find(Request::input('slug')),
         ]);
@@ -126,9 +128,9 @@ class PegawaiPosyanduController extends Controller
      */
     public function edit(PegawaiPosyandu $pegawaiPosyandu)
     {
-        if (!Request::exists('slug')) {
-            abort(403, 'ID gagal Di Dapatkan');
-        }
+        Request::validate([
+            'slug'=> 'required|exists:pegawai_posyandus,id',
+        ]);
         return Inertia::render('Pegawai/Edit', [
             'pegawai' => $pegawaiPosyandu->with(['user'])->find(Request::input('slug')),
             'jabatan' => Role::whereNot('name', 'Orang Tua')->get(),

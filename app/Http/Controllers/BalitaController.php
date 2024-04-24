@@ -69,6 +69,9 @@ class BalitaController extends Controller
      */
     public function show(Balita $balita)
     {
+        Request::validate([
+            'slug'=> 'required|exists:balitas,id',
+        ]);
         return Inertia::render("Balita/Show", [
             'balita' => Balita::with(['orangTua','riwayatImunisasis'])->find(Request::input('slug')),
             'orangTua'=> OrangTua::all(),
@@ -80,7 +83,9 @@ class BalitaController extends Controller
      */
     public function edit(Balita $balita)
     {
-        // dd(Balita::find(Request::input('slug')));
+        Request::validate([
+            'slug'=> 'required|exists:balitas,id',
+        ]);
         return Inertia::render("Balita/Edit", [
             'balita' => Balita::find(Request::input('slug')),
             'orangTua'=> OrangTua::all(),

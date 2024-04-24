@@ -59,6 +59,9 @@ class JadwalImunisasiController extends Controller
      */
     public function show(JadwalImunisasi $jadwalImunisasi)
     {
+        Request::validate([
+            'slug'=> 'required|exists:jadwal_imunisasis,id',
+        ]);
         return Inertia::render('Jadwal/Show', [
             'jadwal'=> JadwalImunisasi::find(Request::input('slug'))
         ]);
@@ -69,6 +72,9 @@ class JadwalImunisasiController extends Controller
      */
     public function edit(JadwalImunisasi $jadwalImunisasi)
     {
+        Request::validate([
+            'slug'=> 'required|exists:jadwal_imunisasis,id',
+        ]);
         return Inertia::render('Jadwal/Edit', [
             'user'=> User::role('Kader')->get(),
             'jadwal'=> JadwalImunisasi::find(Request::input('slug'))

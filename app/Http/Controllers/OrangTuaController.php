@@ -108,7 +108,9 @@ class OrangTuaController extends Controller
      */
     public function show(OrangTua $orangTua)
     {
-        // dd(Balita::find(1)->hitung_usia);
+        Request::validate([
+            'slug'=> 'required|exists:orang_tuas,id',
+        ]);
         return Inertia::render('OrangTua/Show', [
             'orangTua' => $orangTua->with(['balita', 'user'])->find(Request::input('slug')),
             'can'=>[
@@ -124,6 +126,9 @@ class OrangTuaController extends Controller
      */
     public function edit(OrangTua $orangTua)
     {
+        Request::validate([
+            'slug'=> 'required|exists:orang_tuas,id',
+        ]);
         return Inertia::render('OrangTua/Edit', ['orangTua' => $orangTua->with(['balita', 'user'])->find(Request::input('slug'))]);
     }
 
