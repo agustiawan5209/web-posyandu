@@ -30,6 +30,7 @@
         "gsap": "^3.12.2",
         "v-calendar": "^3.1.2",
         "vue-chartjs": "^5.3.1",
+        "vue-pdf-embed": "^2.0.3",
         "vue-sweetalert2": "^5.0.5"
     }
 }
