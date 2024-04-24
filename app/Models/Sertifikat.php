@@ -31,7 +31,7 @@ class Sertifikat extends Model
     public function fileUrl() : Attribute
     {
         return new Attribute(
-            get: fn()=> url('storage/'. $this->file),
+            get: fn()=> asset('storage/'. $this->file),
         );
     }
 

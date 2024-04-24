@@ -50,6 +50,14 @@ class ApiModelController extends Controller
 
         return json_encode($user);
     }
+    public function geDatatBalita()
+    {
+        $search = Request::only('search');
+
+        $user = Balita::with(['orangTua','riwayatImunisasis'])->filter($search)->get();
+
+        return json_encode($user);
+    }
 
     public function getBeratBadaBalita($id)
     {

@@ -56,12 +56,12 @@ const ShowSelect = ref(false);
 
 function searchPengguna(value) {
     if (value.length > 0) {
-        axios.get(route('api.balita.getBalita', { search: value }))
+        axios.get(route('api.balita.getDataBalita', { search: value }))
             .then((response) => {
 
                 if (response.status == 200) {
                     const element = response.data;
-                    console.log(element)
+
                     ShowSelect.value = true;
 
                     if (SelectElement.value) {
@@ -100,6 +100,41 @@ function searchPengguna(value) {
     }
 }
 
+const JenisImunisasi = ref([
+    'Vitamin A - 1',
+    'Vitamin A - 2',
+    'Oralit',
+    'BH (NOL)',
+    'BCG',
+    'POLIO - 1',
+    'POLIO - 2',
+    'POLIO - 3',
+    'DPT/HB - 1',
+    'DPT/HB - 2',
+    'DPT/HB - 3',
+    'Campak',
+]);
+const data_imunisasi = ref({});
+
+const getSameValue = (obj1, obj2) => {
+    const jenis_imunisasi = Object.values(obj2);
+    const data_imunisasi = Object.values(obj1).map((elem, idx, self) => {
+        return elem.jenis_imunisasi;
+    });
+    const filterUnique = jenis_imunisasi.reduce((acc, current) => {
+        if (!acc.includes(current) && data_imunisasi.includes(current)) {
+            acc.push(current);
+            Form.jenis_imunisasi.push(true)
+        }else{
+            Form.jenis_imunisasi.push(false)
+
+            acc.push(false)
+        }
+        return acc;
+    }, [])
+    return filterUnique;
+}
+
 function SelectChangeElement(event) {
     const Value = JSON.parse(event.target.value);
     PJ.value = '';
@@ -112,6 +147,9 @@ function SelectChangeElement(event) {
     Form.tempat_lahir = Value.tempat_lahir;
     Form.tgl_lahir = Value.tgl_lahir;
     Form.balita_id = Value.id;
+    data_imunisasi.value = getSameValue(Value.riwayat_imunisasis, JenisImunisasi.value);
+    // console.log(data_imunisasi);
+    // Form.jenis_imunisasi = getSameValue(Value.riwayat_imunisasis, JenisImunisasi.value);
     if (SelectElement.value) {
         const childElements = SelectElement.value.childNodes
         // loop through the child elements and remove them
@@ -129,21 +167,16 @@ onMounted(() => {
     })
 
 })
-const JenisImunisasi = ref([
-    'Vitamin A - 1',
-    'Vitamin A - 2',
-    'Oralit',
-    'BH (NOL)',
-    'BCG',
-    'POLIO - 1',
-    'POLIO - 2',
-    'POLIO - 3',
-    'DPT/HB - 1',
-    'DPT/HB - 2',
-    'DPT/HB - 3',
-    'Campak',
-]);
 
+function cekJenisImunisasi(idx) {
+    const imun = data_imunisasi.value
+    if (Form.jenis_imunisasi[idx]) {
+        return 'Selesai';
+    } else {
+        return 'Belum';
+    }
+}
+console.log(cekJenisImunisasi('Campak'));
 </script>
 
 <template>
@@ -174,7 +207,7 @@ const JenisImunisasi = ref([
                         <p class="font-medium mb-2">Pilih Bayi</p>
                         <div class="w-full flex items-center justify-center gap-3 relative">
                             <label for="firstname" class="text-sm whitespace-nowrap">Cari Nama/NIK Bayi/Balita</label>
-                            <TextInput id="firstname" type="text" placeholder="Cari nama lengkap" v-model="PJ"
+                            <TextInput id="firstname" type="text" placeholder="Cari nama lengkap" v-model.prevent="PJ"
                                 class="w-full text-gray-900 text-xs" />
 
                             <div class="w-full mx-auto absolute z-10 -bottom-24" v-if="PJ != ''">
@@ -268,13 +301,15 @@ const JenisImunisasi = ref([
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="item in JenisImunisasi">
+                                        <tr v-for="(item, idx) in JenisImunisasi">
                                             <td class="font-semibold px-2 py-1 text-xs border border-gray-700">{{ item
                                                 }}</td>
                                             <td class="px-2 py-1 text-xs border border-gray-700">
                                                 <div class="flex justify-start gap-4">
-                                                    <Checkbox :id="item" v-model="Form.jenis_imunisasi[item]" />
-                                                <InputLabel :for="item" :value="Form.jenis_imunisasi[item] ?'Selesai' : 'Belum'" />
+                                                    <input type="checkbox" :name="item" :id="item" :value="item"
+                                                        v-model="Form.jenis_imunisasi[idx]">
+                                                    {{ cekJenisImunisasi(idx) }}
+                                                    {{ Form.jenis_imunisasi[item] }}
                                                 </div>
                                             </td>
                                         </tr>

@@ -5,38 +5,16 @@ namespace App\Http\Controllers;
 use PDF;
 use Carbon\Carbon;
 use App\Models\Balita;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PDFController extends Controller
 {
-    public function generatePDF(Request $request)
+    public function generatePDF($request)
     {
         $carbon = Carbon::setLocale('id');
-        if ($request->has('nik') && $request->has('nama_balita')) {
-            $doc = [
-                'nik' => $request->nik,
-                'nama_balita' => $request->nama_balita,
-                'tempat_lahir' => $request->tempat_lahir,
-                'tgl_lahir' => Carbon::parse($request->tgl_lahir)->translatedFormat('j F Y'),
-                'nama_orang_tua' => $request->nama_orang_tua,
-                'alamat_orang_tua' => $request->alamat_orang_tua,
-                'no_telpon_orang_tua' => $request->no_telpon_orang_tua,
-                'jenis_imunisasi' => [
-                    'Vitamin A - 1' => 'false',
-                    'Vitamin A - 2' => 'false',
-                    'Oralit' => 'false',
-                    'BH (NOL)' => 'false',
-                    'BCG' => 'false',
-                    'POLIO - 1' => 'false',
-                    'POLIO - 2' => 'false',
-                    'POLIO - 3' => 'false',
-                    'DPT/HB - 1' => 'false',
-                    'DPT/HB - 2' => 'false',
-                    'DPT/HB - 3' => 'false',
-                    'Campak' => 'false',
-                ],
-            ];
+        // dd($request);
+        if (count($request) > 0) {
+            $doc = $request;
         } else {
             $doc =  [
                 'nik' => '282928928928',
@@ -48,34 +26,47 @@ class PDFController extends Controller
                 'alamat_orang_tua' => 'Jl. Selamat Pulang',
                 'no_telpon_orang_tua' => '019209200300',
                 'jenis_imunisasi' => [
-                    'Vitamin A - 1' => 'true',
-                    'Vitamin A - 2' => 'true',
-                    'Oralit' => 'true',
-                    'BH (NOL)' => 'true',
-                    'BCG' => 'true',
-                    'POLIO - 1' => 'false',
-                    'POLIO - 2' => 'false',
-                    'POLIO - 3' => 'false',
-                    'DPT/HB - 1' => 'false',
-                    'DPT/HB - 2' => 'false',
-                    'DPT/HB - 3' => 'false',
-                    'Campak' => 'false',
+                    'true',
+                    'true',
+                    'true',
+                    'true',
+                    'true',
+                    'false',
+                    'false',
+                    'false',
+                    'false',
+                    'false',
+                    'false',
+                    'false',
                 ],
             ];
         }
+
         $data = [
             'title' => 'Sertifikat Imunisasi',
-            'nomor' => $request->nomor ?? 'PBU-0000/0000',
+            'nomor' => $request['nomor'],
+            'namaImunisasi' => [
+                'Vitamin A - 1',
+                'Vitamin A - 2',
+                'Oralit',
+                'BH (NOL)',
+                'BCG',
+                'POLIO - 1',
+                'POLIO - 2',
+                'POLIO - 3',
+                'DPT/HB - 1',
+                'DPT/HB - 2',
+                'DPT/HB - 3',
+                'Campak',
+            ],
             'data' => $doc,
+
         ];
-        $namaPDF = 'sertifikat/' . $data['nomor'] . '.pdf';
+        // dd($data);
+        $namaPDF = 'sertifikat/'. md5($data['nomor']) . '.pdf';
         $pdf = PDF::loadView('pdf.document', $data);
 
-        // $filePATH = public_path() . '/storage/' . $namaPDF;
-        // if (Storage::disk('public')->exists('PdfFile/PDFExport.pdf')) {
-        //     Storage::disk('public')->delete('PdfFile/PDFExport.pdf');
-        // }
         Storage::put('public/' . $namaPDF, $pdf->download()->getOriginalContent());
-        return $pdf->stream($namaPDF);
+        return $namaPDF;
     }
 }

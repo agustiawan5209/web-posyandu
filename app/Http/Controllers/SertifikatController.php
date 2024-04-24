@@ -8,6 +8,7 @@ use App\Models\Sertifikat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreSertifikatRequest;
 use App\Http\Requests\UpdateSertifikatRequest;
 
@@ -23,7 +24,7 @@ class SertifikatController extends Controller
 
         return Inertia::render('Sertifikat/Index', [
             'search' =>  Request::input('search'),
-            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id','balita_id'])),
+            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'balita_id'])),
             'data' => Sertifikat::filter(Request::only('search', 'order'))->with(['balita'])->paginate(10),
             'can' => [
                 'add' => Auth::user()->can('add sertifikat'),
@@ -39,17 +40,18 @@ class SertifikatController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Sertifikat/Form',[]);
+        return Inertia::render('Sertifikat/Form', []);
     }
 
-    function intToRomanNumeral(int $num) {
+    function intToRomanNumeral(int $num)
+    {
         static $nf = new NumberFormatter('@numbers=roman', NumberFormatter::DECIMAL);
         return $nf->format($num);
     }
     public function generateNomorSurat()
     {
         // Customize this as per your format
-        $prefix = 'PBU/';
+        $prefix = 'PBU-';
         $sequentialNumber = $this->getNextSequentialNumber();
         $y = date('Y');
         $m = $this->intToRomanNumeral(date('m'));
@@ -79,12 +81,12 @@ class SertifikatController extends Controller
     public function store(StoreSertifikatRequest $request)
     {
         $data = $request->all();
-        $data['nomor']= $this->generateNomorSurat();
+        $data['nomor'] = $this->generateNomorSurat();
         // PDF
         $pdf = new PDFController();
-        $data['file']=  $pdf->generatePDF($request);
+        $data['file'] =  $pdf->generatePDF($data);
         $sertifikat = Sertifikat::create($data);
-        return redirect()->route('Sertifikat.index')->with('message','Data Sertifikat Berhasil Di Tambah!!');
+        return redirect()->route('Sertifikat.index')->with('message', 'Data Sertifikat Berhasil Di Tambah!!');
     }
 
     /**
@@ -92,10 +94,9 @@ class SertifikatController extends Controller
      */
     public function show(Sertifikat $sertifikat)
     {
-        return Inertia::render('Sertifikat/Show',[
-            'sertifikat'=> $sertifikat->find(Request::input('slug')),
+        return Inertia::render('Sertifikat/Show', [
+            'sertifikat' => $sertifikat->find(Request::input('slug')),
         ]);
-
     }
 
     /**
@@ -103,8 +104,8 @@ class SertifikatController extends Controller
      */
     public function edit(Sertifikat $sertifikat)
     {
-        return Inertia::render('Sertifikat/Edit',[
-            'sertfikat'=> $sertifikat->find(Request::input('slug')),
+        return Inertia::render('Sertifikat/Edit', [
+            'sertfikat' => $sertifikat->find(Request::input('slug')),
         ]);
     }
 
@@ -115,7 +116,7 @@ class SertifikatController extends Controller
     {
         $data = $request->all();
         $sertifikat = Sertifikat::find($request->slug)->update($request->all());
-        return redirect()->route('Sertifikat.index')->with('message','Data Sertifikat Berhasil Di Edit!!');
+        return redirect()->route('Sertifikat.index')->with('message', 'Data Sertifikat Berhasil Di Edit!!');
     }
 
     /**
@@ -123,7 +124,12 @@ class SertifikatController extends Controller
      */
     public function destroy(Sertifikat $sertifikat)
     {
-        $sertifikat = Sertifikat::find(Request::input('slug'))->delete();
-        return redirect()->route('Sertifikat.index')->with('message','Data Sertifikat Berhasil Di Hapus!!');
+        $sertifikat = Sertifikat::find(Request::input('slug'));
+        $namaPDF = $sertifikat->file;
+        if (Storage::disk('public')->exists($namaPDF)) {
+            Storage::disk('public')->delete($namaPDF);
+        }
+        $sertifikat->delete();
+        return redirect()->route('Sertifikat.index')->with('message', 'Data Sertifikat Berhasil Di Hapus!!');
     }
 }

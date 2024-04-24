@@ -105,11 +105,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($data['jenis_imunisasi'] as $key => $item)
+            @foreach ($namaImunisasi as $key => $item)
                 <tr>
-                    <td style="padding: 3px 10px;">{{ $key }}</td>
+                    <td style="padding: 3px 10px;">{{ $item }}</td>
                     <td style="padding: 3px 10px;">
-                        @if ($item === 'true')
+                        @if ($data['jenis_imunisasi'][$key] === 'true' || $data['jenis_imunisasi'][$key] === true)
                         <span style="color: rgb(8, 153, 56)">Selesai</span>
                         @else
                         <span style="color: rgb(207, 7, 7)">Belum</span>
