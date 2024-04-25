@@ -35,8 +35,7 @@ function ArrayToString(){
     <div class="aside-anime">
 
         <div class="hidden md:block mt-8 text-center">
-            <img :src="'/images/logo/logo-dark.png'" alt=""
-                class="m-auto h-10 w-10 rounded-md object-cover lg:h-12 lg:w-12" />
+            <ApplicationLogo class="m-auto h-10 w-10 rounded-md object-cover lg:h-12 lg:w-12" />
             <h5 class="mt-4 text-xl font-semibold text-gray-600 lg:block">{{ $page.props.auth.user.name }}
             </h5>
             <span class=" text-gray-400 lg:block">{{ ArrayToString() }}</span>

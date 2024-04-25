@@ -31,3 +31,6 @@ Route::get('get-lingkarkepala-data/{id}', [ApiModelController::class, 'getLingka
 Route::get('get-doughnat-data', [ApiModelController::class, 'getDoughnatChart'])->name('api.Chart.getDoughnatChart');
 Route::get('get-jadwal-data', [ApiModelController::class, 'getJadwal'])->name('api.jadwal.getJadwal');
 Route::get('get-pengguna-data/{tahun}', [ApiModelController::class, 'getJumlahPengguna'])->name('api.pengguna.jumlah');
+
+// setting
+Route::get('get-setting-puskesmas', [ApiModelController::class, 'SettingPuskesmas'])->name('api.setting.puskesmas');

@@ -9,6 +9,7 @@ use App\Models\OrangTua;
 use App\Models\JadwalImunisasi;
 use App\Models\RiwayatImunisasi;
 use App\Http\Controllers\Controller;
+use App\Models\Puskesmas;
 use Illuminate\Support\Facades\Request;
 
 class ApiModelController extends Controller
@@ -163,5 +164,14 @@ class ApiModelController extends Controller
             'data' => $data,
             'label' => array_values(array_unique($months)),
         ];
+    }
+
+
+    // Get Logo Puskesmas
+
+    public function SettingPuskesmas(){
+        $puskesmas = Puskesmas::find(1);
+
+        return json_encode($puskesmas);
     }
 }

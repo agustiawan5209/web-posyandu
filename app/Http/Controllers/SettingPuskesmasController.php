@@ -83,7 +83,7 @@ class SettingPuskesmasController extends Controller
     public function destroyFotoProfile()
     {
         $puskesmass = Puskesmas::find(1);
-        if ($puskesmass !== null) {
+        if ($puskesmass !== null && $puskesmass->foto_profile !== null) {
             $name = $puskesmass->foto_profile;
             if (Storage::disk('public')->exists($name)) {
                 Storage::disk('public')->delete($name);
@@ -93,7 +93,7 @@ class SettingPuskesmasController extends Controller
     public function destroyLogo()
     {
         $puskesmass = Puskesmas::find(1);
-        if ($puskesmass !== null) {
+        if ($puskesmass !== null && $puskesmass->logo !== null) {
             $name = $puskesmass->logo;
             if (Storage::disk('public')->exists($name)) {
                 Storage::disk('public')->delete($name);

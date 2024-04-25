@@ -24,9 +24,9 @@ class StorePuskesmasRequest extends FormRequest
         return [
             'nama_puskesmas' => 'required|string|max:50',
             'kepala_puskesmas'=> 'required|string|max:50',
-            'foto_profile'=> 'nullable|string|image|mimes:png,jpg',
+            'foto_profile'=> 'nullable|image|mimes:png,jpg',
             'alamat' => 'required|string|max:255',
-            'logo' => 'nullable|string|image|mimes:png,jpg',
+            'logo' => 'nullable|image|mimes:png,jpg,svg',
             'visi'=> 'required|string',
             'misi'=> 'required|string',
             'deskripsi'=> 'required|string',
