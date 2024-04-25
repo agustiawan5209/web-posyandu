@@ -45,7 +45,7 @@ require __DIR__ . '/auth.php';
 Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(function () {
 
     // Router Orang Tua
-    Route::group(['prefix' => 'orang-tua', 'as' => "OrangTua."], function () {
+    Route::group(['prefix' => 'orang-tua', 'as' => "OrangTua.", ], function () {
         Route::controller(OrangTuaController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data-orangtua', 'create')->name('create');
@@ -134,6 +134,19 @@ Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(fu
             Route::post('/store-data-imunisasi/sertifikat-imunisasi', 'store')->name('store');
             Route::put('/update-data-imunisasi/sertifikat-imunisasi', 'update')->name('update');
             Route::delete('/hapus-data-imunisasi/sertifikat-imunisasi', 'destroy')->name('destroy');
+        });
+    });
+
+    // Route Setting Puskesma
+    Route::group(['prefix' => 'data-puskesmas', 'as' => "SettingPuskesmas."], function () {
+        Route::controller(SertifikatController::class)->group(function () {
+            Route::get('/data-puskesmas', 'index')->name('index');
+            Route::get('/tambah-data-puskesmas', 'create')->name('create');
+            Route::get('/edit-data-puskesmas', 'edit')->name('edit');
+            Route::get('/detail-data-puskesmas', 'show')->name('show');
+            Route::post('/store-data-puskesmas', 'store')->name('store');
+            Route::put('/update-data-puskesmas', 'update')->name('update');
+            Route::delete('/hapus-data-puskesmas', 'destroy')->name('destroy');
         });
     });
 });
