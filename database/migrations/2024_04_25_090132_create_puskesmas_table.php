@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posyandus', function (Blueprint $table) {
+        Schema::create('puskesmas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_posyandu', 50);
-            $table->string('alamat', 100);
+            $table->string('nama_puskesmas', 50);
+            $table->string('kepala_puskesmas', 50);
+            $table->string('nip', 50);
+            $table->string('foto_profile', 50);
+            $table->string('alamat',255);
             $table->string('logo', 100);
+            $table->longText('visi');
+            $table->longText('misi');
+            $table->longText('deskripsi');
             $table->timestamps();
         });
     }
@@ -25,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posyandus');
+        Schema::dropIfExists('puskesmas');
     }
 };
