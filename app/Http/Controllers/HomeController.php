@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\JadwalImunisasi;
+use App\Models\Puskesmas;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,11 @@ class HomeController extends Controller
     public function jadwal(){
         return Inertia::render('Home/JadwalImunisasi',[
             'jadwal'=> JadwalImunisasi::orderBy('tanggal','desc')->get(),
+        ]);
+    }
+    public function informasi(){
+        return Inertia::render('Home/Informasi',[
+            'puskesmas'=> Puskesmas::find(1),
         ]);
     }
 }

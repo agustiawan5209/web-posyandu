@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class ,'index'])->name('home');
 Route::get('/jadwal-imunisasi-puskesmas', [HomeController::class ,'jadwal'])->name('Home.jadwal');
+Route::get('/informasi-puskesmas', [HomeController::class ,'informasi'])->name('Home.informasi');
 
 Route::get('/validate-user', [DashboardController::class, 'validate'])->middleware(['auth', 'verified'])->name('validate');
 
