@@ -25,13 +25,6 @@ const form = useForm({
 const submit = () => {
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
-        onError: () => {
-            if (validateUsername(form.username)) {
-                errorMessage.value = 'Username tidak boleh mengandung spasi.';
-            } else {
-                errorMessage.value = '';
-            }
-        }
     });
 };
 
@@ -54,7 +47,7 @@ const submit = () => {
                 <TextInput id="username" type="text" class="mt-1 block w-full" v-model="form.username" required autofocus
                     autocomplete="username" />
 
-                <InputError class="mt-2" :message="form.errors.username || errorMessage" />
+                <InputError class="mt-2" :message="form.errors.username" />
             </div>
 
             <div class="mt-4">

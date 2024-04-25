@@ -22,7 +22,6 @@ const AttributeData = ref([{
     },
     dates: new Date(),
 },])
-console.log(dates.value )
 
 onMounted(() => {
     // dates.value = new Date();

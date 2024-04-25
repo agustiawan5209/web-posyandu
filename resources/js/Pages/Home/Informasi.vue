@@ -18,7 +18,7 @@ const props = defineProps({
     <Head title="Jadwal Puskesmas" />
     <HomeLayout>
 
-        <div class="container mx-auto overflow-hidden md:px-6 2xl:px-0 xl:max-w-7xl relative">
+        <div class="container mx-auto overflow-hidden md:px-6 2xl:px-0 xl:max-w-7xl relative" v-if="puskesmas !== null">
             <section class="p-6 dark:bg-gray-100 dark:text-gray-800">
                 <div class="container flex flex-col-reverse sm:flex-row gap-6 mx-auto text-center ">
                     <div class="w-full px-6 py-16 rounded-md sm:px-12 md:px-16 dark:bg-gray-50">
@@ -51,6 +51,16 @@ const props = defineProps({
                     <h1 class="text-5xl font-bold leading-none sm:text-6xl w-full text-center ">Misi</h1>
 
                     <p class="p-7 space-y-10 text-justify" v-html="puskesmas.misi"></p>
+                </div>
+            </section>
+        </div>
+        <div class="container mx-auto overflow-hidden md:px-6 2xl:px-0 xl:max-w-7xl relative" v-else>
+
+            <section>
+                <div class="bg-primary">
+                    <div class="container flex flex-col items-center px-4 py-16 pb-24 mx-auto text-center lg:pb-56 md:py-32 md:px-10 lg:px-32 text-white">
+                        <h1 class="text-5xl font-bold leading-none sm:text-6xl xl:max-w-3xl ">Data Tampilan Informasi Masih Kosong</h1>
+                    </div>
                 </div>
             </section>
         </div>

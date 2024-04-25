@@ -18,23 +18,21 @@ const props = defineProps({
 const Year = new Date().getFullYear()
 const Navigate = ref(false);
 
-const Puskesmas = ref('/images/logo/logo-dark.png')
+const Puskesmas = ref({})
 function getSetting() {
     axios.get(route('api.setting.puskesmas'))
         .then((res) => {
             if (res.status == 200) {
-
                 Puskesmas.value = res.data;
             }
         }).catch((err)=>{
-            Puskesmas.value = '/images/logo/logo-dark.png';
+            Puskesmas.value = {};
         })
 }
 
 onMounted(() => {
 
     getSetting()
-    console.log(Puskesmas.value.length)
 });
 </script>
 
@@ -42,7 +40,7 @@ onMounted(() => {
 
     <nav class="flex items-center justify-between flex-wrap bg-white  z-[1000] shadow-md">
         <div class="flex items-center flex-shrink-0 text-gray-700 mr-6 p-6">
-            <span class="font-semibold text-xl tracking-tight" v-if="Puskesmas.length > 0">{{  Puskesmas.nama_puskesmas }}</span>
+            <span class="font-semibold text-xl tracking-tight" v-if="Puskesmas != null">{{  Puskesmas.nama_puskesmas }}</span>
             <span class="font-semibold text-xl tracking-tight" v-else>UPT Puskesmas Karassing</span>
         </div>
         <div class="block lg:hidden p-6" @click="Navigate = !Navigate">
@@ -122,12 +120,12 @@ onMounted(() => {
         <slot />
     </main>
 
-    <footer class=" divide-y bg-white">
+    <footer class=" divide-y bg-white border-t shadow-2xl">
         <div class="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
             <div class="lg:w-1/3">
                 <a rel="noopener noreferrer" href="#" class="flex justify-center space-x-3 lg:justify-start">
                     <ApplicationLogo class="w-10 object-cover"/>
-                    <span class="self-center text-2xl font-semibold" v-if="Puskesmas.length > 0">{{  Puskesmas.nama_puskesmas }}</span>
+                    <span class="self-center text-2xl font-semibold" v-if="Puskesmas != null">{{  Puskesmas.nama_puskesmas }}</span>
                     <span class="self-center text-2xl font-semibold" v-else>UPT Puskesmas Karassing</span>
                 </a>
             </div>
@@ -151,7 +149,7 @@ onMounted(() => {
                     <ul class="space-y-1">
                         <li class="flex gap-4">
                             <font-awesome-icon :icon="['fas', 'location-dot']"/>
-                            <span v-if="Puskesmas.length > 0">{{ Puskesmas.alamat }}</span>
+                            <span v-if="Puskesmas != null">{{ Puskesmas.alamat }}</span>
                             <span v-else>Ds. Karassing, Kec. Hero Lange-Lange</span>
                         </li>
                         <li class="flex gap-4">

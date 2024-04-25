@@ -59,9 +59,8 @@ class Balita extends Model
     }
     public function namaOrangTua(): Attribute
     {
-        // dd($this->orangTua());
         return new Attribute(
-            get: fn () => $this->orangTua->nama,
+            get: fn () => $this->orangTua != null ?$this->orangTua->nama: null,
         );
     }
 

@@ -46,9 +46,13 @@ class SettingPuskesmasController extends Controller
         $puskesmass = Puskesmas::find(1);
 
         // Foto Profile
-        $file_logo = $puskesmass->logo;
-        $file_foto_profile = $puskesmass->foto_profile;
+        $file_logo = null;
+        $file_foto_profile = null;
 
+        if ($puskesmass != null) {
+            $file_logo = $puskesmass->logo;
+            $file_foto_profile = $puskesmass->foto_profile;
+        }
         if ($request->file('foto_profile') != null) {
             $this->destroyFotoProfile();
             $nama_foto_profile = $request->file('foto_profile')->getClientOriginalName();
