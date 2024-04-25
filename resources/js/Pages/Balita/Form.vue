@@ -45,7 +45,6 @@ const Form = useForm({
     nama_orang_tua: roleToCheck('Orang Tua') ? props.orangTua.nama : '',
 
 })
-const NamaOrangTua= ref('')
 function submit() {
     Form.post(route('Balita.storeForm'), {
         onError: (err) => {
@@ -53,7 +52,6 @@ function submit() {
         },
         onSuccess:()=>{
             Form.reset();
-            NamaOrangTua.value = '';
         }
     });
 }
@@ -86,9 +84,8 @@ function searchPengguna(value) {
                     for (let i = 0; i < element.length; i++) {
                         const orgTua = element[i];
                         const Option = document.createElement('option');
-                        Option.value = orgTua.id;
+                        Option.value = JSON.stringify(orgTua);
                         Option.innerText = orgTua.nama;
-                        NamaOrangTua.value = orgTua.nama
                         if (SelectElement.value) {
                             SelectElement.value.appendChild(Option);
                         }
@@ -106,7 +103,9 @@ function searchPengguna(value) {
 
 function SelectChangeElement(event) {
     PJ.value = '';
-    Form.org_tua_id = event.target.value;
+    const Hasil =JSON.parse(event.target.value)
+    Form.org_tua_id = Hasil.id;
+    Form.nama_orang_tua = Hasil.nama;
     if (SelectElement.value) {
         const childElements = SelectElement.value.childNodes
         // loop through the child elements and remove them
@@ -144,7 +143,7 @@ onMounted(() => {
                         <p class="font-medium">Data Tambah Bayi/Balita</p>
                         <p class="text-xs">Tambah Data Balita dengan Memilih Nama Orang Tua</p>
                     </div>
-                    <div class=" bg-gray-100" v-if="roleToCheck()">
+                    <div class=" bg-gray-100" v-if="roleToCheck('Kader')">
                         <p class="font-medium mb-2">Pilih Data Orang Tua</p>
                         <div class="w-full flex items-center justify-center gap-3 relative">
                             <label for="firstname" class="text-sm whitespace-nowrap">Cari Data Orang Tua</label>
@@ -161,7 +160,7 @@ onMounted(() => {
                         </div>
                         <div class="col-span-full sm:col-span-3">
                             <label for="nama_orang_tua" class="text-sm">Nama Orang Tua</label>
-                            <TextInput id="nama_orang_tua" readonly type="text" placeholder="nama lengkap" v-model="NamaOrangTua"
+                            <TextInput id="nama_orang_tua" readonly type="text" placeholder="nama lengkap" v-model="Form.nama_orang_tua"
                                 class="w-full text-gray-900 text-sm" />
                         </div>
                     </div>
