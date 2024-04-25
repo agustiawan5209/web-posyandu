@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('nama_puskesmas', 50);
             $table->string('kepala_puskesmas', 50);
             $table->string('nip', 50);
-            $table->string('foto_profile', 50);
+            $table->string('foto_profile', 50)->nullable();
             $table->string('alamat',255);
-            $table->string('logo', 100);
+            $table->string('logo', 100)->nullable();
             $table->longText('visi');
             $table->longText('misi');
             $table->longText('deskripsi');

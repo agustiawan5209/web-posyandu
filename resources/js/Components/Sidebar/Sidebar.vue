@@ -107,9 +107,9 @@ function ArrayToString(){
                 </NavLink>
             </li>
             <!-- Setting -->
-            <li v-if="roleToCheck('Kader') || roleToCheck('Kepala')">
-                <NavLink href="#" :icon="['fas', 'gears']">
-                    <span class="group-hover:text-gray-700 capitalize">setting</span>
+            <li v-if="roleToCheck('Kepala')">
+                <NavLink :href="route('SettingPuskesmas.create')" :icon="['fas', 'gears']">
+                    <span class="group-hover:text-gray-700 capitalize">Pengaturan</span>
                 </NavLink>
             </li>
         </ul>
