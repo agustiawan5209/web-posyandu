@@ -34,8 +34,8 @@ const Form = useForm({
     tgl_lahir: props.balita.tgl_lahir,
     jenkel: props.balita.jenkel,
     org_tua_id: props.balita.org_tua_id,
+    nama_orang_tua: props.balita.nama_orang_tua,
 })
-const NamaOrangTua= ref(props.balita.nama_orang_tua)
 function submit() {
     Form.put(route('Balita.update'), {
         onError: (err) => {
@@ -43,7 +43,6 @@ function submit() {
         },
         onSuccess:()=>{
             Form.reset();
-            NamaOrangTua.value = '';
         }
     });
 }
@@ -76,9 +75,8 @@ function searchPengguna(value) {
                     for (let i = 0; i < element.length; i++) {
                         const orgTua = element[i];
                         const Option = document.createElement('option');
-                        Option.value = orgTua.id;
+                        Option.value = JSON.stringify(orgTua);
                         Option.innerText = orgTua.nama;
-                        NamaOrangTua.value = orgTua.nama
                         if (SelectElement.value) {
                             SelectElement.value.appendChild(Option);
                         }
@@ -96,7 +94,9 @@ function searchPengguna(value) {
 
 function SelectChangeElement(event) {
     PJ.value = '';
-    Form.org_tua_id = event.target.value;
+    const Hasil = JSON.parse(event.target.value)
+    Form.org_tua_id = Hasil.id;
+    Form.nama_orang_tua = Hasil.nama;
     if (SelectElement.value) {
         const childElements = SelectElement.value.childNodes
         // loop through the child elements and remove them
@@ -151,7 +151,7 @@ onMounted(() => {
                         </div>
                         <div class="col-span-full sm:col-span-3">
                             <label for="nama_orang_tua" class="text-sm">Nama Orang Tua</label>
-                            <TextInput id="nama_orang_tua" readonly type="text" placeholder="nama lengkap" v-model="NamaOrangTua"
+                            <TextInput id="nama_orang_tua" readonly type="text" placeholder="nama lengkap" v-model="Form.nama_orang_tua"
                                 class="w-full text-gray-900 text-sm" />
                         </div>
                     </div>

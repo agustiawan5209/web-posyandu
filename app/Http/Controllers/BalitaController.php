@@ -21,7 +21,6 @@ class BalitaController extends Controller
         $tableName = 'balitas'; // Ganti dengan nama tabel yang Anda inginkan
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
         $columns[] = 'hitung_usia';
-        $columns[] = 'nama_orang_tua';
 
         return Inertia::render('Balita/Index', [
             'search' =>  Request::input('search'),
@@ -40,7 +39,7 @@ class BalitaController extends Controller
     {
         return Inertia::render("Balita/Form", [
             'balita' => Balita::where('org_tua_id', '=', Request::input('orang_tua'))->get(),
-            'orangTua'=> OrangTua::all(),
+            'orangTua'=> Auth::user()->orangtua,
             'can'=>[
                 'add'=> Auth::user()->can('add orangtua'),
             ]

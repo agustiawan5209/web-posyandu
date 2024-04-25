@@ -29,6 +29,7 @@ class UpdateBalitaRequest extends FormRequest
             'tgl_lahir' => 'required|date',
             'jenkel' => 'required|string|in:Laki-Laki,Perempuan',
             'org_tua_id' => 'required|integer|exists:orang_tuas,id',
+            'nama_orang_tua'=> 'required|string',
         ];
     }
 }

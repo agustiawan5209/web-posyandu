@@ -177,7 +177,9 @@ class PegawaiPosyanduController extends Controller
      */
     public function destroy(PegawaiPosyandu $pegawaiPosyandu)
     {
-        $pegawaiPosyandu->find(Request::input('slug'))->delete();
+        $pegawaiPosyandu = PegawaiPosyandu::with(['user'])->find(Request::input('slug'));
+        $user_id = $pegawaiPosyandu->user->id;
+        User::find($user_id)->delete();
         return redirect()->route('Pegawai.index')->with('message', 'Data Pegawai Posyandu berhasil Di Hapus!');
     }
 

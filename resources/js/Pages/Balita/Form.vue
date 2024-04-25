@@ -13,6 +13,7 @@ import axios from 'axios';
 import FormAnak from '../Anak/Form.vue';
 
 const Page = usePage().props.auth;
+const Roles = Page.role;
 
 const props = defineProps({
     orangTua: {
@@ -24,8 +25,13 @@ const props = defineProps({
         default: () => ({})
     },
 })
-function roleToCheck() {
-   return props.can.add;
+
+function roleToCheck(role) {
+    if (Array.isArray(Roles)) {
+        return Roles.includes(role)
+    }else{
+        return false;
+    }
 }
 
 
@@ -35,8 +41,8 @@ const Form = useForm({
     tempat_lahir: '',
     tgl_lahir: '',
     jenkel: '',
-    org_tua_id: roleToCheck() ? Page.user.id : '',
-    // nama_orang_tua: roleToCheck() ? Page.user.nama : '',
+    org_tua_id: roleToCheck('Orang Tua') ? props.orangTua.id : '',
+    nama_orang_tua: roleToCheck('Orang Tua') ? props.orangTua.nama : '',
 
 })
 const NamaOrangTua= ref('')
