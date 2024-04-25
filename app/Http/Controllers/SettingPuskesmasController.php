@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Puskesmas;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StorePuskesmasRequest;
 use App\Http\Requests\UpdatePuskesmasRequest;
-use Illuminate\Support\Facades\Request;
 
 class SettingPuskesmasController extends Controller
 {
@@ -18,7 +19,7 @@ class SettingPuskesmasController extends Controller
     public function index()
     {
         $puskesmass = Puskesmas::all();
-        return Inertia::render('Puskesmas/index', ['puskesmas' => $puskesmass]);
+        return Inertia::render('SettingPuskesmas/index', ['puskesmas' => $puskesmass]);
     }
 
     /**
@@ -28,7 +29,9 @@ class SettingPuskesmasController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Puskesmas/create');
+        return Inertia::render('SettingPuskesmas/Update', [
+            'puskesmas' => Puskesmas::find(1),
+        ]);
     }
 
     /**
@@ -41,48 +44,60 @@ class SettingPuskesmasController extends Controller
     {
         $validatedData = $request->all();
 
-        Puskesmas::create($validatedData);
+        // Foto Profile
+        if ($request->file('foto_profile') != null) {
+            $this->destroyFotoProfile();
+            $nama_foto_profile = $request->file('foto_profile')->getClientOriginalName();
+            $ext_foto_profile = $request->file('foto_profile')->getClientOriginalExtension();
+            $file_foto_profile = 'puskesmas/' . md5($nama_foto_profile) . '.' . $ext_foto_profile;
+            $request->file('foto_profile')->storeAs('public/', $file_foto_profile);
+        } else {
+            $file_foto_profile = null;
+        }
 
-        return redirect()->route('SettingPuskesmas.index')->with('message', 'Puskesmas baru berhasil ditambahkan!');
+        // Logo
+        if ($request->file('logo') != null) {
+            $this->destroyFotoProfile();
+            $nama_logo = $request->file('logo')->getClientOriginalName();
+            $ext_logo = $request->file('logo')->getClientOriginalExtension();
+            $file_logo = 'puskesmas/' . md5($nama_logo) . '.' . $ext_logo;
+            $request->file('logo')->storeAs('public/', $file_logo);
+        } else {
+            $file_logo = null;
+        }
+
+
+        $validatedData['foto_profile'] = $file_foto_profile;
+        $validatedData['logo'] = $file_logo;
+
+        $puskesmass = Puskesmas::find(1);
+        if ($puskesmass == null) {
+            Puskesmas::create($validatedData);
+        }else{
+            $puskesmass->update($validatedData);
+        }
+
+        return redirect()->route('SettingPuskesmas.create')->with('message', 'Puskesmas baru berhasil Di Update!');
     }
 
-    /**
-     * Tampilan form edit Puskesmas
-     *
-     * @param  int  $id
-     * @return \Inertia\Response
-     */
-    public function edit(Puskesmas $puskesmas)
+    public function destroyFotoProfile()
     {
-        return Inertia::render('Puskesmas/edit', ['puskesmas' => $puskesmas]);
+        $puskesmass = Puskesmas::find(1);
+        if ($puskesmass !== null) {
+            $name = $puskesmass->foto_profile;
+            if (Storage::disk('public')->exists($name)) {
+                Storage::disk('public')->delete($name);
+            }
+        }
     }
-
-    /**
-     * Memperbarui data Puskesmas
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePuskesmasRequest $request, Puskesmas $puskesmas)
+    public function destroyLogo()
     {
-        $validatedData = $request->all();
-
-        $puskesmas->find($request->slug)->update($validatedData);
-
-        return redirect()->route('SettingPuskesmas.index')->with('message', 'Data Puskesmas berhasil diperbarui!');
-    }
-
-    /**
-     * Menghapus data Puskesmas
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Puskesmas $puskesmas,)
-    {
-        $puskesmas->find(Request::input('slug'))->delete();
-
-        return redirect()->route('SettingPuskesmas.index')->with('message', 'Data Puskesmas berhasil dihapus!');
+        $puskesmass = Puskesmas::find(1);
+        if ($puskesmass !== null) {
+            $name = $puskesmass->logo;
+            if (Storage::disk('public')->exists($name)) {
+                Storage::disk('public')->delete($name);
+            }
+        }
     }
 }

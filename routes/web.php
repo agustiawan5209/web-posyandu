@@ -10,6 +10,7 @@ use App\Http\Controllers\PegawaiPosyanduController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatImunisasiController;
 use App\Http\Controllers\SertifikatController;
+use App\Http\Controllers\SettingPuskesmasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -138,15 +139,10 @@ Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(fu
     });
 
     // Route Setting Puskesma
-    Route::group(['prefix' => 'data-puskesmas', 'as' => "SettingPuskesmas."], function () {
-        Route::controller(SertifikatController::class)->group(function () {
-            Route::get('/data-puskesmas', 'index')->name('index');
-            Route::get('/tambah-data-puskesmas', 'create')->name('create');
-            Route::get('/edit-data-puskesmas', 'edit')->name('edit');
-            Route::get('/detail-data-puskesmas', 'show')->name('show');
+    Route::group(['prefix' => 'setting-puskesmas', 'as' => "SettingPuskesmas."], function () {
+        Route::controller(SettingPuskesmasController::class)->group(function () {
+            Route::get('/', 'create')->name('create');
             Route::post('/store-data-puskesmas', 'store')->name('store');
-            Route::put('/update-data-puskesmas', 'update')->name('update');
-            Route::delete('/hapus-data-puskesmas', 'destroy')->name('destroy');
         });
     });
 });

@@ -11,7 +11,7 @@ class StorePuskesmasRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class StorePuskesmasRequest extends FormRequest
         return [
             'nama_puskesmas' => 'required|string|max:50',
             'kepala_puskesmas'=> 'required|string|max:50',
-            'foto_profile'=> 'required|string|image|mimes:png,jpg',
+            'foto_profile'=> 'nullable|string|image|mimes:png,jpg',
             'alamat' => 'required|string|max:255',
             'logo' => 'nullable|string|image|mimes:png,jpg',
             'visi'=> 'required|string',
