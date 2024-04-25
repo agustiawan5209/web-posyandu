@@ -43,37 +43,36 @@ class SettingPuskesmasController extends Controller
     public function store(StorePuskesmasRequest $request)
     {
         $validatedData = $request->all();
+        $puskesmass = Puskesmas::find(1);
 
         // Foto Profile
+        $file_logo = $puskesmass->logo;
+        $file_foto_profile = $puskesmass->foto_profile;
+
         if ($request->file('foto_profile') != null) {
             $this->destroyFotoProfile();
             $nama_foto_profile = $request->file('foto_profile')->getClientOriginalName();
             $ext_foto_profile = $request->file('foto_profile')->getClientOriginalExtension();
             $file_foto_profile = 'puskesmas/' . md5($nama_foto_profile) . '.' . $ext_foto_profile;
             $request->file('foto_profile')->storeAs('public/', $file_foto_profile);
-        } else {
-            $file_foto_profile = null;
         }
 
         // Logo
         if ($request->file('logo') != null) {
-            $this->destroyFotoProfile();
+            $this->destroyLogo();
             $nama_logo = $request->file('logo')->getClientOriginalName();
             $ext_logo = $request->file('logo')->getClientOriginalExtension();
             $file_logo = 'puskesmas/' . md5($nama_logo) . '.' . $ext_logo;
             $request->file('logo')->storeAs('public/', $file_logo);
-        } else {
-            $file_logo = null;
         }
 
 
         $validatedData['foto_profile'] = $file_foto_profile;
         $validatedData['logo'] = $file_logo;
 
-        $puskesmass = Puskesmas::find(1);
         if ($puskesmass == null) {
             Puskesmas::create($validatedData);
-        }else{
+        } else {
             $puskesmass->update($validatedData);
         }
 

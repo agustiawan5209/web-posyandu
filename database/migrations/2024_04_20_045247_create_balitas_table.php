@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('balitas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('org_tua_id')->unsigned();
-            $table->foreign('org_tua_id')->references('id')->on('orang_tuas');
             $table->string('nik', 16);
             $table->string('nama', 50);
             $table->string('tempat_lahir', 50);

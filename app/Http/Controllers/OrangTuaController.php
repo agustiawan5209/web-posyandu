@@ -53,7 +53,7 @@ class OrangTuaController extends Controller
     {
         return Inertia::render('OrangTua/Form',[
             'can'=>[
-                'add'=> 'add balita',
+                'add'=> Auth::user()->can('add balita'),
             ]
         ]);
     }
@@ -114,7 +114,7 @@ class OrangTuaController extends Controller
         return Inertia::render('OrangTua/Show', [
             'orangTua' => $orangTua->with(['balita', 'user'])->find(Request::input('slug')),
             'can'=>[
-                'add'=> 'add balita',
+                'add'=> Auth::user()->can('add balita'),
             ]
         ]);
     }
@@ -168,11 +168,10 @@ class OrangTuaController extends Controller
      */
     public function destroy(OrangTua $orangTua)
     {
-        $orangTua = OrangTua::with('balita')->find(Request::input('slug'));
+        $orangTua = OrangTua::with(['balita'])->find(Request::input('slug'));
         $data = $orangTua->nama;
-
-        if($orangTua->anak->count() > 0){
-            $data = 'Data Dihapus Dengan '. $orangTua->anak->count() .' Data Balita';
+        if($orangTua->balita->count() > 0){
+            $data = 'Data Dihapus Dengan '. $orangTua->balita->count() .' Data Balita';
         }
         $orangTua->delete();
 

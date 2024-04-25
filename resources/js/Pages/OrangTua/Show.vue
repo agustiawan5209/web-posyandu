@@ -77,6 +77,7 @@ const HitungUsia = (tgl) => {
     const days = Math.floor((remainingMs % 2592000000) / 86400000);
     return `Usia: ${ageInYears} Tahun, ${months} Bulan, ${days} Hari`;
 }
+console.log(props.can)
 </script>
 
 <template>
