@@ -36,6 +36,8 @@ const Form = useForm({
     tgl_lahir: '',
     jenkel: '',
     org_tua_id: roleToCheck() ? Page.user.id : '',
+    // nama_orang_tua: roleToCheck() ? Page.user.nama : '',
+
 })
 const NamaOrangTua= ref('')
 function submit() {

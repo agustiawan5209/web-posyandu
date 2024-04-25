@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
 
                 ]);
             })
-            ->has(OrangTua::factory()->has(Balita::factory()->has(RiwayatImunisasi::factory()->count(10)->state(function (array $attributes, Balita $balita) {
+            ->has(OrangTua::factory()->has(Balita::factory()->has(RiwayatImunisasi::factory()->count(1)->state(function (array $attributes, Balita $balita) {
                 return [
                     'balita_id' => $balita->id,
 
@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
                         'kesehatan' => fake()->randomElement(['Baik', 'Buruk']),
                     ],
                 ];
-            }))->count(3))->count(1))
+            }))->count(1))->count(1))
             ->create();
         $org = User::factory(30)
             ->afterCreating(function (User $user) {

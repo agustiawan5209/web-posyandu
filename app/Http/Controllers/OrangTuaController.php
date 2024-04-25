@@ -170,10 +170,12 @@ class OrangTuaController extends Controller
     {
         $orangTua = OrangTua::with(['balita'])->find(Request::input('slug'));
         $data = $orangTua->nama;
+        $user = $orangTua->user->id;
         if($orangTua->balita->count() > 0){
             $data = 'Data Dihapus Dengan '. $orangTua->balita->count() .' Data Balita';
         }
-        $orangTua->delete();
+        User::find($user)->delete();
+        // $orangTua->delete();
 
         return redirect()->route('OrangTua.index')->with('message', 'Data orang tua berhasil dihapus!. '. $data);
     }

@@ -18,7 +18,8 @@ class Balita extends Model
         'tgl_lahir',
         'tempat_lahir',
         'jenkel',
-        'org_tua_id'
+        'org_tua_id',
+        'nama_orang_tua',
     ];
 
     // reation
@@ -34,8 +35,6 @@ class Balita extends Model
 
     protected $appends = [
         'hitung_usia',
-        'nama_orang_tua',
-
     ];
 
     public function hitungUsia(): Attribute
@@ -52,15 +51,8 @@ class Balita extends Model
 
             $ageInDays = $dateNow->diffInDays($tglLahir) % $ageInMonths;
         }
-        // dd($dateNow->diffInDays($tglLahir) % 0);
         return new Attribute(
             get: fn () => "Usia: {$ageInYears} Tahun, {$ageInMonths} Bulan, {$ageInDays} Hari",
-        );
-    }
-    public function namaOrangTua(): Attribute
-    {
-        return new Attribute(
-            get: fn () => $this->orangTua != null ?$this->orangTua->nama: null,
         );
     }
 

@@ -44,6 +44,8 @@ class DashboardController extends Controller
 
     public function dashboardPengguna()
     {
+        // Auth::logout();
+        // dd(Auth::user()->orangtua);
         return Inertia::render('User/Dashboard',[
             'pengguna'=> User::role('Orang Tua')->count(),
             'balita'=> Balita::where('org_tua_id', '=', Auth::user()->orangtua->id)->count(),

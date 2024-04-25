@@ -24,6 +24,7 @@ class BalitaFactory extends Factory
             'tgl_lahir' => fake()->dateTimeBetween('-3 years', '0 years')->format('Y-m-d'),
             'jenkel' => fake()->randomElement(['Laki-laki', 'Perempuan']),
             'org_tua_id' => OrangTua::factory(),
+            'nama_orang_tua'=> OrangTua::factory(),
         ];
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tempat_lahir', 50);
             $table->date('tgl_lahir');
             $table->enum('jenkel', ['Laki-Laki','Perempuan']);
+            $table->string('nama_orang_tua');
             $table->timestamps();
         });
     }
