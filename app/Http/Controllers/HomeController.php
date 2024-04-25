@@ -21,7 +21,7 @@ class HomeController extends Controller
 
     public function jadwal(){
         return Inertia::render('Home/JadwalImunisasi',[
-            'jadwal'=> JadwalImunisasi::orderBy('tanggal','asc')->get(),
+            'jadwal'=> JadwalImunisasi::orderBy('tanggal','desc')->get(),
         ]);
     }
 }

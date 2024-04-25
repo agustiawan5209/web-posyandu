@@ -21,11 +21,11 @@ const Navigate = ref(false);
 
 <template>
 
-    <nav class="flex items-center justify-between flex-wrap bg-primary p-6 z-50">
-        <div class="flex items-center flex-shrink-0 text-white mr-6">
+    <nav class="flex items-center justify-between flex-wrap bg-primary  z-50">
+        <div class="flex items-center flex-shrink-0 text-white mr-6 p-6">
             <span class="font-semibold text-xl tracking-tight">UPT Puskesmas Karassing</span>
         </div>
-        <div class="block lg:hidden" @click="Navigate = !Navigate">
+        <div class="block lg:hidden p-6" @click="Navigate = !Navigate">
             <button
                 class="flex items-center px-3 py-2 border rounded text-green-200 border-green-400 hover:text-white hover:border-white">
                 <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -36,22 +36,28 @@ const Navigate = ref(false);
         </div>
         <div class="w-full hidden md:block flex-grow lg:flex lg:items-center lg:w-auto">
             <div class="text-sm lg:flex-grow">
-                <Link :href="route('home')"
-                    class="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4">
+                <Link :href="route('home')" :class="route().current('home') ? 'text-white hover:text-green-300 border-white ' : 'text-green-200 hover:text-white border-transparent'"
+                    class="p-3 block mt-4 lg:inline-block font-medium lg:mt-0 border  rounded-lg ">
+                    <font-awesome-icon :icon="['fas','home']"/>
                 Beranda
                 </Link>
                 <Link :href="route('Home.jadwal')"
-                    class="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4">
+                :class="route().current('Home.jadwal') ? 'text-white hover:text-green-300 border-white ' : 'text-green-200 hover:text-white border-transparent'"
+                    class="p-3 block mt-4 lg:inline-block font-medium lg:mt-0  border  rounded-lg ">
+                    <font-awesome-icon :icon="['fas','file-lines']"/>
+
                 Jadwal
                 </Link>
-                <a href="#" class="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4">
+                <a href="#" class="p-3 block mt-4 lg:inline-block font-medium lg:mt-0 text-green-200 hover:text-white">
+                    <font-awesome-icon :icon="['fas', 'square-phone-flip']" />
                     Emergensi 1-500-911
                 </a>
-                <a href="#" class="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4">
+                <a href="#" class="p-3 block mt-4 lg:inline-block font-medium lg:mt-0 text-green-200 hover:text-white">
+                    <font-awesome-icon :icon="['fas', 'circle-info']" />
                     Informasi
                 </a>
             </div>
-            <div class="flex flex-wrap justify-between gap-4">
+            <div class="flex flex-wrap justify-between gap-4 p-6">
                 <Link :href="route('login')"
                     class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-primary hover:bg-white mt-4 lg:mt-0">
                 Masuk</Link>
@@ -63,21 +69,21 @@ const Navigate = ref(false);
         <transition name="fade-left">
             <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto" v-if="Navigate">
                 <div class="text-sm lg:flex-grow">
-                    <a href="#" class="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4">
+                    <a href="#" class="px-6 block mt-4  lg:inline-block font-medium lg:mt-0 text-green-200 hover:text-white mr-4">
                         Pasien & Pengunjung
                     </a>
                     <Link :href="route('Home.jadwal')"
-                        class="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4">
+                        class="px-6 block mt-4 lg:inline-block font-medium lg:mt-0 text-green-200 hover:text-white mr-4">
                     Jadwal
                     </Link>
-                    <a href="#" class="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4">
+                    <a href="#" class="px-6 block mt-4 lg:inline-block font-medium lg:mt-0 text-green-200 hover:text-white mr-4">
                         Emergensi 1-500-911
                     </a>
-                    <a href="#" class="block mt-4 lg:inline-block lg:mt-0 text-green-200 hover:text-white mr-4">
+                    <a href="#" class="px-6 block mt-4 lg:inline-block font-medium lg:mt-0 text-green-200 hover:text-white mr-4">
                         Informasi
                     </a>
                 </div>
-                <div class="flex flex-wrap justify-between gap-4">
+                <div class="flex flex-wrap justify-between gap-4 p-6">
                     <Link :href="route('login')"
                         class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-primary hover:bg-white mt-4 lg:mt-0">
                     Masuk</Link>
@@ -93,7 +99,7 @@ const Navigate = ref(false);
         <slot />
     </main>
 
-    <footer class=" divide-y bg-gray-100">
+    <footer class=" divide-y bg-white">
         <div class="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
             <div class="lg:w-1/3">
                 <a rel="noopener noreferrer" href="#" class="flex justify-center space-x-3 lg:justify-start">

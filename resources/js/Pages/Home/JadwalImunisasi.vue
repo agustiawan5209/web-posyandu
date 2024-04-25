@@ -30,9 +30,9 @@ const NonactiveClass = 'text-gray-400';
 
         <div class="container mx-auto overflow-hidden md:px-6 2xl:px-0 xl:max-w-7xl relative">
             <img :src="'/images/svg/Segmentation-bro.svg'" class="fixed top-0 w-1/2 object-contain opacity-25 -z-20" />
-            <div class="flex flex-col gap-6 md:gap-16 pb-16 pt-6 z-50">
+            <div class="flex flex-col gap-6 md:gap-12 pb-16 pt-6 z-50">
                 <div>
-                    <div class="flex flex-col lg:items-center pt-1 md:pt-16 gap-6 mb-1 md:mb-10">
+                    <div class="flex flex-col lg:items-center pt-1 md:pt-16 gap-6 mb-1 md:mb-3">
                         <h1 class="text-[28px] text-center md:text-4xl font-medium leading-[51px] md:leading-[58px] text-gray-900">
                            Jadwal Imunisasi UPT Puskesmas Karassing
                         </h1>
@@ -40,9 +40,9 @@ const NonactiveClass = 'text-gray-400';
                     </div>
                 </div>
                 <transition  name="fade">
-                    <main class="flex lg:gap-44"  >
+                    <main class="flex lg:gap-22"  >
                         <div class="flex flex-col justify-between gap-8 w-full h-full" v-if="jadwal.length > 0">
-                            <table class="w-full text-sm text-left text-gray-500 bg-white">
+                            <table class="w-full text-xs text-left text-gray-500 bg-white">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                     <tr>
                                         <th scope="col" class="px-4 py-3">No.</th>
