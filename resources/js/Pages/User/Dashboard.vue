@@ -37,7 +37,7 @@ const props = defineProps({
                                 class="w-full mb-5 text-xs sm:text-sm md:text-base lg:text-4xl text-center font-bold !leading-[1.208] text-white z-10">
                                 Selamat Datang Di
                                 <span class="text-base-light">Sistem Informasi </span>
-                                Puskesmas Bonto Ujung.
+                                UPT Puskesmas Karassing.
                             </h1>
 
 

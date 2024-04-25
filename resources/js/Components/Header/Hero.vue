@@ -20,10 +20,10 @@
                     </svg>
                     <span class="relative">Puskesmas</span>
                 </span>
-                Desa Bonto Ujung
+                Desa Karassing
             </h2>
             <p class="text-base text-gray-700 md:text-lg">
-                Website ini dibuat untuk mengenalkan Puskesmas Kecamatan Desa Bonto Ujung kepada masyarakat luas. Berisi berbagai macam informasi terkait baik pelayanan maupun kegiatan yang ada di Puskesmas Kecamatan Desa Bonto Ujung.
+                Website ini dibuat untuk mengenalkan Puskesmas Kecamatan Desa Karassing kepada masyarakat luas. Berisi berbagai macam informasi terkait baik pelayanan maupun kegiatan yang ada di Puskesmas Kecamatan Desa Karassing.
                 <br>
                 <br>
                 Pengunjung website ini juga dapat menggunakan fitur untuk melihat grafik perkembangan anak dan jadwal imunisasi yang disediakan oleh puskemas

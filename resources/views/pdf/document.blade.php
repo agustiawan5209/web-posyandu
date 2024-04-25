@@ -44,7 +44,7 @@
                 </td>
                 <td style="max-width: 600px; margin: 0 auto; text-align: center;">
                     <h1 style="color: #333333; margin: 0;">Dinas Kesehatan Kabupaten Bantaeng</h1>
-                    <p style="color: #666666; margin: 10px 0;">Puskesmas Desa Bonto Ujung</p>
+                    <p style="color: #666666; margin: 10px 0;">Puskesmas Desa Karassing</p>
                     <p style="color: #666666; margin: 10px 0;">Telepon: 123-456-7890 | Email: info@perusahaan.com</p>
                 </td>
             </tr>
@@ -132,7 +132,7 @@
     <div style="width:100%; padding: 0px 0px; ">
         <table style="position: absolute; right:150px; bottom:270px; margin-top: 30px;">
             <tr>
-                <td style="font-weight: 700; padding: 4px 0px;"> Desa Bonto Ujung, {{ date('j F Y') }}</td>
+                <td style="font-weight: 700; padding: 4px 0px;"> Desa Karassing, {{ date('j F Y') }}</td>
             </tr>
             <tr>
                 <td style="font-weight: 700; padding: 20px 0px;"></td>

@@ -2,18 +2,15 @@
 
 use App\Http\Controllers\BalitaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalImunisasiController;
-use App\Http\Controllers\MasterController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PegawaiPosyanduController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatImunisasiController;
 use App\Http\Controllers\SertifikatController;
-use App\Models\PegawaiPosyandu;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,14 +23,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [HomeController::class ,'index'])->name('home');
+Route::get('/jadwal-imunisasi-puskesmas', [HomeController::class ,'jadwal'])->name('Home.jadwal');
 
 Route::get('/validate-user', [DashboardController::class, 'validate'])->middleware(['auth', 'verified'])->name('validate');
 

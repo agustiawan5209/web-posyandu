@@ -131,7 +131,7 @@ class ApiModelController extends Controller
         foreach ($jadwal as $key => $value) {
             $data[] = [
                 'tanggal' => $value->tanggal,
-                'deskripsi' => $value->deskripsi,
+                'deskripsi' => $value->jenis_imunisasi,
             ];
             $tanggal[] = $value->tanggal;
         }
