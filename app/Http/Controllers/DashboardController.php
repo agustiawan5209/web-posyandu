@@ -31,6 +31,8 @@ class DashboardController extends Controller
 
         if(in_array('Orang Tua', $role)){
             return redirect()->route('dashboard.pengguna');
+        }else{
+            Auth::logout();
         }
     }
 
