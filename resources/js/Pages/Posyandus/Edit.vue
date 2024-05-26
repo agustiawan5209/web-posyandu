@@ -9,20 +9,18 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { ref, defineProps, watch, onMounted } from 'vue';
+import axios from 'axios';
 
 const props = defineProps({
     posyandus: {
         type: Object,
-        default: () => ({}),
+        default:()=>({})
     }
 })
 const Form = useForm({
     slug: props.posyandus.id,
-    usia: props.posyandus.usia,
-    tanggal: props.posyandus.tanggal,
-    jenis_imunisasi: props.posyandus.jenis_imunisasi,
-    deskripsi: props.posyandus.deskripsi,
-    penanggung_jawab: props.posyandus.penanggung_jawab,
+    nama: props.posyandus.nama,
+    alamat: props.posyandus.alamat,
 })
 
 function submit() {
@@ -33,62 +31,6 @@ function submit() {
     });
 }
 
-const PJ = ref(Form.penanggung_jawab);
-const changeSelect = ref([]);
-const SelectElement = ref(null);
-const OptiontElement = ref([]);
-const ShowSelect = ref(false);
-
-
-function changeELementSelect(event) {
-    axios.get(route('api.user.getUser', { search: event.value }))
-        .then((response) => {
-            if (response.status == 200) {
-                const element = response.data;
-
-                ShowSelect.value = true;
-                if (SelectElement.value) {
-                    const childElements = SelectElement.value.childNodes
-                    // loop through the child elements and remove them
-                    while (childElements.length > 0) {
-                        SelectElement.value.removeChild(childElements[0])
-                    }
-                }
-
-
-                OptiontElement.value = [];
-                for (let i = 0; i < element.length; i++) {
-                    const User = element[i];
-                    const Option = document.createElement('option');
-                    Option.value = User.name;
-                    Option.innerText = User.name;
-                    if (SelectElement.value) {
-                        SelectElement.value.appendChild(Option);
-                    }
-                    OptiontElement.value[i] = Option;
-                }
-                // console.log(OptiontElement.value)
-
-            }
-        })
-}
-onMounted(() => {
-    // watch(PJ, (value) => {
-
-    // })
-
-
-    // watch for changes to the input element's value
-    watch(changeSelect, (value) => {
-        PJ.value = new String(value[0]).toString();
-        Form.penanggung_jawab = value[0];
-        ShowSelect.value = false;
-
-
-    })
-})
-
-
 </script>
 
 <template>
@@ -97,7 +39,7 @@ onMounted(() => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Tambah Posyandu</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Edit Posyandu</h2>
         </template>
 
         <div class="py-4 relative box-content">
@@ -106,57 +48,26 @@ onMounted(() => {
                     class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1">
                         <p class="font-medium">Data Informasi Posyandu</p>
-                        <p class="text-xs">Tambahkan data pegawai/staff dari puskesmas</p>
+                        <p class="text-xs">Edit data</p>
                     </div>
-                    <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
+                    <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50 relative box-content">
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                             <div class="col-span-full sm:col-span-3">
-                                <label for="usia" class="text-sm">Usia</label>
-                                <TextInput id="usia" type="text" placeholder="0 - 5 Tahun" v-model="Form.usia"
+                                <label for="nama" class="text-sm">Nama Posyandu</label>
+                                <TextInput id="nama" type="text" placeholder="..............." v-model="Form.nama"
                                     class="w-full text-gray-900" />
-                                <InputError :message="Form.errors.usia" />
+                                <InputError :message="Form.errors.nama" />
                             </div>
                             <div class="col-span-full sm:col-span-3">
-                                <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <TextInput id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
-                                    placeholder="Jenis Imunisasi" class="w-full text-gray-900" />
-                                <InputError :message="Form.errors.jenis_imunisasi" />
-
-                            </div>
-                            <div class="col-span-full sm:col-span-2">
-                                <label for="tanggal" class="text-sm">Tanggal</label>
-                                <TextInput id="tanggal" type="text" v-model="Form.tanggal" placeholder="tanggal..."
+                                <label for="alamat" class="text-sm">Alamat Posyandu</label>
+                                <TextInput id="alamat" type="text" placeholder="..............." v-model="Form.alamat"
                                     class="w-full text-gray-900" />
-                                <InputError :message="Form.errors.tanggal" />
-
-                            </div>
-
-                            <div class="col-span-full sm:col-span-2 relative">
-                                <label for="penanggung_jawab" class="text-sm">Penanggung Jawab</label>
-                                <TextInput id="penanggung_jawab" type="text" placeholder="Penanggung Jawab" v-model="Form.penanggung_jawab"
-                                    class="w-full text-gray-900" />
-
-                                <div class="w-full mx-auto absolute z-10 -bottom-24" v-if="ShowSelect">
-                                    <select id="countries" multiple ref="SelectElement" v-model="changeSelect"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                        <option selected>Choose a country</option>
-                                    </select>
-                                </div>
-                                <InputError :message="Form.errors.penanggung_jawab" />
-                            </div>
-
-                            <div class="col-span-full">
-                                <label for="deskripsi" class="text-sm">deskripsi</label>
-                                <quill-editor id="deskripsi" contentType="html" theme="snow"
-                                    v-model:content="Form.deskripsi" placeholder="@deskripsi"
-                                    class="w-full text-gray-900" />
-                                <InputError :message="Form.errors.deskripsi" />
+                                <InputError :message="Form.errors.alamat" />
 
                             </div>
                         </div>
                         <PrimaryButton type="submit" class="col-span-full mt-20 text-center z-[100]">Simpan
                         </PrimaryButton>
-
                     </fieldset>
                 </form>
             </section>

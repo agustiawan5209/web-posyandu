@@ -20,7 +20,7 @@ class PosyanduController extends Controller
         $tableName = 'posyandus'; // Ganti dengan nama tabel yang Anda inginkan
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
 
-        // dd(OrangTua::with(['anak'])->find(1));
+        // dd(Posyandu::with(['kader'])->find(1));
 
         return Inertia::render('Posyandus/Index', [
             'search' =>  Request::input('search'),
@@ -69,7 +69,7 @@ class PosyanduController extends Controller
      */
     public function edit(Posyandu $posyandu)
     {
-        return Inertia::render('Posyandus/Form', [
+        return Inertia::render('Posyandus/Edit', [
             'posyandus'=> $posyandu->find(Request::input('slug')),
         ]);
     }

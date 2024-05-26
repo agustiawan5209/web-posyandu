@@ -15,11 +15,8 @@ const props = defineProps({
 
 })
 const Form = useForm({
-    usia: '',
-    tanggal: '',
-    jenis_imunisasi: '',
-    deskripsi: '',
-    penanggung_jawab: '',
+    nama: '',
+    alamat: '',
 })
 
 function submit() {
@@ -29,88 +26,6 @@ function submit() {
         }
     });
 }
-
-const PJ = ref('');
-const changeSelect = ref(0);
-const SelectElement = ref(null);
-const OptiontElement = ref([]);
-const ShowSelect = ref(false);
-
-function searchPengguna(value) {
-
-    if (value.length > 0) {
-        axios.get(route('api.user.getUser', { search: value }))
-            .then((response) => {
-                if (response.status == 200) {
-                    const element = response.data;
-                    ShowSelect.value = true;
-
-                    if (SelectElement.value) {
-                        const childElements = SelectElement.value.childNodes
-                        // loop through the child elements and remove them
-                        while (childElements.length > 0) {
-                            SelectElement.value.removeChild(childElements[0])
-                        }
-                    }
-
-
-                    OptiontElement.value = [];
-                    for (let i = 0; i < element.length; i++) {
-                        const User = element[i];
-                        const Option = document.createElement('option');
-                        Option.value = User.name;
-                        Option.innerText = User.name;
-                        if (SelectElement.value) {
-                            SelectElement.value.appendChild(Option);
-                        }
-                        OptiontElement.value[i] = Option;
-                    }
-                    // console.log(OptiontElement.value)
-
-                }
-            })
-    } else {
-        ShowSelect.value = false;
-
-    }
-}
-
-function SelectChangeElement(event) {
-    PJ.value = event.target.value;
-    Form.penanggung_jawab = event.target.value;
-    if (SelectElement.value) {
-        const childElements = SelectElement.value.childNodes
-        // loop through the child elements and remove them
-        console.log(childElements.length)
-        SelectElement.value.removeChild(childElements[0])
-        if (childElements.length < 1) {
-            changeSelect.value = 1;
-
-        }
-    }
-
-}
-onMounted(() => {
-    // watch(PJ, (value) => {
-    //     searchPengguna(value)
-    // })
-
-})
-
-const JenisImunisasi = ref([
-    'Vitamin A - 1',
-    'Vitamin A - 2',
-    'Oralit',
-    'BH (NOL)',
-    'BCG',
-    'POLIO - 1',
-    'POLIO - 2',
-    'POLIO - 3',
-    'DPT/HB - 1',
-    'DPT/HB - 2',
-    'DPT/HB - 3',
-    'Campak',
-]);
 
 </script>
 
@@ -129,55 +44,21 @@ const JenisImunisasi = ref([
                     class="container flex flex-col mx-auto space-y-12">
                     <div class="space-y-2 col-span-full lg:col-span-1">
                         <p class="font-medium">Data Informasi Posyandu</p>
-                        <p class="text-xs">Tambahkan data pegawai/staff dari puskesmas</p>
+                        <p class="text-xs">Tambahkan data</p>
                     </div>
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50 relative box-content">
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                             <div class="col-span-full sm:col-span-3">
-                                <label for="usia" class="text-sm">Usia</label>
-                                <TextInput id="usia" type="text" placeholder="0 - 5 Tahun" v-model="Form.usia"
+                                <label for="nama" class="text-sm">Nama Posyandu</label>
+                                <TextInput id="nama" type="text" placeholder="..............." v-model="Form.nama"
                                     class="w-full text-gray-900" />
-                                <InputError :message="Form.errors.usia" />
+                                <InputError :message="Form.errors.nama" />
                             </div>
                             <div class="col-span-full sm:col-span-3">
-                                <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <select id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
-                                    placeholder="Jenis Imunisasi" class="border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm" >
-                                <option value="">---</option>
-                                <option v-for="item in JenisImunisasi" :value="key">{{key}}</option>
-                                </select>
-                                <InputError :message="Form.errors.jenis_imunisasi" />
-
-                            </div>
-                            <div class="col-span-full sm:col-span-2">
-                                <label for="tanggal" class="text-sm">Tanggal</label>
-                                <TextInput id="tanggal" type="date" v-model="Form.tanggal" placeholder="tanggal..."
+                                <label for="alamat" class="text-sm">Alamat Posyandu</label>
+                                <TextInput id="alamat" type="text" placeholder="..............." v-model="Form.alamat"
                                     class="w-full text-gray-900" />
-                                <InputError :message="Form.errors.tanggal" />
-
-                            </div>
-
-                            <div class="col-span-full sm:col-span-2 relative">
-                                <label for="penanggung_jawab" class="text-sm">Penanggung Jawab</label>
-                                <TextInput id="penanggung_jawab" type="text" placeholder="Penanggung Jawab"
-                                    v-model="Form.penanggung_jawab" class="w-full text-gray-900" />
-
-                                <div class="w-full mx-auto absolute z-10 -bottom-24" v-if="ShowSelect">
-                                    <select id="countries" multiple ref="SelectElement"
-                                        @change="SelectChangeElement($event)"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                    </select>
-                                </div>
-
-                                <InputError :message="Form.errors.penanggung_jawab" />
-                            </div>
-
-                            <div class="col-span-full relative box-content">
-                                <label for="deskripsi" class="text-sm">Deskripsi</label>
-                                <quill-editor id="deskripsi" contentType="html" theme="snow"
-                                    v-model:content="Form.deskripsi" placeholder="@deskripsi"
-                                    class="w-full h-full text-gray-900 relative" />
-                                <InputError :message="Form.errors.deskripsi" />
+                                <InputError :message="Form.errors.alamat" />
 
                             </div>
                         </div>
