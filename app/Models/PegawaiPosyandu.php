@@ -12,6 +12,7 @@ class PegawaiPosyandu extends Model
     protected $table = 'pegawai_posyandus';
     protected $fillable = [
         'user_id',
+        'posyandus_id',
         'jabatan',
         'nama',
         'no_telpon',
@@ -21,6 +22,10 @@ class PegawaiPosyandu extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function posyandus()
+    {
+        return $this->belongsTo(Posyandu::class);
     }
 
      //  FIlter Data User

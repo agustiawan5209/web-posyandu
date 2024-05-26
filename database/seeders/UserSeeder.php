@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Balita;
 use App\Models\OrangTua;
 use App\Models\PegawaiPosyandu;
+use App\Models\Posyandu;
 use App\Models\RiwayatImunisasi;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -59,7 +60,9 @@ class UserSeeder extends Seeder
                     ->count(3))
                 ->count(1))
             ->create();
-        $org = User::factory(30)
+
+        $posyandu = Posyandu::factory(3)->create();
+        $org = User::factory(10)
             ->afterCreating(function (User $user) {
                 $role = Role::findByName('Kader'); // Replace 'user' with your actual role name
                 if ($role) {
@@ -95,6 +98,7 @@ class UserSeeder extends Seeder
                 PegawaiPosyandu::create([
                     'jabatan' => 'Kader',
                     'user_id' => $user->id,
+                    'posyandus_id' => fake()->randomElement(['1','2','3']),
                     'nama' => $user->name,
                     'alamat' => fake()->address(),
                     'no_telpon' => fake()->phoneNumber(),

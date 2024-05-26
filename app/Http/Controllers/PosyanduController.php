@@ -17,7 +17,7 @@ class PosyanduController extends Controller
      */
     public function index()
     {
-        $tableName = 'pegawai_posyandus'; // Ganti dengan nama tabel yang Anda inginkan
+        $tableName = 'posyandus'; // Ganti dengan nama tabel yang Anda inginkan
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
 
         // dd(OrangTua::with(['anak'])->find(1));

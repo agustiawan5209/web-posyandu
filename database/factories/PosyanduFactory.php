@@ -17,7 +17,8 @@ class PosyanduFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nama'=> fake()->randomElement(['Puskesmas 001', 'Puskesmas 002', 'Puskesmas 003']),
+            'alamat'=> fake()->address(),
         ];
     }
 }
