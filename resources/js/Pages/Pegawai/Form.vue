@@ -14,10 +14,15 @@ const props = defineProps({
     jabatan: {
         type: Object,
         default:()=>({})
-    }
+    },
+    posyandus: {
+        type: Object,
+        default:()=>({})
+    },
 })
 const Form = useForm({
     name:'',
+    posyandus_id:'',
     jabatan:'',
     alamat:'',
     username:'',
@@ -64,6 +69,15 @@ function submit() {
                                 <label for="no_telpon" class="text-sm">No. Telepon</label>
                                 <TextInput id="no_telpon" type="text" v-model="Form.no_telpon" placeholder="No. telpon" class="w-full text-gray-900"  />
                                 <InputError :message="Form.errors.no_telpon"/>
+
+                            </div>
+                            <div class="col-span-full sm:col-span-3">
+                                <label for="posyandus_id" class="text-sm">Posyandu</label>
+                                <select name="posyandus_id" id="posyandus_id" v-model="Form.posyandus_id" class="border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm w-full text-gray-900">
+                                    <option value="">-----</option>
+                                    <option v-for="pos in posyandus" :value="pos.id" >{{pos.nama}}</option>
+                                </select>
+                                <InputError :message="Form.errors.posyandus_id"/>
 
                             </div>
                             <div class="col-span-full sm:col-span-3">

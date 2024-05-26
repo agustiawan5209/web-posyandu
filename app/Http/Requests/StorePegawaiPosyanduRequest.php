@@ -25,6 +25,7 @@ class StorePegawaiPosyanduRequest extends FormRequest
     {
         return [
             // 'user_id' => 'required|integer|exists:users,id',
+            'posyandus_id' => 'sometimes|required|integer|exists:posyandus,id',
             'jabatan' => 'required',
             'name' => 'required|string|max:255',
             'no_telpon' => 'required|string|max:255',

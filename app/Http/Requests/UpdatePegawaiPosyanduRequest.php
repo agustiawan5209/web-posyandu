@@ -24,7 +24,7 @@ class UpdatePegawaiPosyanduRequest extends FormRequest
     {
         return [
             'slug' => 'required|integer|exists:pegawai_posyandus,id',
-            // 'user_id' => 'sometimes|required|integer|exists:users,id',
+            'posyandus_id' => 'sometimes|required|integer|exists:posyandus,id',
             'jabatan' => '|required',
             'name' => '|required|string|max:255',
             'no_telpon' => '|required|string|max:255',

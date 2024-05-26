@@ -18,10 +18,15 @@ const props = defineProps({
     pegawai: {
         type: Object,
         default:()=>({})
-    }
+    },
+    posyandus: {
+        type: Object,
+        default:()=>({})
+    },
 })
 const Form = useForm({
     slug: props.pegawai.id,
+    posyandus_id:props.pegawai.posyandus_id,
     name:props.pegawai.user.name,
     jabatan:props.pegawai.jabatan,
     alamat:props.pegawai.alamat,
@@ -78,6 +83,15 @@ function submit() {
                                     <option v-for="jab in jabatan" :value="jab.name" >{{jab.name}}</option>
                                 </select>
                                 <InputError :message="Form.errors.jabatan"/>
+
+                            </div>
+                            <div class="col-span-full sm:col-span-3">
+                                <label for="posyandus_id" class="text-sm">Posyandu</label>
+                                <select name="posyandus_id" id="posyandus_id" v-model="Form.posyandus_id" class="border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm w-full text-gray-900">
+                                    <option value="">-----</option>
+                                    <option v-for="pos in posyandus" :value="pos.id" >{{pos.nama}}</option>
+                                </select>
+                                <InputError :message="Form.errors.posyandus_id"/>
 
                             </div>
                             <div class="col-span-full">

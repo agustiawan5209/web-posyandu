@@ -2,7 +2,7 @@
     <div
         class="flex flex-col items-center justify-center max-w-4xl relative  px-4 mx-auto md:px-8 ">
 
-        <img :src="'/images/svg/hospital-building.svg'" class="w-full mx-auto object-contain md:w-auto relative "
+        <img :src="'/images/bg-app.jpg'" class="w-full mx-auto object-contain md:w-auto relative "
             alt="" />
         <div class="max-w-2xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
 

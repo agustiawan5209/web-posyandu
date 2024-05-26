@@ -14,6 +14,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StorePegawaiPosyanduRequest;
 use App\Http\Requests\UpdatePegawaiPosyanduRequest;
+use App\Models\Posyandu;
 
 class PegawaiPosyanduController extends Controller
 {
@@ -61,6 +62,8 @@ class PegawaiPosyanduController extends Controller
             'jabatan' => Role::whereNot('name', 'Orang Tua')->get(),
             'colums' => array_values($colums),
             'linkCreate' => 'Pegawai.store',
+            'posyandus'=> Posyandu::all(),
+
         ]);
     }
 
@@ -104,6 +107,7 @@ class PegawaiPosyanduController extends Controller
 
         PegawaiPosyandu::create([
             'user_id' => $user->id,
+            'posyandus_id'=> $request->posyandus_id,
             'nama' => $user->name,
             'jabatan' => $request->jabatan,
             'no_telpon' => $request->no_telpon,
@@ -136,6 +140,8 @@ class PegawaiPosyanduController extends Controller
         return Inertia::render('Pegawai/Edit', [
             'pegawai' => $pegawaiPosyandu->with(['user'])->find(Request::input('slug')),
             'jabatan' => Role::whereNot('name', 'Orang Tua')->get(),
+            'posyandus'=> Posyandu::all(),
+
         ]);
     }
 
@@ -160,6 +166,7 @@ class PegawaiPosyanduController extends Controller
         $user->removeRole($pegawai->jabatan);
 
         $pegawai->update([
+            'posyandus_id'=> $request->posyandus_id,
             'nama' => $request->name,
             'jabatan' => $request->jabatan,
             'no_telpon' => $request->no_telpon,

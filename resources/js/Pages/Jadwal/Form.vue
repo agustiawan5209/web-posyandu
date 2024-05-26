@@ -141,10 +141,12 @@ const JenisImunisasi = ref([
                             </div>
                             <div class="col-span-full sm:col-span-3">
                                 <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <select id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
-                                    placeholder="Jenis Imunisasi" class="border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm" >
-                                <option value="">---</option>
-                                <option v-for="item in JenisImunisasi" :value="key">{{key}}</option>
+                                <select id="jenis_imunisasi" v-model="Form.jenis_imunisasi"
+                                    class="w-full border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm text-black">
+                                    <option value="">---</option>
+                                    <option v-for="(item, key) in JenisImunisasi" :value="item" class="text-black">
+                                        {{ item }}
+                                    </option>
                                 </select>
                                 <InputError :message="Form.errors.jenis_imunisasi" />
 
