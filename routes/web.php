@@ -7,6 +7,7 @@ use App\Http\Controllers\JadwalImunisasiController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PegawaiPosyanduController;
+use App\Http\Controllers\PosyanduController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatImunisasiController;
 use App\Http\Controllers\SertifikatController;
@@ -144,6 +145,19 @@ Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(fu
         Route::controller(SettingPuskesmasController::class)->group(function () {
             Route::get('/', 'create')->name('create');
             Route::post('/store-data-puskesmas', 'store')->name('store');
+        });
+    });
+
+     // Router Posyandus
+     Route::group(['prefix' => 'posyandus', 'as' => "Posyandus."], function () {
+        Route::controller(PosyanduController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/tambah-data/posyandus', 'create')->name('create');
+            Route::get('/edit-data/posyandus', 'edit')->name('edit');
+            Route::get('/detail-data/posyandus', 'show')->name('show');
+            Route::post('/store-data/posyandus', 'store')->name('store');
+            Route::put('/update-data/posyandus', 'update')->name('update');
+            Route::delete('/hapus-data/posyandus', 'destroy')->name('destroy');
         });
     });
 });

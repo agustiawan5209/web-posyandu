@@ -78,6 +78,13 @@ function ArrayToString(){
                     <span class="group-hover:text-gray-700 capitalize">Jadwal Imunisasi</span>
                 </NavLink>
             </li>
+            <li v-if="roleToCheck('Kepala')">
+                <NavLink :href="route('Posyandus.index')"
+                    :active="route().current('Posyandus.index') || route().current('Posyandus.create') || route().current('Posyandus.edit') || route().current('Posyandus.show')"
+                    :icon="['far', 'calendar-days']">
+                    <span class="group-hover:text-gray-700 capitalize">Data Posyandu</span>
+                </NavLink>
+            </li>
             <!-- <li v-if="roleToCheck('Kader') || roleToCheck('Kepala')">
                 <NavLink href="#" :icon="['fas','chart-pie']">
                     <span class="group-hover:text-gray-700 capitalize">Data Balita Dan Ibu Hamil</span>

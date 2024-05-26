@@ -19,7 +19,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $rand = rand(1, 2);
         $org = User::factory(30)
             ->afterCreating(function (User $user) {
                 $role = Role::findByName('Orang Tua'); // Replace 'user' with your actual role name
@@ -38,22 +37,27 @@ class UserSeeder extends Seeder
 
                 ]);
             })
-            ->has(OrangTua::factory()->has(Balita::factory()->has(RiwayatImunisasi::factory()->count(1)->state(function (array $attributes, Balita $balita) {
-                return [
-                    'balita_id' => $balita->id,
-
-                    'data_imunisasi' => [
-                        'nama_orang_tua' => $balita->nama_orang_tua,
-                        'nama_anak' => $balita->nama,
-                        'usia_anak' => $balita->hitung_usia,
-                        'jenis_kelamin' => $balita->jenkel,
-                        'berat_badan' => fake()->numberBetween(3, 10),
-                        'tinggi_badan' => fake()->numberBetween(30, 100),
-                        'lingkar_kepala' => fake()->numberBetween(20, 50),
-                        'kesehatan' => fake()->randomElement(['Baik', 'Buruk']),
-                    ],
-                ];
-            }))->count(1))->count(1))
+            ->has(OrangTua::factory()
+                ->has(Balita::factory()
+                    ->has(RiwayatImunisasi::factory()
+                        ->count(2)
+                        ->state(function (array $attributes, Balita $balita) {
+                            return [
+                                'balita_id' => $balita->id,
+                                'data_imunisasi' => [
+                                    'nama_orang_tua' => $balita->nama_orang_tua,
+                                    'nama_anak' => $balita->nama,
+                                    'usia_anak' => $balita->hitung_usia,
+                                    'jenis_kelamin' => $balita->jenkel,
+                                    'berat_badan' => fake()->numberBetween(3, 10),
+                                    'tinggi_badan' => fake()->numberBetween(30, 100),
+                                    'lingkar_kepala' => fake()->numberBetween(20, 50),
+                                    'kesehatan' => fake()->randomElement(['Baik', 'Buruk']),
+                                ],
+                            ];
+                        }))
+                    ->count(3))
+                ->count(1))
             ->create();
         $org = User::factory(30)
             ->afterCreating(function (User $user) {
