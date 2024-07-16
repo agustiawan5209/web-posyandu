@@ -57,6 +57,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(OrangTua::class, 'user_id', 'id');
     }
+    public function staff()
+    {
+        return $this->hasOne(PegawaiPosyandu::class, 'user_id', 'id');
+    }
 
     //  FIlter Data User
     public function scopeFilter($query, $search)

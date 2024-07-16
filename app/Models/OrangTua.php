@@ -13,6 +13,7 @@ class OrangTua extends Model
     protected $table = 'orang_tuas';
 
     protected $fillable = [
+        'posyandus_id',
         'nama',
         'user_id',
         'alamat',

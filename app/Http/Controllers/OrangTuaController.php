@@ -33,8 +33,12 @@ class OrangTuaController extends Controller
 
         return Inertia::render('OrangTua/Index', [
             'search' =>  Request::input('search'),
-            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
-            'data' => OrangTua::filter(Request::only('search', 'order'))->with(['balita','user'])->paginate(10),
+            'table_colums' => array_values(array_diff($columns, ['remember_token', 'posyandus_id', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
+            'data' => OrangTua::filter(Request::only('search', 'order'))->with(['balita','user'])
+            ->when(Auth::user()->hasRole('Kader') ?? null, function($query){
+                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+            })
+            ->paginate(10),
             'can' => [
                 'add' => Auth::user()->can('add orangtua'),
                 'edit' => Auth::user()->can('edit orangtua'),
@@ -91,6 +95,7 @@ class OrangTuaController extends Controller
         event(new Registered($user));
 
         OrangTua::create([
+            'posyandus_id'=> Auth::user()->staff->posyandus_id,
             'user_id' => $user->id,
             'nama' => $user->name,
             'no_telpon' => $request->no_telpon,
@@ -143,14 +148,13 @@ class OrangTuaController extends Controller
     {
         $orangTua = OrangTua::find(Request::input('slug'));
 
-
-
         $user = User::find($orangTua->user_id);
         $user->update([
             'name' => $request->name,
 
         ]);
         $orangTua->update([
+            'posyandus_id'=> Auth::user()->staff->posyandus_id,
             'nama' => $request->name,
             'no_telpon' => $request->no_telpon,
             'alamat' => $request->alamat,

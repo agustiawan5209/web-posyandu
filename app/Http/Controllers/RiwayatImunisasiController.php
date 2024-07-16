@@ -25,14 +25,16 @@ class RiwayatImunisasiController extends Controller
         $columns[] = 'catatan';
 
         $role = Auth::user()->getRoleNames()->toArray();
-
-        if(in_array('Kepala', $role) || in_array('Kader', $role)){
+        if (in_array('Kepala', $role) || in_array('Kader', $role)) {
             $riwayatImunisasi = RiwayatImunisasi::filter(Request::only('search', 'order'))
-            ->with(['balita'])
-            ->paginate(10);
+                ->when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
+                    $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+                })
+                ->with(['balita'])
+                ->paginate(10);
         }
 
-        if(in_array('Orang Tua', $role)){
+        if (in_array('Orang Tua', $role)) {
             $riwayatImunisasi = RiwayatImunisasi::filter(Request::only('search', 'order'))->whereHas('balita', function ($query) {
                 $query->where('org_tua_id', '=', Auth::user()->orangtua->id);
             })
@@ -94,7 +96,7 @@ class RiwayatImunisasiController extends Controller
     public function show(RiwayatImunisasi $riwayatImunisasi)
     {
         Request::validate([
-            'slug'=> 'required|exists:riwayat_imunisasis,id',
+            'slug' => 'required|exists:riwayat_imunisasis,id',
         ]);
         return Inertia::render('Riwayat/Show', [
             'riwayat' => $riwayatImunisasi->find(Request::input('slug')),
@@ -107,7 +109,7 @@ class RiwayatImunisasiController extends Controller
     public function edit(RiwayatImunisasi $riwayatImunisasi)
     {
         Request::validate([
-            'slug'=> 'required|exists:riwayat_imunisasis,id',
+            'slug' => 'required|exists:riwayat_imunisasis,id',
         ]);
         return Inertia::render('Riwayat/Edit', [
             'riwayat' => $riwayatImunisasi->find(Request::input('slug')),

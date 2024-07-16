@@ -13,6 +13,7 @@ class Balita extends Model
     use HasFactory;
 
     protected $fillable = [
+        // 'posyandus_id',
         'nik',
         'nama',
         'tgl_lahir',

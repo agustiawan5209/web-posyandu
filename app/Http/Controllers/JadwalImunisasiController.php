@@ -24,8 +24,15 @@ class JadwalImunisasiController extends Controller
 
         return Inertia::render('Jadwal/Index', [
             'search' =>  Request::input('search'),
-            'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'deskripsi'])),
-            'data' => JadwalImunisasi::filter(Request::only('search', 'order'))->paginate(10),
+            'table_colums' => array_values(array_diff($columns, ['remember_token', 'posyandus_id', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'deskripsi'])),
+            'data' => JadwalImunisasi::filter(Request::only('search', 'order'))
+            ->when(Auth::user()->hasRole('Kader') ?? null, function($query){
+                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+            })
+            ->when(Auth::user()->hasRole('Orang Tua') ?? null, function($query){
+                $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
+            })
+            ->paginate(10),
             'can'=>[
                 'add'=> Auth::user()->can('add riwayat'),
                 'edit'=> Auth::user()->can('edit riwayat'),
@@ -50,6 +57,8 @@ class JadwalImunisasiController extends Controller
      */
     public function store(StoreJadwalImunisasiRequest $request)
     {
+        $data = $request->all();
+        $data['posyandus_id'] = Auth::user()->staff->posyandus_id;
         $jadwalImunisasi = JadwalImunisasi::create($request->all());
         return redirect()->route('Jadwal.index')->with('message', 'data jadwal imunisasi berhasil di tambah!!!');
     }

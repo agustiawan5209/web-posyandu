@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\Posyandu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +24,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'posyandu'=> Posyandu::all(),
+        ]);
     }
 
     /**
@@ -36,6 +39,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
+            'posyandus_id' => 'required|exists:posyandus,id',
             'no_telpon' => 'required|string|max:20',
             'alamat' => 'required|string|max:100',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
@@ -60,6 +64,7 @@ class RegisteredUserController extends Controller
             ]);
         }
         OrangTua::create([
+            'posyandus_id' => $request->posyandus_id,
             'user_id' => $user->id,
             'nama' => $user->name,
             'no_telpon' => $request->no_telpon,

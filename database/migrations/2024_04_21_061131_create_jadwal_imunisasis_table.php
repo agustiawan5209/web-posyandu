@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('jadwal_imunisasis', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('posyandus_id')->constrained('posyandus')->onDelete('cascade');
             $table->string('usia',50);
             $table->date('tanggal');
             $table->string('jenis_imunisasi',50);

@@ -29,11 +29,14 @@ class PegawaiPosyanduController extends Controller
         $columns = array_merge($columns, DB::getSchemaBuilder()->getColumnListing($tableName));
         array_splice($columns, 0, 2, array("id", "nama_posyandu"));
         // dd($columns);
-
         return Inertia::render('Pegawai/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['posyandus_id','remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
-            'data' => PegawaiPosyandu::filter(Request::only('search', 'order'))->with(['user', 'posyandus'])->paginate(10),
+            'data' => PegawaiPosyandu::filter(Request::only('search', 'order'))->with(['user', 'posyandus'])
+            ->when(Auth::user()->hasRole('Kader') ?? null, function($query){
+                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+            })
+            ->paginate(10),
             'can' => [
                 'add' => Auth::user()->can('add staff'),
                 'edit' => Auth::user()->can('edit staff'),

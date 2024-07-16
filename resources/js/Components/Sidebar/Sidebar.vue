@@ -69,7 +69,7 @@ function ArrayToString(){
                     <span class="group-hover:text-gray-700 capitalize">Staff Posyandu</span>
                 </NavLink>
             </li>
-            <li v-if="roleToCheck('Kader') || roleToCheck('Kepala')">
+            <li v-if="roleToCheck('Kader')">
                 <NavLink :href="route('OrangTua.index')"
                     :active="route().current('OrangTua.index') || route().current('OrangTua.create') || route().current('OrangTua.edit') || route().current('OrangTua.show')"
                     :icon="['fas', 'users-line']">
@@ -77,7 +77,7 @@ function ArrayToString(){
                     <span class="group-hover:text-gray-700 capitalize">Orang Tua</span>
                 </NavLink>
             </li>
-            <li v-if="roleToCheck('Kader') || roleToCheck('Kepala') || roleToCheck('Orang Tua')">
+            <li v-if="roleToCheck('Kader') || roleToCheck('Orang Tua')">
                 <NavLink :href="route('Jadwal.index')"
                     :active="route().current('Jadwal.index') || route().current('Jadwal.create') || route().current('Jadwal.edit') || route().current('Jadwal.show')"
                     :icon="['far', 'calendar-days']">
@@ -85,7 +85,7 @@ function ArrayToString(){
                 </NavLink>
             </li>
 
-            <!-- <li v-if="roleToCheck('Kader') || roleToCheck('Kepala')">
+            <!-- <li v-if="roleToCheck('Kader')">
                 <NavLink href="#" :icon="['fas','chart-pie']">
                     <span class="group-hover:text-gray-700 capitalize">Data Balita Dan Ibu Hamil</span>
                 </NavLink>

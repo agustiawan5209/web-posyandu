@@ -13,6 +13,7 @@ class JadwalImunisasi extends Model
 
     protected $table = 'jadwal_imunisasis';
     protected $fillable = [
+        'posyandus_id',
         'usia',
         'tanggal',
         'jenis_imunisasi',

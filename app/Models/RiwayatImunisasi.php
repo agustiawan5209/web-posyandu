@@ -13,6 +13,7 @@ class RiwayatImunisasi extends Model
 
     protected $table = 'riwayat_imunisasis';
     protected $fillable = [
+        'posyandus_id',
         'balita_id',
         'data_imunisasi',
         'tanggal',

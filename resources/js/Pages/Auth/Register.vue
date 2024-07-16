@@ -5,11 +5,19 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { defineProps } from 'vue';
 
+const props = defineProps({
+    posyandu: {
+        type: Object,
+        default: ()=>({})
+    }
+})
 const form = useForm({
     username: '',
     name: '',
     no_telpon: '',
+    posyandus_id:'',
     alamat: '',
     email: '',
     password: '',
@@ -44,6 +52,15 @@ const submit = () => {
                      />
 
                 <InputError class="mt-2" :message="form.errors.no_telpon" />
+            </div>
+            <div class="col-span-full sm:col-span-3">
+                <label for="posyandus_id" class="text-sm">Nama Posyandu</label>
+                <select name="posyandus_id" id="posyandus_id" v-model="form.posyandus_id" class="border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm w-full text-gray-900">
+                    <option value="">-----</option>
+                    <option v-for="pos in posyandu" :value="pos.id" >{{pos.nama}}</option>
+                </select>
+                <InputError :message="form.errors.posyandus_id"/>
+
             </div>
             <div>
                 <InputLabel for="alamat" value="Alamat" />
