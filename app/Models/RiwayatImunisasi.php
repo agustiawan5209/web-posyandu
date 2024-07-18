@@ -26,6 +26,10 @@ class RiwayatImunisasi extends Model
     ];
     protected $appends = [
         'nama_anak',
+        'usia_anak',
+        'berat_anak',
+        'jenkel_anak',
+        'nama_orang_tua',
     ];
 
     // Relasi
@@ -39,7 +43,31 @@ class RiwayatImunisasi extends Model
     public function namaAnak(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->balita->nama,
+            get: fn () => $this->data_imunisasi['nama_anak'],
+        );
+    }
+    public function usiaAnak(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->data_imunisasi['usia_anak'],
+        );
+    }
+    public function beratAnak(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->data_imunisasi['berat_badan'],
+        );
+    }
+    public function jenkelAnak(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->data_imunisasi['jenis_kelamin'],
+        );
+    }
+    public function namaOrangTua(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->data_imunisasi['nama_orang_tua'],
         );
     }
 

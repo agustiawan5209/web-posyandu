@@ -4,6 +4,7 @@ use App\Http\Controllers\BalitaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalImunisasiController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PegawaiPosyanduController;
@@ -164,3 +165,13 @@ Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(fu
 
 
 Route::get('pdf-document', [PDFController::class, 'generatePDF'])->name('pdf');
+
+
+// Laporan Per Posyandu Kepada Kepala
+// Router Posyandus
+Route::group(['prefix' => 'laporan', 'as' => "Laporan."], function () {
+    Route::controller(LaporanController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/cetak', 'cetakPDF')->name('cetak');
+    });
+});
