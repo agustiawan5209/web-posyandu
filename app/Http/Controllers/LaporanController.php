@@ -24,14 +24,16 @@ class LaporanController extends Controller
         $columns[] = 'catatan';
 
         $riwayatImunisasi = RiwayatImunisasi::with(['balita'])
-            ->whereBetween('created_at', [Request::input('start_date'), Request::input('end_date')])
-            ->where('posyandus_id', Request::input('posyandus_id'))
+            ->when(Request::input('start_date') != null && Request::input('end_date') != null && Request::input('posyandus_id'), function ($query) {
+                $query->whereBetween('created_at', [Request::input('start_date'), Request::input('end_date')])
+                    ->where('posyandus_id', Request::input('posyandus_id'));
+            })
             ->paginate(10);
         return Inertia::render('Laporan/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'email_verified_at', 'balita_id', 'created_at', 'updated_at', 'user_id'])),
             'data' => $riwayatImunisasi,
-            'posyandu'=> Posyandu::all(),
+            'posyandu' => Posyandu::all(),
             'can' => [
                 'add' => false,
                 'edit' => false,
