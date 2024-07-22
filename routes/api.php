@@ -20,17 +20,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('get-user', [ApiModelController::class, 'getUser'])->name('api.user.getUser');
-Route::get('get-orangtua', [ApiModelController::class, 'getOrgTua'])->name('api.orangtua.getOrgTua');
-Route::get('get-anak', [ApiModelController::class, 'getBalita'])->name('api.balita.getBalita');
-Route::get('get-data-balita', [ApiModelController::class, 'geDatatBalita'])->name('api.balita.getDataBalita');
 
-Route::get('get-berat-data/{id}', [ApiModelController::class, 'getBeratBadaBalita'])->name('api.balita.getBerat');
-Route::get('get-tinggi-data/{id}', [ApiModelController::class, 'getTinggiBalita'])->name('api.balita.getTinggi');
-Route::get('get-lingkarkepala-data/{id}', [ApiModelController::class, 'getLingkarKepalaBalita'])->name('api.balita.getLingkarKepala');
-Route::get('get-doughnat-data', [ApiModelController::class, 'getDoughnatChart'])->name('api.Chart.getDoughnatChart');
-Route::get('get-jadwal-data', [ApiModelController::class, 'getJadwal'])->name('api.jadwal.getJadwal');
-Route::get('get-pengguna-data/{tahun}', [ApiModelController::class, 'getJumlahPengguna'])->name('api.pengguna.jumlah');
+Route::middleware('auth:session')->group(function () {
+    Route::get('get-user', [ApiModelController::class, 'getUser'])->name('api.user.getUser');
+    Route::get('get-orangtua', [ApiModelController::class, 'getOrgTua'])->name('api.orangtua.getOrgTua');
+    Route::get('get-anak', [ApiModelController::class, 'getBalita'])->name('api.balita.getBalita');
+    Route::get('get-data-balita', [ApiModelController::class, 'geDatatBalita'])->name('api.balita.getDataBalita');
 
+    Route::get('get-berat-data/{id}', [ApiModelController::class, 'getBeratBadaBalita'])->name('api.balita.getBerat');
+    Route::get('get-tinggi-data/{id}', [ApiModelController::class, 'getTinggiBalita'])->name('api.balita.getTinggi');
+    Route::get('get-lingkarkepala-data/{id}', [ApiModelController::class, 'getLingkarKepalaBalita'])->name('api.balita.getLingkarKepala');
+    Route::get('get-doughnat-data', [ApiModelController::class, 'getDoughnatChart'])->name('api.Chart.getDoughnatChart');
+    Route::get('get-jadwal-data', [ApiModelController::class, 'getJadwal'])->name('api.jadwal.getJadwal');
+    Route::get('get-pengguna-data/{tahun}', [ApiModelController::class, 'getJumlahPengguna'])->name('api.pengguna.jumlah');
+});
 // setting
 Route::get('get-setting-puskesmas', [ApiModelController::class, 'SettingPuskesmas'])->name('api.setting.puskesmas');

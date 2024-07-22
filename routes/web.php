@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/data.php';
 
 
 Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(function () {

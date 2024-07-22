@@ -175,6 +175,7 @@ const downloadPDF = () => {
         url: route(props.path + '.cetak',{
             start_date: FormLaporan.start_date,
             end_date: FormLaporan.end_date,
+            posyandus_id: FormLaporan.posyandus_id,
             type: props.type,
         }),
         responseType: 'blob'

@@ -47,29 +47,33 @@ class LaporanController extends Controller
 
     public function cetakPDF()
     {
-        // Ambil data penyewaan berdasarkan id
-        $data = RiwayatImunisasi::filter(Request::only('search', 'order'))
-            ->with(['balita'])
-            ->whereBetween('created_at', Request::only('start_date', 'end_date'))
-            ->where('posyandus_id', Request::input('posyandus_id'))
-            ->get();
+        try {
+            // Ambil data penyewaan berdasarkan id
+            $data = RiwayatImunisasi::filter(Request::only('search', 'order'))
+                ->with(['balita'])
+                ->whereBetween('created_at', Request::only('start_date', 'end_date'))
+                ->where('posyandus_id', Request::input('posyandus_id'))
+                ->get();
 
-        $posyandu = Posyandu::find(Request::input('posyandus_id'));
-        // Definisikan kolom yang akan ditampilkan di PDF
-        $columns = [
-            'kode_transaksi',
-            'customer_id',
-            'jenis',
-            'produk',
-            'tgl_pengambilan',
-            'tgl_pengembalian',
-            'status'
-        ];
+            $posyandu = Posyandu::find(Request::input('posyandus_id'));
+            // Definisikan kolom yang akan ditampilkan di PDF
+            $columns = [
+                'kode_transaksi',
+                'customer_id',
+                'jenis',
+                'produk',
+                'tgl_pengambilan',
+                'tgl_pengembalian',
+                'status'
+            ];
 
-        // Load view untuk PDF dan pass data riwayat
-        $pdf = PDF::loadView('pdf.riwayat', compact('data', 'posyandu'));
+            // Load view untuk PDF dan pass data riwayat
+            $pdf = PDF::loadView('pdf.riwayat', compact('data', 'posyandu'));
 
-        // Unduh PDF
-        return $pdf->stream('riwayat.pdf');
+            // Unduh PDF
+            return $pdf->download('riwayat.pdf');
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 }
