@@ -39,7 +39,7 @@ const ShowSelect = ref(false);
 function searchPengguna(value) {
 
     if (value.length > 0) {
-        axios.get(route('api.user.getUser', { search: value }))
+        axios.get(route('data.user.getUser', { search: value }))
             .then((response) => {
                 if (response.status == 200) {
                     const element = response.data;

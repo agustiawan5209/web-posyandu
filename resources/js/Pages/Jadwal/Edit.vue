@@ -41,7 +41,7 @@ const ShowSelect = ref(false);
 
 
 function changeELementSelect(event) {
-    axios.get(route('api.user.getUser', { search: event.value }))
+    axios.get(route('data.user.getUser', { search: event.value }))
         .then((response) => {
             if (response.status == 200) {
                 const element = response.data;

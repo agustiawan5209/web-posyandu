@@ -6,7 +6,7 @@ use App\Http\Controllers\OrangTuaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:session')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('get-user', [ApiModelController::class, 'getUser'])->name('data.user.getUser');
     Route::get('get-orangtua', [ApiModelController::class, 'getOrgTua'])->name('data.orangtua.getOrgTua');
     Route::get('get-anak', [ApiModelController::class, 'getBalita'])->name('data.balita.getBalita');

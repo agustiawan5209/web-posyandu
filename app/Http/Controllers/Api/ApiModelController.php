@@ -6,10 +6,11 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Balita;
 use App\Models\OrangTua;
+use App\Models\Puskesmas;
 use App\Models\JadwalImunisasi;
 use App\Models\RiwayatImunisasi;
 use App\Http\Controllers\Controller;
-use App\Models\Puskesmas;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class ApiModelController extends Controller
@@ -123,9 +124,14 @@ class ApiModelController extends Controller
         ]);
     }
 
-    public function getJadwal()
+    public function getJadwal(Request $request)
     {
-        $jadwal = JadwalImunisasi::all();
+        $jadwal = JadwalImunisasi::when(Auth::user()->hasRole('Kader') ?? null, function($query){
+            $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+        })
+        ->when(Auth::user()->hasRole('Orang Tua') ?? null, function($query){
+            $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
+        })->get();
         $data = [];
         $tanggal = [];
 
@@ -158,7 +164,12 @@ class ApiModelController extends Controller
             '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
         ];
         foreach ($months as $key => $value) {
-            $data[] = RiwayatImunisasi::whereYear('created_at', '=', $tahun)->whereMonth('created_at', '=', $key)->count();
+            $data[] = RiwayatImunisasi::when(Auth::user()->hasRole('Kader') ?? null, function($query){
+                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+            })
+            ->when(Auth::user()->hasRole('Orang Tua') ?? null, function($query){
+                $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
+            })->whereYear('created_at', '=', $tahun)->whereMonth('created_at', '=', $key)->count();
         }
         return [
             'data' => $data,

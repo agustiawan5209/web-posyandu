@@ -64,7 +64,7 @@ export default {
         },
        async getBarChart() {
 
-            axios.get(route('api.pengguna.jumlah', { tahun: this.tahun }))
+            axios.get(route('data.pengguna.jumlah', { tahun: this.tahun }))
                 .then((response) => {
                     if (response.status == 200) {
                         this.chartData = {

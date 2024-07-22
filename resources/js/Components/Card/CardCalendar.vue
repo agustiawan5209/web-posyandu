@@ -25,7 +25,7 @@ const AttributeData = ref([{
 
 onMounted(() => {
     // dates.value = new Date();
-    axios.get(route('api.jadwal.getJadwal'))
+    axios.get(route('data.jadwal.getJadwal'))
         .then((res) => {
             if (res.status == 200) {
                 const Jadwal = res.data.data;

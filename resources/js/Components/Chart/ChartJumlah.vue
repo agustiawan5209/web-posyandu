@@ -32,7 +32,7 @@ export default {
         }
     }),
     async mounted() {
-        axios.get(route('api.Chart.getDoughnatChart'))
+        axios.get(route('data.Chart.getDoughnatChart'))
             .then((response) => {
                 if (response.status == 200) {
                     this.chartData = {

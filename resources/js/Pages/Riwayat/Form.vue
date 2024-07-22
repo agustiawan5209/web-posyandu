@@ -57,7 +57,7 @@ const ShowSelect = ref(false);
 
 function searchPengguna(value) {
     if (value.length > 0) {
-        axios.get(route('api.balita.getBalita', { search: value }))
+        axios.get(route('data.balita.getBalita', { search: value }))
             .then((response) => {
 
                 if (response.status == 200) {
