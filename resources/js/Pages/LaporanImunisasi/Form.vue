@@ -35,18 +35,7 @@ const Form = useForm({
 
 const NamaOrangTua = ref('')
 const NamaAnak = ref('')
-function submit() {
-    Form.post(route('Sertifikat.store'), {
-        preserveState: true,
-        onError: (err) => {
-            console.log(err)
-        },
-        onSuccess: () => {
-            Form.reset();
-            // NamaOrangTua.value = '';
-        }
-    });
-}
+
 
 const PJ = ref('');
 const changeSelect = ref(0);
@@ -115,28 +104,48 @@ const JenisImunisasi = ref([
     'Campak',
 ]);
 const data_imunisasi = ref({});
+const RiwayatImunisasi = ref([]);
 
 const getSameValue = (obj1, obj2) => {
+    Form.jenis_imunisasi = []
     const jenis_imunisasi = Object.values(obj2);
     const data_imunisasi = Object.values(obj1).map((elem, idx, self) => {
         return elem.jenis_imunisasi;
     });
+    const Imunisasi = Object.values(obj1).map((elem, idx, self) => {
+        return elem;
+    });
+
     const filterUnique = jenis_imunisasi.reduce((acc, current) => {
         if (!acc.includes(current) && data_imunisasi.includes(current)) {
             acc.push(current);
             Form.jenis_imunisasi.push(true)
-        }else{
+        } else {
             Form.jenis_imunisasi.push(false)
 
             acc.push(false)
         }
         return acc;
     }, [])
-    return filterUnique;
+    const imun = jenis_imunisasi.reduce((acc, current) => {
+        if (data_imunisasi.includes(current)) {
+            // Filter data Imunisasi sesuai dengan jenis_imunisasi yang cocok
+            const matchedImunisasi = Imunisasi.filter(imun => imun.jenis_imunisasi === current);
+            acc.push(matchedImunisasi);
+        } else {
+            // Jika tidak ada yang cocok, tambahkan array kosong
+            acc.push([]);
+        }
+        return acc;
+    }, []);
+
+    return {
+        fil: filterUnique,
+        imun: imun,
+    };
 }
 
 function SelectChangeElement(event) {
-    Form.jenis_imunisasi = []
     const Value = JSON.parse(event.target.value);
     PJ.value = '';
     Form.nama_orang_tua = Value.orang_tua.nama;
@@ -148,9 +157,10 @@ function SelectChangeElement(event) {
     Form.tempat_lahir = Value.tempat_lahir;
     Form.tgl_lahir = Value.tgl_lahir;
     Form.balita_id = Value.id;
-    data_imunisasi.value = getSameValue(Value.riwayat_imunisasis, JenisImunisasi.value);
-    // console.log(data_imunisasi);
-    // Form.jenis_imunisasi = getSameValue(Value.riwayat_imunisasis, JenisImunisasi.value);
+    const valueSame = getSameValue(Value.riwayat_imunisasis, JenisImunisasi.value);
+    data_imunisasi.value = valueSame.fil;
+    RiwayatImunisasi.value = valueSame.imun;
+
     if (SelectElement.value) {
         const childElements = SelectElement.value.childNodes
         // loop through the child elements and remove them
@@ -170,23 +180,35 @@ onMounted(() => {
 })
 
 function cekJenisImunisasi(idx) {
-    const imun = data_imunisasi.value
     if (Form.jenis_imunisasi[idx]) {
         return 'Selesai';
     } else {
         return 'Belum';
     }
 }
-console.log(cekJenisImunisasi('Campak'));
+
+function submit() {
+    Form.jenis_imunisasi = RiwayatImunisasi.value;
+    Form.post(route('Laporan-imunisasi.store'), {
+        preserveState: true,
+        onError: (err) => {
+            console.log(err)
+        },
+        onSuccess: () => {
+            Form.reset();
+            // NamaOrangTua.value = '';
+        }
+    });
+}
 </script>
 
 <template>
 
-    <Head title="Form Sertifikat" />
+    <Head title="Form Laporan-imunisasi" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Tambah Sertifikat</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Form Tambah Laporan-imunisasi</h2>
         </template>
 
         <div class="py-4 relative box-content">
@@ -195,7 +217,7 @@ console.log(cekJenisImunisasi('Campak'));
                 <form @submit.prevent="submit()" novalidate="" action=""
                     class="container flex flex-col mx-auto space-y-3">
                     <div class="space-y-2 col-span-full lg:col-span-1">
-                        <p class="font-medium">Data Tambah Sertifikat</p>
+                        <p class="font-medium">Data Tambah Laporan-imunisasi</p>
                         <p class="text-xs">Tambah Data Balita dengan Memilih Nama Orang Tua</p>
                         <ul class="list-decimal pl-10 space-y-2 text-xs " v-if="Form.errors">
                             <li class="text-xs text-red-500" v-for="item in Form.errors">
@@ -292,12 +314,13 @@ console.log(cekJenisImunisasi('Campak'));
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th class="px-2 py-1 text-xs border border-gray-700" colspan="2">Catatan
+                                            <th class="px-2 py-1 text-xs border border-gray-700" colspan="3">Catatan
                                                 Pemberian
                                                 Imunisasi</th>
                                         </tr>
                                         <tr>
                                             <th class="px-2 py-1 text-xs border border-gray-700">Antigen</th>
+                                            <th class="px-2 py-1 text-xs border border-gray-700">Status</th>
                                             <th class="px-2 py-1 text-xs border border-gray-700">Tanggal</th>
                                         </tr>
                                     </thead>
@@ -306,24 +329,21 @@ console.log(cekJenisImunisasi('Campak'));
                                             <td class="font-semibold px-2 py-1 text-xs border border-gray-700">{{ item
                                                 }}</td>
                                             <td class="px-2 py-1 text-xs border border-gray-700">
-                                                <div class="flex justify-start gap-4">
-                                                    <input type="checkbox" :name="item" :id="item" :value="item"
-                                                        v-model="Form.jenis_imunisasi[idx]">
+                                                <div class="flex justify-start gap-4 text-white rounded-lg p-1.5" :class="Form.jenis_imunisasi[idx] ? 'bg-primary': 'bg-red-500'">
                                                     {{ cekJenisImunisasi(idx) }}
-                                                    {{ Form.jenis_imunisasi[item] }}
                                                 </div>
+                                            </td>
+                                            <td class="px-2 py-1 text-xs border border-gray-700" v-if="RiwayatImunisasi.length > 0">
+                                                <span v-if="RiwayatImunisasi[idx].length > 0">
+                                                    {{ RiwayatImunisasi[idx][0].tanggal }}
+                                                </span>
+                                                <span v-else>
+                                                    ---
+                                                </span>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-
-                            </div>
-                            <div class="col-span-full ">
-                                <label for="catatan" class="text-sm">catatan</label>
-                                <quill-editor id="catatan" contentType="html" theme="snow"
-                                    v-model:content="Form.catatan"
-                                    placeholder="@catatan atau rincian imunisasi pada bayi/Balita"
-                                    class="w-full text-gray-900" />
 
                             </div>
                         </div>

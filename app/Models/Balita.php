@@ -84,7 +84,9 @@ class Balita extends Model
                 ->orWhereHas('orangTua', function ($query) use ($search) {
                     $query->where('nama', 'like', '%' . $search . '%');
                 });
-        })->orderBy('id', $filter['order'] ?? 'desc')
+        })->when($filter['order'] ?? null, function($query, $order){
+            $query->orderBy('id', $order);
+        })
         ->when(Auth::check() ? in_array('Orang Tua', Auth::user()->getRoleNames()->toArray()) ?? null : null, function ($query) {
             $query->where('org_tua_id', '=', Auth::user()->orangtua->id);
         });

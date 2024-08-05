@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalImunisasiController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LaporanImunisasiController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PegawaiPosyanduController;
@@ -26,9 +27,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class ,'index'])->name('home');
-Route::get('/jadwal-imunisasi-puskesmas', [HomeController::class ,'jadwal'])->name('Home.jadwal');
-Route::get('/informasi-puskesmas', [HomeController::class ,'informasi'])->name('Home.informasi');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/jadwal-imunisasi-puskesmas', [HomeController::class, 'jadwal'])->name('Home.jadwal');
+Route::get('/informasi-puskesmas', [HomeController::class, 'informasi'])->name('Home.informasi');
 
 Route::get('/validate-user', [DashboardController::class, 'validate'])->middleware(['auth', 'verified'])->name('validate');
 
@@ -50,7 +51,7 @@ require __DIR__ . '/data.php';
 Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(function () {
 
     // Router Orang Tua
-    Route::group(['prefix' => 'orang-tua', 'as' => "OrangTua.", ], function () {
+    Route::group(['prefix' => 'orang-tua', 'as' => "OrangTua.",], function () {
         Route::controller(OrangTuaController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data-orangtua', 'create')->name('create');
@@ -150,8 +151,8 @@ Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(fu
         });
     });
 
-     // Router Posyandus
-     Route::group(['prefix' => 'posyandus', 'as' => "Posyandus."], function () {
+    // Router Posyandus
+    Route::group(['prefix' => 'posyandus', 'as' => "Posyandus."], function () {
         Route::controller(PosyanduController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/tambah-data/posyandus', 'create')->name('create');
@@ -162,17 +163,24 @@ Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(fu
             Route::delete('/hapus-data/posyandus', 'destroy')->name('destroy');
         });
     });
+
+    // Laporan Per Posyandu Kepada Kepala
+    // Router Posyandus
+    Route::group(['prefix' => 'laporan', 'as' => "Laporan."], function () {
+        Route::controller(LaporanController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/cetak', 'cetakPDF')->name('cetak');
+        });
+    });
+
+    Route::group(['prefix' => 'laporan-imunisasi', 'as' => "Laporan-imunisasi."], function () {
+        Route::controller(LaporanImunisasiController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/buat', 'create')->name('create');
+            Route::get('/cetak', 'store')->name('store');
+        });
+    });
 });
 
 
 Route::get('pdf-document', [PDFController::class, 'generatePDF'])->name('pdf');
-
-
-// Laporan Per Posyandu Kepada Kepala
-// Router Posyandus
-Route::group(['prefix' => 'laporan', 'as' => "Laporan."], function () {
-    Route::controller(LaporanController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/cetak', 'cetakPDF')->name('cetak');
-    });
-});

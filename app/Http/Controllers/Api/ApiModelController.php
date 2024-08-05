@@ -56,7 +56,14 @@ class ApiModelController extends Controller
     {
         $search = Request::only('search');
 
-        $user = Balita::with(['orangTua','riwayatImunisasis'])->filter($search)->get();
+        $user = Balita::with(['orangTua','riwayatImunisasis'])
+        ->when(Auth::user()->hasRole('Kader') ?? null, function($query){
+            $query->whereHas('orangTua', function($query){
+                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+            });
+        })
+        ->filter($search)
+        ->get();
 
         return json_encode($user);
     }

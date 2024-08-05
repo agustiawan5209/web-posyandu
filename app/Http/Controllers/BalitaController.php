@@ -26,7 +26,7 @@ class BalitaController extends Controller
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'password', 'org_tua_id', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
             'data' => Balita::filter(Request::only('search', 'order'))
-            ->with(['orangTua'])
+            ->with(['orangTua', 'riwayatImunisasis'])
             ->when(Auth::user()->hasRole('Kader') ?? null, function($query){
                 $query->whereHas('orangTua', function($query){
                     $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
