@@ -40,7 +40,11 @@ class ApiModelController extends Controller
     {
         $search = Request::only('search');
 
-        $user = OrangTua::filter($search)->get();
+        $user = OrangTua::filter($search)
+        ->when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
+            $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+        })
+        ->get();
 
         return json_encode($user);
     }
@@ -48,7 +52,13 @@ class ApiModelController extends Controller
     {
         $search = Request::only('search');
 
-        $user = Balita::with(['orangTua'])->filter($search)->get();
+        $user = Balita::with(['orangTua'])->filter($search)
+        ->when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
+            $query->whereHas('orangTua', function ($query) {
+                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+            });
+        })
+        ->get();
 
         return json_encode($user);
     }
@@ -56,14 +66,14 @@ class ApiModelController extends Controller
     {
         $search = Request::only('search');
 
-        $user = Balita::with(['orangTua','riwayatImunisasis'])
-        ->filter($search)
-        ->when(Auth::user()->hasRole('Kader') ?? null, function($query){
-            $query->whereHas('orangTua', function($query){
-                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
-            });
-        })
-        ->get();
+        $user = Balita::with(['orangTua', 'riwayatImunisasis'])
+            ->filter($search)
+            ->when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
+                $query->whereHas('orangTua', function ($query) {
+                    $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+                });
+            })
+            ->get();
 
         return json_encode($user);
     }
@@ -133,12 +143,12 @@ class ApiModelController extends Controller
 
     public function getJadwal(Request $request)
     {
-        $jadwal = JadwalImunisasi::when(Auth::user()->hasRole('Kader') ?? null, function($query){
+        $jadwal = JadwalImunisasi::when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
             $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
         })
-        ->when(Auth::user()->hasRole('Orang Tua') ?? null, function($query){
-            $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
-        })->get();
+            ->when(Auth::user()->hasRole('Orang Tua') ?? null, function ($query) {
+                $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
+            })->get();
         $data = [];
         $tanggal = [];
 
@@ -168,15 +178,26 @@ class ApiModelController extends Controller
         }
         $data = [];
         $months = [
-            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
         ];
         foreach ($months as $key => $value) {
-            $data[] = RiwayatImunisasi::when(Auth::user()->hasRole('Kader') ?? null, function($query){
+            $data[] = RiwayatImunisasi::when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
                 $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
             })
-            ->when(Auth::user()->hasRole('Orang Tua') ?? null, function($query){
-                $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
-            })->whereYear('created_at', '=', $tahun)->whereMonth('created_at', '=', $key)->count();
+                ->when(Auth::user()->hasRole('Orang Tua') ?? null, function ($query) {
+                    $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
+                })->whereYear('created_at', '=', $tahun)->whereMonth('created_at', '=', $key)->count();
         }
         return [
             'data' => $data,
@@ -187,7 +208,8 @@ class ApiModelController extends Controller
 
     // Get Logo Puskesmas
 
-    public function SettingPuskesmas(){
+    public function SettingPuskesmas()
+    {
         $puskesmas = Puskesmas::find(1);
 
         return json_encode($puskesmas);

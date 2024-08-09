@@ -25,6 +25,7 @@ class RiwayatImunisasiController extends Controller
         $columns[] = 'catatan';
 
         $role = Auth::user()->getRoleNames()->toArray();
+        // dd(Auth::user()->staff->posyandus_id);
         if (in_array('Kepala', $role) || in_array('Kader', $role)) {
             $riwayatImunisasi = RiwayatImunisasi::filter(Request::only('search', 'order'))
                 ->when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
@@ -82,6 +83,7 @@ class RiwayatImunisasiController extends Controller
             'jenis_imunisasi' => $request->jenis_imunisasi,
             'tanggal' => $request->tanggal,
             'catatan' => $request->catatan,
+            'posyandus_id'=> Auth::user()->staff->posyandus_id,
 
         ];
 
