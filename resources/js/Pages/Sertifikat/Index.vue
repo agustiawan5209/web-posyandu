@@ -31,11 +31,12 @@ const props = defineProps({
 const crud = ref({
     tambah: props.can.add,
     edit: false,
-    show: props.can.show,
+    show: true,
     delete: props.can.delete,
 
 })
 
+console.log(crud.value)
 </script>
 
 <template>

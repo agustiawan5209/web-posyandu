@@ -21,23 +21,22 @@ class JadwalImunisasiController extends Controller
         $tableName = 'jadwal_imunisasis'; // Ganti dengan nama tabel yang Anda inginkan
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
         // $columns[] = 'jumlah_anak';
-
         return Inertia::render('Jadwal/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'posyandus_id', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'deskripsi'])),
             'data' => JadwalImunisasi::filter(Request::only('search', 'order'))
-            ->when(Auth::user()->hasRole('Kader') ?? null, function($query){
-                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
-            })
-            ->when(Auth::user()->hasRole('Orang Tua') ?? null, function($query){
-                $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
-            })
-            ->paginate(10),
-            'can'=>[
-                'add'=> Auth::user()->can('add riwayat'),
-                'edit'=> Auth::user()->can('edit riwayat'),
-                'show'=> Auth::user()->can('show riwayat'),
-                'delete'=> Auth::user()->can('delete riwayat'),
+                ->when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
+                    $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+                })
+                ->when(Auth::user()->hasRole('Orang Tua') ?? null, function ($query) {
+                    $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
+                })
+                ->paginate(10),
+            'can' => [
+                'add' => Auth::user()->can('add riwayat'),
+                'edit' => Auth::user()->can('edit riwayat'),
+                'show' => Auth::user()->can('show riwayat'),
+                'delete' => Auth::user()->can('delete riwayat'),
             ]
         ]);
     }
@@ -48,7 +47,7 @@ class JadwalImunisasiController extends Controller
     public function create()
     {
         return Inertia::render('Jadwal/Form', [
-            'user'=> User::role('Kader')->get(),
+            'user' => User::role('Kader')->get(),
         ]);
     }
 
@@ -59,7 +58,7 @@ class JadwalImunisasiController extends Controller
     {
         $data = $request->all();
         $data['posyandus_id'] = Auth::user()->staff->posyandus_id;
-        $jadwalImunisasi = JadwalImunisasi::create($request->all());
+        $jadwalImunisasi = JadwalImunisasi::create($data);
         return redirect()->route('Jadwal.index')->with('message', 'data jadwal imunisasi berhasil di tambah!!!');
     }
 
@@ -69,10 +68,10 @@ class JadwalImunisasiController extends Controller
     public function show(JadwalImunisasi $jadwalImunisasi)
     {
         Request::validate([
-            'slug'=> 'required|exists:jadwal_imunisasis,id',
+            'slug' => 'required|exists:jadwal_imunisasis,id',
         ]);
         return Inertia::render('Jadwal/Show', [
-            'jadwal'=> JadwalImunisasi::find(Request::input('slug'))
+            'jadwal' => JadwalImunisasi::find(Request::input('slug'))
         ]);
     }
 
@@ -82,11 +81,11 @@ class JadwalImunisasiController extends Controller
     public function edit(JadwalImunisasi $jadwalImunisasi)
     {
         Request::validate([
-            'slug'=> 'required|exists:jadwal_imunisasis,id',
+            'slug' => 'required|exists:jadwal_imunisasis,id',
         ]);
         return Inertia::render('Jadwal/Edit', [
-            'user'=> User::role('Kader')->get(),
-            'jadwal'=> JadwalImunisasi::find(Request::input('slug'))
+            'user' => User::role('Kader')->get(),
+            'jadwal' => JadwalImunisasi::find(Request::input('slug'))
         ]);
     }
 
@@ -107,7 +106,4 @@ class JadwalImunisasiController extends Controller
         $jadwalImunisasi = JadwalImunisasi::find(Request::input('slug'))->delete();
         return redirect()->route('Jadwal.index')->with('message', 'data jadwal imunisasi berhasil di Hapus!!!');
     }
-
-
-
 }

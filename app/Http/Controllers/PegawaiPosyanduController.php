@@ -119,22 +119,36 @@ class PegawaiPosyanduController extends Controller
                 ]);
             } else {
                 $user->givePermissionTo([
-                    'add riwayat',
-                    'edit riwayat',
-                    'delete riwayat',
+                    // 'add riwayat',
+                    // 'edit riwayat',
+                    // 'delete riwayat',
                     'show riwayat',
                     // Balita
-                    'add balita',
-                    'edit balita',
-                    'delete balita',
+                    // 'add balita',
+                    // 'edit balita',
+                    // 'delete balita',
                     'show balita',
                     // orang tua
-                    'add orangtua',
-                    'edit orangtua',
-                    'delete orangtua',
+                    // 'add orangtua',
+                    // 'edit orangtua',
+                    // 'delete orangtua',
                     'show orangtua',
+                    // jadwal
+                    // 'add jadwal',
+                    // 'edit jadwal',
+                    // 'delete jadwal',
+                    'show jadwal',
+                    // staff
+                    'add staff',
+                    'edit staff',
+                    // 'delete staff',
                     'show staff',
-                    'reset orangtua'
+                    // 'reset staff',
+                    // Sertifikat
+                    // 'add sertifikat',
+                    // 'edit sertifikat',
+                    // 'delete sertifikat',
+                    'show sertifikat',
                 ]);
             }
         }
@@ -200,7 +214,10 @@ class PegawaiPosyanduController extends Controller
 
         ]);
         // Remove a role
-        $user->removeRole($pegawai->jabatan);
+        $user->syncRoles([]);
+
+        // Remove all permissions
+        $user->syncPermissions([]);
 
         $pegawai->update([
             'posyandus_id' => $request->posyandus_id,
@@ -213,6 +230,67 @@ class PegawaiPosyanduController extends Controller
         $role = Role::findByName($request->jabatan);
         if ($role) {
             $user->assignRole($role); // Assign 'user' role to the user
+            if ($role->name == 'Kader') {
+                $user->givePermissionTo([
+                    'add riwayat',
+                    'edit riwayat',
+                    'delete riwayat',
+                    'show riwayat',
+                    // Balita
+                    'add balita',
+                    'edit balita',
+                    'delete balita',
+                    'show balita',
+                    // orang tua
+                    'add orangtua',
+                    'edit orangtua',
+                    'delete orangtua',
+                    'show orangtua',
+                    // jadwal
+                    'add jadwal',
+                    'edit jadwal',
+                    'delete jadwal',
+                    'show jadwal',
+                    // Sertifikat
+                    'show sertifikat',
+
+                    'show staff',
+                    'reset orangtua'
+                ]);
+            } else {
+                $user->givePermissionTo([
+                    // 'add riwayat',
+                    // 'edit riwayat',
+                    // 'delete riwayat',
+                    'show riwayat',
+                    // Balita
+                    // 'add balita',
+                    // 'edit balita',
+                    // 'delete balita',
+                    'show balita',
+                    // orang tua
+                    // 'add orangtua',
+                    // 'edit orangtua',
+                    // 'delete orangtua',
+                    'show orangtua',
+                    // jadwal
+                    // 'add jadwal',
+                    // 'edit jadwal',
+                    // 'delete jadwal',
+                    'show jadwal',
+                    // staff
+                    'add staff',
+                    'edit staff',
+                    // 'delete staff',
+                    'show staff',
+                    // 'reset staff',
+                    // Sertifikat
+                    // 'add sertifikat',
+                    // 'edit sertifikat',
+                    // 'delete sertifikat',
+                    'show sertifikat',
+                ]);
+            }
         }
 
         return redirect()->route('Pegawai.index')->with('message', 'Data Pegawai Posyandu berhasil Di Edit!');

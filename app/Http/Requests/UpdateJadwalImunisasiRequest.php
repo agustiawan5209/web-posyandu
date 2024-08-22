@@ -28,6 +28,7 @@ class UpdateJadwalImunisasiRequest extends FormRequest
             'jenis_imunisasi' => 'required|string|max:50',
             'deskripsi' => 'required|string',
             'penanggung_jawab' => 'required|string|max:50',
+            'tempat' => 'required|string|max:100',
         ];
     }
 }

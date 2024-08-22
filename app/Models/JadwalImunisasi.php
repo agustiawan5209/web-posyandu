@@ -19,6 +19,7 @@ class JadwalImunisasi extends Model
         'jenis_imunisasi',
         'deskripsi',
         'penanggung_jawab',
+        'tempat',
     ];
 
     protected $casts = [

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('jenis_imunisasi',50);
             $table->longText('deskripsi');
             $table->string('penanggung_jawab', 100);
-            $table->string('tempat', 100);
+            $table->string('tempat', 250);
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ const Form = useForm({
     jenis_imunisasi: '',
     deskripsi: '',
     penanggung_jawab: '',
+    tempat: '',
 })
 
 function submit() {
@@ -172,6 +173,14 @@ const JenisImunisasi = ref([
                                 </div>
 
                                 <InputError :message="Form.errors.penanggung_jawab" />
+                            </div>
+                            <div class="col-span-full sm:col-span-2 relative">
+                                <label for="tempat" class="text-sm">Tempat Imunisasi</label>
+                                <TextInput id="tempat" type="text" placeholder="Tempat Imunisasi"
+                                    v-model="Form.tempat" class="w-full text-gray-900" />
+
+
+                                <InputError :message="Form.errors.tempat" />
                             </div>
 
                             <div class="col-span-full relative box-content">

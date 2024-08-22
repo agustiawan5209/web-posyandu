@@ -23,6 +23,7 @@ const Form = useForm({
     jenis_imunisasi: props.jadwal.jenis_imunisasi,
     deskripsi: props.jadwal.deskripsi,
     penanggung_jawab: props.jadwal.penanggung_jawab,
+    tempat: props.jadwal.tempat,
 })
 
 function submit() {
@@ -143,6 +144,14 @@ onMounted(() => {
                                     </select>
                                 </div>
                                 <InputError :message="Form.errors.penanggung_jawab" />
+                            </div>
+                            <div class="col-span-full sm:col-span-2 relative">
+                                <label for="tempat" class="text-sm">Tempat Imunisasi</label>
+                                <TextInput id="tempat" type="text" placeholder="Tempat Imunisasi"
+                                    v-model="Form.tempat" class="w-full text-gray-900" />
+
+
+                                <InputError :message="Form.errors.tempat" />
                             </div>
 
                             <div class="col-span-full">
