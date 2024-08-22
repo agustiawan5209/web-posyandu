@@ -66,6 +66,7 @@ class SertifikatController extends Controller
                 'edit' => Auth::user()->can('edit sertifikat'),
                 'show' => Auth::user()->can('show sertifikat'),
                 'delete' => Auth::user()->can('delete sertifikat'),
+                'cetak' => Auth::user()->can('cetak sertifikat'),
             ]
         ]);
     }

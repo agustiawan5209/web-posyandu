@@ -31,12 +31,12 @@ class PegawaiPosyanduController extends Controller
         // dd($columns);
         return Inertia::render('Pegawai/Index', [
             'search' =>  Request::input('search'),
-            'table_colums' => array_values(array_diff($columns, ['posyandus_id','remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
+            'table_colums' => array_values(array_diff($columns, ['posyandus_id', 'remember_token', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id'])),
             'data' => PegawaiPosyandu::filter(Request::only('search', 'order'))->with(['user', 'posyandus'])
-            ->when(Auth::user()->hasRole('Kader') ?? null, function($query){
-                $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
-            })
-            ->paginate(10),
+                ->when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
+                    $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+                })
+                ->paginate(10),
             'can' => [
                 'add' => Auth::user()->can('add staff'),
                 'edit' => Auth::user()->can('edit staff'),
@@ -65,7 +65,7 @@ class PegawaiPosyanduController extends Controller
             'jabatan' => Role::whereNot('name', 'Orang Tua')->get(),
             'colums' => array_values($colums),
             'linkCreate' => 'Pegawai.store',
-            'posyandus'=> Posyandu::all(),
+            'posyandus' => Posyandu::all(),
 
         ]);
     }
@@ -82,27 +82,61 @@ class PegawaiPosyanduController extends Controller
             'password' => Hash::make($request->password),
             'remember_token' => Str::random(60),
         ]);
+        $user->syncRoles([]);
+
+        // Remove all permissions
+        $user->syncPermissions([]);
         $role = Role::findByName($request->jabatan);
+
         if ($role) {
             $user->assignRole($role); // Assign 'user' role to the user
-            $user->givePermissionTo([
-                'add riwayat',
-                'edit riwayat',
-                'delete riwayat',
-                'show riwayat',
-                // Balita
-                'add balita',
-                'edit balita',
-                'delete balita',
-                'show balita',
-                // orang tua
-                'add orangtua',
-                'edit orangtua',
-                'delete orangtua',
-                'show orangtua',
-                'show staff',
-                'reset orangtua'
-            ]);
+            if ($role->name == 'Kader') {
+                $user->givePermissionTo([
+                    'add riwayat',
+                    'edit riwayat',
+                    'delete riwayat',
+                    'show riwayat',
+                    // Balita
+                    'add balita',
+                    'edit balita',
+                    'delete balita',
+                    'show balita',
+                    // orang tua
+                    'add orangtua',
+                    'edit orangtua',
+                    'delete orangtua',
+                    'show orangtua',
+                    // jadwal
+                    'add jadwal',
+                    'edit jadwal',
+                    'delete jadwal',
+                    'show jadwal',
+                    // Sertifikat
+                    'show sertifikat',
+
+                    'show staff',
+                    'reset orangtua'
+                ]);
+            } else {
+                $user->givePermissionTo([
+                    'add riwayat',
+                    'edit riwayat',
+                    'delete riwayat',
+                    'show riwayat',
+                    // Balita
+                    'add balita',
+                    'edit balita',
+                    'delete balita',
+                    'show balita',
+                    // orang tua
+                    'add orangtua',
+                    'edit orangtua',
+                    'delete orangtua',
+                    'show orangtua',
+                    'show staff',
+                    'reset orangtua'
+                ]);
+            }
         }
 
 
@@ -110,7 +144,7 @@ class PegawaiPosyanduController extends Controller
 
         PegawaiPosyandu::create([
             'user_id' => $user->id,
-            'posyandus_id'=> $request->posyandus_id,
+            'posyandus_id' => $request->posyandus_id,
             'nama' => $user->name,
             'jabatan' => $request->jabatan,
             'no_telpon' => $request->no_telpon,
@@ -125,7 +159,7 @@ class PegawaiPosyanduController extends Controller
     public function show(PegawaiPosyandu $pegawaiPosyandu)
     {
         Request::validate([
-            'slug'=> 'required|exists:pegawai_posyandus,id',
+            'slug' => 'required|exists:pegawai_posyandus,id',
         ]);
         return Inertia::render('Pegawai/Show', [
             'pegawai' => $pegawaiPosyandu->find(Request::input('slug')),
@@ -138,12 +172,12 @@ class PegawaiPosyanduController extends Controller
     public function edit(PegawaiPosyandu $pegawaiPosyandu)
     {
         Request::validate([
-            'slug'=> 'required|exists:pegawai_posyandus,id',
+            'slug' => 'required|exists:pegawai_posyandus,id',
         ]);
         return Inertia::render('Pegawai/Edit', [
             'pegawai' => $pegawaiPosyandu->with(['user'])->find(Request::input('slug')),
             'jabatan' => Role::whereNot('name', 'Orang Tua')->get(),
-            'posyandus'=> Posyandu::all(),
+            'posyandus' => Posyandu::all(),
 
         ]);
     }
@@ -169,7 +203,7 @@ class PegawaiPosyanduController extends Controller
         $user->removeRole($pegawai->jabatan);
 
         $pegawai->update([
-            'posyandus_id'=> $request->posyandus_id,
+            'posyandus_id' => $request->posyandus_id,
             'nama' => $request->name,
             'jabatan' => $request->jabatan,
             'no_telpon' => $request->no_telpon,
@@ -197,7 +231,7 @@ class PegawaiPosyanduController extends Controller
 
 
 
-   /**
+    /**
      * Display the specified resource.
      */
     public function resetpassword(PegawaiPosyandu $pegawaiPosyandu)
@@ -222,6 +256,5 @@ class PegawaiPosyanduController extends Controller
             'password' => Hash::make(Request::input('password')),
         ]);
         return redirect()->route('Pegawai.index')->with('message', 'Password Pegawai Posyandu berhasil Di Ubah!');
-
     }
 }
