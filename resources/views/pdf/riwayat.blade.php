@@ -39,8 +39,8 @@
         {{-- <img src="{{ asset('path/to/logo.png') }}" alt="Logo Perusahaan"> --}}
         <h1>UPT PUSKESMAS Desa Karassing</h1>
         <h2>Ds. Karassing, Kec. Hero Lange-Lange</h2>
-        <p>Alamat Perusahaan</p>
-        <p>Telepon: +62 85255814561 </p>
+        <p>Ds. Karassing, Kec. Hero Lange-Lange</p>
+        <p>Telepon: 085331347469 | email:puskesmaskarassing@gmail.com| email:puskesmaskarassing@gmail.com</p>
         <hr>
     </div>
     <div class="content">

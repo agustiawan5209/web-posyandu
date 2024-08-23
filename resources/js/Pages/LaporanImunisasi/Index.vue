@@ -238,7 +238,7 @@ function searchDate() {
                                         <Link v-else :key="`link-${key}`"
                                             class="mb-1 mr-1 px-4 py-3 focus:text-indigo-500 text-sm leading-4 active:border-blue-400 hover:bg-gray-200 border focus:border-indigo-500 rounded"
                                             :class="{ 'bg-white border-blue-500 text-black': link.active }"
-                                            preserve-state preserve-scroll :data="{ search, slug, order }"
+                                            preserve-state preserve-scroll
                                             :href="link.url" v-html="link.label" />
                                     </template>
                                 </div>

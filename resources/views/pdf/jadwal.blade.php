@@ -53,35 +53,30 @@
     </header>
     <h1 style="margin-top: 0px;">
         <span style=" width : 300px ;border-bottom: 3px solid #000000; border-spacing: 3px;">
-            {{ $title }}</span>
+            Jadwal Imunisasi :{{ $posyandu->nama }}</span>
     </h1>
-    <h4>No: {{ $nomor }}</h4>
 
     <table style="margin-left: 60px; margin-top:30px;">
         <thead>
             <tr>
-                <td style="padding: 6px 2px; font-weight:700;" colspan="2">Dengan Ini Menyatakan Bahwa.</td>
+                <td style="padding: 6px 2px; font-weight:700;" colspan="2">Dengan Ini Menyatakan Bahwa Jadwal Imunisasi.</td>
             </tr>
             <tr>
-                <td style="padding: 6px 2px; font-weight:700;">Nama </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['nama_balita'] }}</td>
+                <td style="padding: 6px 2px; font-weight:700;">Usia </td>
+                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['usia'] }}</td>
             </tr>
             <tr>
-                <td style="padding: 6px 2px; font-weight:700;">Tempat/Tanggal Lahir </td>
+                <td style="padding: 6px 2px; font-weight:700;">Tanggal Imunisasi </td>
                 <td style="padding: 6px 2px; font-weight:700;"> :
-                    {{ $data['tempat_lahir'] }}/ {{ $data['tgl_lahir'] }}</td>
+                    {{ $data['tempat_lahir'] }}/ {{ $data['tanggal'] }}</td>
             </tr>
             <tr>
-                <td style="padding: 6px 2px; font-weight:700;">Nama Wali/Orang Tua </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['nama_orang_tua'] }}</td>
+                <td style="padding: 6px 2px; font-weight:700;">Tempat Imunisasi </td>
+                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['tempat'] }} </td>
             </tr>
             <tr>
-                <td style="padding: 6px 2px; font-weight:700;">Alamat Wali/Orang Tua </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['alamat_orang_tua'] }}</td>
-            </tr>
-            <tr>
-                <td style="padding: 6px 2px; font-weight:700;">No. Telpon Wali/Orang Tua </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['no_telpon_orang_tua'] }}</td>
+                <td style="padding: 6px 2px; font-weight:700;">Keterangan </td>
+                <td style="padding: 6px 2px; font-weight:700;"> : {!! $data['deskripsi'] !!} </td>
             </tr>
 
             <tr>
@@ -91,34 +86,6 @@
         </thead>
 
 
-    </table>
-    {{-- TABEL imunisasi --}}
-
-    <table style="margin-left: 60px;margin-bottom: 10px; margin-top:10px; border: #000;" border="1" cellspacing="0">
-        <thead>
-            <tr>
-                <th style="padding: 3px 10px;" colspan="2">Catatan Pemberian Imunisasi</th>
-            </tr>
-            <tr>
-                <th style="padding: 3px 10px;">Antigen</th>
-                <th style="padding: 3px 10px;">Tanggal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($namaImunisasi as $key => $item)
-                <tr>
-                    <td style="padding: 3px 10px;">{{ $item }}</td>
-                    <td style="padding: 3px 10px;">
-                        @if ($data['jenis_imunisasi'][$key] === 'true' || $data['jenis_imunisasi'][$key] === true)
-                        <span style="color: rgb(8, 153, 56)">Selesai</span>
-                        @else
-                        <span style="color: rgb(207, 7, 7)">Belum</span>
-
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
     </table>
 
     <table style="margin-left: 60px;">
@@ -142,7 +109,7 @@
             </tr>
             <tr>
                 <td style="font-weight: 700; padding: 4px 0px; text-align: center;">
-                    <span>S.Kep.Ns..KORPUS</span>
+                    <span>{{ $jadwal->penanggung_jawab }}</span>
                     <hr>
                 </td>
             </tr>
