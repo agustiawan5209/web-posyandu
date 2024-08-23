@@ -29,7 +29,11 @@
             text-align: center;
         }
         tr td{
-            font-size: 14px;
+            font-size: 16px;
+        }
+        .keterangan tr td{
+            font-size: 18px;
+
         }
     </style>
 </head>
@@ -45,7 +49,7 @@
                 <td style="max-width: 600px; margin: 0 auto; text-align: center;">
                     <h1 style="color: #333333; margin: 0;">Dinas Kesehatan Kabupaten Bulukumba</h1>
                     <p style="color: #666666; margin: 10px 0;">UPT PUSKESMAS KARASSING</p>
-                    <p style="color: #666666; margin: 10px 0;">Telepon: 085331347469 | email:puskesmaskarassing@gmail.com| email:puskesmaskarassing@gmail.com </p>
+                    <p style="color: #666666; margin: 10px 0;">Telepon: 085331347469 | email:puskesmaskarassing@gmail.com </p>
                 </td>
             </tr>
         </table>
@@ -56,32 +60,31 @@
             Jadwal Imunisasi :{{ $posyandu->nama }}</span>
     </h1>
 
-    <table style="margin-left: 60px; margin-top:30px;">
+    <table class="keterangan" style="margin-left: 60px; margin-top:30px;">
         <thead>
             <tr>
-                <td style="padding: 6px 2px; font-weight:700;" colspan="2">Dengan Ini Menyatakan Bahwa Jadwal Imunisasi.</td>
+                <td style="padding: 6px 2px; font-weight:0;" colspan="2">Dengan Ini Menyatakan Bahwa Jadwal Imunisasi.</td>
             </tr>
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Usia </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['usia'] }}</td>
+                <td style="padding: 6px 2px; font-weight:0;"> : {{ $data['usia'] }}</td>
             </tr>
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Tanggal Imunisasi </td>
-                <td style="padding: 6px 2px; font-weight:700;"> :
+                <td style="padding: 6px 2px; font-weight:0;"> :
                     {{ $data['tempat_lahir'] }}/ {{ $data['tanggal'] }}</td>
             </tr>
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Tempat Imunisasi </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {{ $data['tempat'] }} </td>
+                <td style="padding: 6px 2px; font-weight:0;"> : {{ $data['tempat'] }} </td>
             </tr>
             <tr>
                 <td style="padding: 6px 2px; font-weight:700;">Keterangan </td>
-                <td style="padding: 6px 2px; font-weight:700;"> : {!! $data['deskripsi'] !!} </td>
+                <td style="padding: 6px 2px; font-weight:0; display:flex;">:</td>
             </tr>
 
             <tr>
-                <td colspan="2" style="padding: 6px 2px; font-weight:700;">Telah Mendapatkan Lima Imunisasi Dasar
-                    Lengkap (LIL).</td>
+                <td colspan="2" style="padding: 6px 2px; font-weight:0;">{!! $data['deskripsi'] !!} </td>
             </tr>
         </thead>
 
@@ -90,7 +93,7 @@
 
     <table style="margin-left: 60px;">
         <tr>
-            <td colspan="2" style="padding: 6px 2px; font-weight:700;">Demikian Surat Digunakan Sebagaimana
+            <td colspan="2" style="padding: 6px 2px; font-weight:0;">Demikian Surat Digunakan Sebagaimana
                 Mestinya</td>
         </tr>
     </table>
@@ -99,22 +102,22 @@
     <div style="width:100%; padding: 0px 0px; ">
         <table style="position: absolute; right:150px; bottom:270px; margin-top: 30px;">
             <tr>
-                <td style="font-weight: 700; padding: 4px 0px;"> Desa Karassing, {{ date('j F Y') }}</td>
+                <td style="font-weight: 0; padding: 4px 0px;"> Desa Karassing, {{ date('j F Y') }}</td>
             </tr>
             <tr>
-                <td style="font-weight: 700; padding: 20px 0px;"></td>
+                <td style="font-weight: 0; padding: 20px 0px;"></td>
             </tr>
             <tr>
-                <td style="font-weight: 700; padding: 20px 0px;"></td>
+                <td style="font-weight: 0; padding: 20px 0px;"></td>
             </tr>
             <tr>
-                <td style="font-weight: 700; padding: 4px 0px; text-align: center;">
-                    <span>{{ $jadwal->penanggung_jawab }}</span>
+                <td style="font-weight: 0; padding: 4px 0px; text-align: center;">
+                    <span>{{ $data->penanggung_jawab }}</span>
                     <hr>
                 </td>
             </tr>
             <tr>
-                <td style="font-weight: 700; padding: 4px 0px;"> NIP: </td>
+                <td style="font-weight: 0; padding: 4px 0px;"> NIP: </td>
             </tr>
         </table>
     </div>

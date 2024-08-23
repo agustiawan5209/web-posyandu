@@ -112,6 +112,7 @@ Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(fu
             Route::post('/store-data/jadwal-imunisasi', 'store')->name('store');
             Route::put('/update-data/jadwal-imunisasi', 'update')->name('update');
             Route::delete('/hapus-data/jadwal-imunisasi', 'destroy')->name('destroy');
+            Route::get('/cetak-data/jadwal-imunisasi/{id}', 'cetak')->name('cetak');
         });
     });
 

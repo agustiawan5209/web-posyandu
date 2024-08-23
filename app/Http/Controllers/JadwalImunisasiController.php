@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreJadwalImunisasiRequest;
 use App\Http\Requests\UpdateJadwalImunisasiRequest;
+use App\Models\Posyandu;
+use PDF;
 
 class JadwalImunisasiController extends Controller
 {
@@ -105,5 +107,16 @@ class JadwalImunisasiController extends Controller
     {
         $jadwalImunisasi = JadwalImunisasi::find(Request::input('slug'))->delete();
         return redirect()->route('Jadwal.index')->with('message', 'data jadwal imunisasi berhasil di Hapus!!!');
+    }
+
+
+    public function cetak($id){
+        $data = JadwalImunisasi::find($id);
+        // dd($data);
+        $posyandu = Posyandu::find(Auth::user()->staff->posyandus_id);
+        $title = 'Jadwal Imunisasi '. $data->tanggal;
+        $pdf = PDF::loadView('pdf.jadwal', compact('data', 'posyandu', 'title'));
+        // Unduh PDF
+        return $pdf->stream('laporan.pdf');
     }
 }

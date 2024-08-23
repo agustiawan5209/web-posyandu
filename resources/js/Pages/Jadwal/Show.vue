@@ -20,6 +20,31 @@ const props = defineProps({
     }
 })
 
+const uploadPercentage = ref(0);
+
+function cetakJadwal() {
+    axios.get(route('Jadwal.cetak', { id: props.jadwal.id }), {
+        responseType: 'blob',
+        onDownloadProgress: function (progressEvent) {
+            uploadPercentage.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        },
+
+    })
+        .then((res) => {
+            if (res.status == 200) {
+                const doc = window.URL.createObjectURL(new Blob([res.data]));
+                const a = document.createElement('a');
+                a.href = doc;
+                a.setAttribute('download', 'Jadwal-' + props.jadwal.tanggal + '.pdf');
+                document.body.appendChild(a);
+
+                a.click();
+
+            }
+        })
+        .catch(err => console.log(err))
+}
+
 </script>
 
 <template>
@@ -37,7 +62,14 @@ const props = defineProps({
                     <div class="space-y-2 col-span-full lg:col-span-1 px-3 md:px-0">
                         <p class="font-medium">Detail Informasi Jadwal Imunisasi</p>
                         <p class="text-xs">Detail data Jadwal Imunisasi dari puskesmas</p>
+                        <PrimaryButton @click="cetakJadwal()" type="button"
+                            class="ml-3 flex justify-center gap-4 !bg-blue-500 hover:!bg-blue-800">
+                            <font-awesome-icon :icon="['fas', 'file-pdf']" class="text-white" /> <span>Cetak
+                                Jadwal
+                                Imunisasi</span>
+                        </PrimaryButton>
                     </div>
+
                     <fieldset class="grid grid-cols-3 gap-6 p-6 rounded-md shadow-sm bg-gray-50">
                         <div class="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                             <div class="col-span-full  ">
@@ -49,9 +81,9 @@ const props = defineProps({
 
                                 <table class="w-full table">
                                     <colgroup>
-                                    <col>
-                                    <col class="w-3">
-                                    <col>
+                                        <col>
+                                        <col class="w-3">
+                                        <col>
                                     </colgroup>
                                     <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">Usia Imunisasi</td>
@@ -81,7 +113,8 @@ const props = defineProps({
                                     <tr class="">
                                         <td class="text-sm border-b py-2 font-bold capitalize">deskripsi</td>
                                         <td>:</td>
-                                        <td class="text-sm border-b text-gray-600 text-left" v-html="jadwal.deskripsi"> </td>
+                                        <td class="text-sm border-b text-gray-600 text-left" v-html="jadwal.deskripsi">
+                                        </td>
                                     </tr>
                                 </table>
                             </div>

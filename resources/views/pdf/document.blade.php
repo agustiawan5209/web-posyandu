@@ -45,7 +45,7 @@
                 <td style="max-width: 600px; margin: 0 auto; text-align: center;">
                     <h1 style="color: #333333; margin: 0;">Dinas Kesehatan Kabupaten Bulukumba</h1>
                     <p style="color: #666666; margin: 10px 0;">UPT PUSKESMAS KARASSING</p>
-                    <p style="color: #666666; margin: 10px 0;">Telepon: 085331347469 | email:puskesmaskarassing@gmail.com| email:puskesmaskarassing@gmail.com </p>
+                    <p style="color: #666666; margin: 10px 0;">Telepon: 085331347469 | email:puskesmaskarassing@gmail.com </p>
                 </td>
             </tr>
         </table>

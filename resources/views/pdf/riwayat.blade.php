@@ -40,7 +40,7 @@
         <h1>UPT PUSKESMAS Desa Karassing</h1>
         <h2>Ds. Karassing, Kec. Hero Lange-Lange</h2>
         <p>Ds. Karassing, Kec. Hero Lange-Lange</p>
-        <p>Telepon: 085331347469 | email:puskesmaskarassing@gmail.com| email:puskesmaskarassing@gmail.com</p>
+        <p>Telepon: 085331347469 | email:puskesmaskarassing@gmail.com</p>
         <hr>
     </div>
     <div class="content">
