@@ -23,7 +23,7 @@ const props = defineProps({
 const uploadPercentage = ref(0);
 
 function cetakJadwal() {
-    axios.get(route('Jadwal.cetak', { id: props.jadwal.id }), {
+    axios.get(route('Jadwal.cetak_by_id', { id: props.jadwal.id }), {
         responseType: 'blob',
         onDownloadProgress: function (progressEvent) {
             uploadPercentage.value = Math.round((progressEvent.loaded * 100) / progressEvent.total)

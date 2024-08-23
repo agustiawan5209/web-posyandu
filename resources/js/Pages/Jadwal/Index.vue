@@ -27,12 +27,17 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    datereport: {
+        type: Object,
+        default: () => ({}),
+    },
 })
 const crud = ref({
     tambah: props.can.add,
     edit: props.can.edit,
     show: props.can.show,
     delete: props.can.delete,
+    cetak: props.can.cetak,
 
 })
 
@@ -48,7 +53,7 @@ const crud = ref({
         </template>
 
         <div class="py-4 relative box-content">
-            <CardTable @update:search="search = $event" @update:order="order" :slug="null" path="Jadwal" :TableData="data" :tableColums="table_colums" :crud="crud" />
+            <CardTable @update:search="search = $event" @update:order="order" :slug="null" path="Jadwal" :TableData="data" :tableColums="table_colums" :crud="crud" :datereport="datereport" />
         </div>
     </AuthenticatedLayout>
 </template>

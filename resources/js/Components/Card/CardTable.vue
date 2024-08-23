@@ -5,6 +5,7 @@ import { ref, watch, defineProps, inject, defineExpose, onMounted } from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputError from '../InputError.vue';
 import Modal from '@/Components/Modal.vue';
 const swal = inject('$swal')
 
@@ -49,6 +50,10 @@ const props = defineProps({
         default: () => ({}),
     },
     crud: {
+        type: Object,
+        default: () => ({}),
+    },
+    datereport: {
         type: Object,
         default: () => ({}),
     },
@@ -138,6 +143,44 @@ function truncateText(text) {
     text += '........'
     return text;
 }
+
+// Cetak
+
+const FormLaporan = useForm({
+    start_date: props.datereport.start_date,
+    end_date: props.datereport.end_date,
+})
+
+function searchDate() {
+    FormLaporan.get(route(props.path + '.index'), {
+        preserveState: true,
+        preserveScroll: true,
+    })
+}
+const downloadPDF = () => {
+    axios({
+        method: 'get',
+        url: route(props.path + '.cetak',{
+            start_date: FormLaporan.start_date,
+            end_date: FormLaporan.end_date,
+            posyandus_id: FormLaporan.posyandus_id,
+            type: props.type,
+        }),
+        responseType: 'blob'
+    })
+        .then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'jadwal.pdf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
 </script>
 
 <template>
@@ -166,6 +209,36 @@ function truncateText(text) {
         <div class="-m-1.5 overflow-x-auto">
             <div class="p-1.5 min-w-full inline-block align-middle">
                 <div class="border rounded-lg divide-y divide-gray-200">
+                    <div v-if="crud.cetak">
+                        <div class="py-3 px-4 flex justify-between">
+                            <div class="flex gap-3 items-center">
+                                <div class="relative max-w-xs flex items-center">
+                                    <label class="whitespace-nowrap">Tangal Mulai</label>
+                                    <input type="date" name="hs-table-with-pagination-search"
+                                        id="hs-table-with-pagination-search" v-model="FormLaporan.start_date"
+                                        class="py-1 md:py-2 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                </div>
+                                <div class="relative max-w-xs flex items-center">
+                                    <label class="whitespace-nowrap">Tanggal Akhir</label>
+                                    <input type="date" name="hs-table-with-pagination-search"
+                                        id="hs-table-with-pagination-search" v-model="FormLaporan.end_date"
+                                        class="py-1 md:py-2 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+                                </div>
+                                <div class="relative flex">
+                                    <PrimaryButton type="button" @click="searchDate">
+                                        <font-awesome-icon :icon="['fas', 'search']" class="mr-2" />
+                                        <span>Cari Data</span>
+                                    </PrimaryButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-2" v-show="TableData.data.length > 0">
+                            <PrimaryButton @click="downloadPDF" class="!bg-red-600" type="button">
+                                <font-awesome-icon :icon="['fas', 'file-pdf']" />
+                                <span>cetak</span>
+                            </PrimaryButton>
+                        </div>
+                    </div>
                     <div class="py-3 px-4" v-if="crud.tambah">
                         <div class="relative max-w-xs">
                             <Link :href="route(props.path + '.create')">

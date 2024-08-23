@@ -142,12 +142,12 @@
             </tr>
             <tr>
                 <td style="font-weight: 700; padding: 4px 0px; text-align: center;">
-                    <span>S.Kep.Ns..KORPUS</span>
+                    <span>Darmalam S.Kep.,Ns</span>
                     <hr>
                 </td>
             </tr>
             <tr>
-                <td style="font-weight: 700; padding: 4px 0px;"> NIP: </td>
+                <td style="font-weight: 700; padding: 4px 0px;"> NIP: 19770128 200212 2 006</td>
             </tr>
         </table>
     </div>

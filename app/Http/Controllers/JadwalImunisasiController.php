@@ -22,7 +22,6 @@ class JadwalImunisasiController extends Controller
     {
         $tableName = 'jadwal_imunisasis'; // Ganti dengan nama tabel yang Anda inginkan
         $columns = DB::getSchemaBuilder()->getColumnListing($tableName);
-        // $columns[] = 'jumlah_anak';
         return Inertia::render('Jadwal/Index', [
             'search' =>  Request::input('search'),
             'table_colums' => array_values(array_diff($columns, ['remember_token', 'posyandus_id', 'password', 'email_verified_at', 'created_at', 'updated_at', 'user_id', 'deskripsi'])),
@@ -33,13 +32,18 @@ class JadwalImunisasiController extends Controller
                 ->when(Auth::user()->hasRole('Orang Tua') ?? null, function ($query) {
                     $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
                 })
+                ->when(Request::input('start_date') != null && Request::input('end_date') != null, function ($query) {
+                    $query->whereBetween('tanggal', [Request::input('start_date'), Request::input('end_date')]);
+                })
                 ->paginate(10),
             'can' => [
                 'add' => Auth::user()->can('add riwayat'),
                 'edit' => Auth::user()->can('edit riwayat'),
                 'show' => Auth::user()->can('show riwayat'),
                 'delete' => Auth::user()->can('delete riwayat'),
-            ]
+                'cetak' => true,
+            ],
+            "datereport" => Request::only('start_date', 'end_date'),
         ]);
     }
 
@@ -110,12 +114,33 @@ class JadwalImunisasiController extends Controller
     }
 
 
-    public function cetak($id){
+    public function cetak($id)
+    {
         $data = JadwalImunisasi::find($id);
         // dd($data);
         $posyandu = Posyandu::find(Auth::user()->staff->posyandus_id);
-        $title = 'Jadwal Imunisasi '. $data->tanggal;
+        $title = 'Jadwal Imunisasi ' . $data->tanggal;
         $pdf = PDF::loadView('pdf.jadwal', compact('data', 'posyandu', 'title'));
+        // Unduh PDF
+        return $pdf->download('laporan.pdf');
+    }
+
+    public function cetak_all()
+    {
+        $jadwal = JadwalImunisasi::when(Auth::user()->hasRole('Kader') ?? null, function ($query) {
+            $query->where('posyandus_id', Auth::user()->staff->posyandus_id);
+        })
+            ->when(Auth::user()->hasRole('Orang Tua') ?? null, function ($query) {
+                $query->where('posyandus_id', Auth::user()->orangTua->posyandus_id);
+            })
+            ->when(Request::input('start_date') != null && Request::input('end_date') != null, function ($query) {
+                $query->whereBetween('tanggal', [Request::input('start_date'), Request::input('end_date')]);
+            })->get();
+        // dd($jadwal);
+        $tanggal = Request::only('start_date', 'end_date');
+        $posyandu = Posyandu::find(Auth::user()->staff->posyandus_id);
+        $title = 'Jadwal Imunisasi ';
+        $pdf = PDF::loadView('pdf.jadwal-all', compact('jadwal', 'tanggal', 'posyandu', 'title'));
         // Unduh PDF
         return $pdf->stream('laporan.pdf');
     }
