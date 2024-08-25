@@ -138,7 +138,13 @@ class JadwalImunisasiController extends Controller
             })->get();
         // dd($jadwal);
         $tanggal = Request::only('start_date', 'end_date');
-        $posyandu = Posyandu::find(Auth::user()->staff->posyandus_id);
+        $role = '';
+        if(Auth::user()->hasRole('Orang Tua')){
+            $role = Auth::user()->orangTua->posyandus_id;
+        }else{
+            $role = Auth::user()->staff->posyandus_id;
+        }
+        $posyandu = Posyandu::find($role);
         $title = 'Jadwal Imunisasi ';
 
 
