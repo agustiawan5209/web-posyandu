@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('balitas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('org_tua_id')->unsigned();
+            $table->foreignId('org_tua_id')->constrained('orang_tuas')->onDelete('cascade');
             $table->string('nik', 16);
             $table->string('nama', 50);
             $table->string('tempat_lahir', 50);
