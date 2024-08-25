@@ -55,7 +55,7 @@
             $array = (array) $obj1;
             // Pastikan $obj1 adalah array sebelum diproses
             if (!is_array($array) || empty($array)) {
-                return $array; // Atau tangani kesalahan sesuai kebutuhan Anda
+                return '--'; // Atau tangani kesalahan sesuai kebutuhan Anda
             }
 
             // Ambil semua jenis_imunisasi dari objek

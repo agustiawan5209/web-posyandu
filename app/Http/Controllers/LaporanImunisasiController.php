@@ -92,7 +92,7 @@ class LaporanImunisasiController extends Controller
         $pdf = PDF::loadView('pdf.laporan', compact('jenis_imunisasi', 'posyandu', 'balita'));
         $pdf->setPaper('a4', 'landscape');
         // Unduh PDF
-        return $pdf->download('laporan.pdf');
+        return $pdf->stream('laporan.pdf');
     }
 
 
