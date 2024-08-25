@@ -140,6 +140,8 @@ class JadwalImunisasiController extends Controller
         $tanggal = Request::only('start_date', 'end_date');
         $posyandu = Posyandu::find(Auth::user()->staff->posyandus_id);
         $title = 'Jadwal Imunisasi ';
+
+
         $pdf = PDF::loadView('pdf.jadwal-all', compact('jadwal', 'tanggal', 'posyandu', 'title'));
         // Unduh PDF
         return $pdf->stream('laporan.pdf');

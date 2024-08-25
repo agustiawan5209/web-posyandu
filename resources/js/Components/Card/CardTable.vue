@@ -163,8 +163,6 @@ const downloadPDF = () => {
         url: route(props.path + '.cetak',{
             start_date: FormLaporan.start_date,
             end_date: FormLaporan.end_date,
-            posyandus_id: FormLaporan.posyandus_id,
-            type: props.type,
         }),
         responseType: 'blob'
     })
@@ -172,7 +170,7 @@ const downloadPDF = () => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'jadwal.pdf');
+            link.setAttribute('download', props.path+'.pdf');
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

@@ -80,9 +80,11 @@
     <h1 style="margin-top: 0px;">
         <span style="border-bottom: 3px solid #000000;font-size:15px;">
             Jadwal Imunisasi :{{ $posyandu->nama }}</span>
-        <br>
-        <span style="border-spacing: 3px; font-size:15px;">
-            Periode :{{ $tanggal['start_date'] }}-{{ $tanggal['end_date'] }} </span>
+        @if (isset($tanggal['start_date']) && isset($tanggal['end_date']))
+            <br>
+            <span style="border-spacing: 3px; font-size:15px;">
+                Periode :{{ $tanggal['start_date'] }}-{{ $tanggal['end_date'] }} </span>
+        @endif
     </h1>
 
     <table class="keterangan">
@@ -118,8 +120,8 @@
     </table>
 
     {{-- TTD --}}
-    <div style="width:100%; padding: 0px 0px; ">
-        <table style="position: absolute; right:150px; bottom:270px; margin-top: 30px;">
+    <div style="width:100%; position: relative; padding: 0px 0px; ">
+        <table style="width: 300px; position: absolute; right:30px; top:0; margin-top: 30px;">
             <tr>
                 <td style="font-weight: 0; padding: 4px 0px;"> Desa Karassing, {{ date('j F Y') }}</td>
             </tr>
