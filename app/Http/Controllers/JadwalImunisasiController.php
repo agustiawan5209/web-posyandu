@@ -144,6 +144,6 @@ class JadwalImunisasiController extends Controller
 
         $pdf = PDF::loadView('pdf.jadwal-all', compact('jadwal', 'tanggal', 'posyandu', 'title'));
         // Unduh PDF
-        return $pdf->stream('laporan.pdf');
+        return $pdf->download('laporan.pdf');
     }
 }
