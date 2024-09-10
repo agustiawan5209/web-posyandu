@@ -50,6 +50,7 @@ const NonactiveClass = 'text-gray-400';
                                         <th scope="col" class="px-4 py-3">usia</th>
                                         <th scope="col" class="px-4 py-3">jenis imunisasi</th>
                                         <th scope="col" class="px-4 py-3">Ket</th>
+                                        <th scope="col" class="px-4 py-3">tempat</th>
                                         <th scope="col" class="px-4 py-3">Penanggung Jawab</th>
 
                                     </tr>
@@ -67,6 +68,7 @@ const NonactiveClass = 'text-gray-400';
                                         <td class="px-4 py-3">
                                             <p v-html="item.deskripsi"></p>
                                         </td>
+                                        <td class="px-4 py-3">{{ item.tempat }}</td>
                                         <td class="px-4 py-3">{{ item.penanggung_jawab }}</td>
                                     </tr>
                                 </tbody>
