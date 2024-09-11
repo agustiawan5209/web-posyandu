@@ -38,10 +38,10 @@ class JadwalImunisasiController extends Controller
                 })
                 ->paginate(10),
             'can' => [
-                'add' => Auth::user()->can('add jadwal'),
-                'edit' => Auth::user()->can('edit jadwal'),
-                'show' => Auth::user()->can('show jadwal'),
-                'delete' => Auth::user()->can('delete jadwal'),
+                'add' => Auth::user()->can('add riwayat'),
+                'edit' => Auth::user()->can('edit riwayat'),
+                'show' => Auth::user()->can('show riwayat'),
+                'delete' => Auth::user()->can('delete riwayat'),
                 'cetak' => true,
             ],
             "datereport" => Request::only('start_date', 'end_date'),
