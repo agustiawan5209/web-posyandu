@@ -27,6 +27,8 @@
         "@popperjs/core": "^2.11.8",
         "@vueup/vue-quill": "^1.2.0",
         "chart.js": "^4.4.2",
+        "flowbite": "^2.5.1",
+        "flowbite-vue": "^0.1.6",
         "gsap": "^3.12.2",
         "v-calendar": "^3.1.2",
         "vue-chartjs": "^5.3.1",

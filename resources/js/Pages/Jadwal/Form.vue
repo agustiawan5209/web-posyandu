@@ -12,7 +12,10 @@ import { ref, defineProps, watch, onMounted } from 'vue';
 import axios from 'axios';
 
 const props = defineProps({
-
+    jenis_imunisasi:{
+        type: Object,
+        default: ()=>({}),
+    }
 })
 const Form = useForm({
     usia: '',
@@ -98,20 +101,7 @@ onMounted(() => {
 
 })
 
-const JenisImunisasi = ref([
-    'Vitamin A - 1',
-    'Vitamin A - 2',
-    'Oralit',
-    'BH (NOL)',
-    'BCG',
-    'POLIO - 1',
-    'POLIO - 2',
-    'POLIO - 3',
-    'DPT/HB - 1',
-    'DPT/HB - 2',
-    'DPT/HB - 3',
-    'Campak',
-]);
+
 
 </script>
 
@@ -145,8 +135,8 @@ const JenisImunisasi = ref([
                                 <select id="jenis_imunisasi" v-model="Form.jenis_imunisasi"
                                     class="w-full border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm text-black">
                                     <option value="">---</option>
-                                    <option v-for="(item, key) in JenisImunisasi" :value="item" class="text-black">
-                                        {{ item }}
+                                    <option v-for="(item, key) in jenis_imunisasi" :value="item.nama" class="text-black">
+                                        {{ item.nama }}
                                     </option>
                                 </select>
                                 <InputError :message="Form.errors.jenis_imunisasi" />

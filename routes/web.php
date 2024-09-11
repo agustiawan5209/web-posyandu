@@ -4,6 +4,7 @@ use App\Http\Controllers\BalitaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JadwalImunisasiController;
+use App\Http\Controllers\JenisImunisasiController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LaporanImunisasiController;
 use App\Http\Controllers\OrangTuaController;
@@ -81,6 +82,21 @@ Route::middleware(['auth', 'verified', 'role:Kepala|Kader|Orang Tua'])->group(fu
 
             Route::put('/update-data-balita', 'update')->name('update');
             Route::delete('/hapus-data-balita', 'destroy')->name('destroy');
+        });
+    });
+    // Route Jenis Imunisasi
+    Route::group(['prefix' => 'jenis-imunisasi', 'as' => "JenisImunisasi."], function () {
+        Route::controller(JenisImunisasiController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/tambah-data/jenis-imunisasi', 'create')->name('create');
+            Route::get('/ubah-data/jenis-imunisasi', 'edit')->name('edit');
+            Route::get('/detail-data/jenis-imunisasi', 'show')->name('show');
+
+            Route::post('/store-data/jenis-imunisasi', 'store')->name('store');
+            Route::post('/storeForm-data/jenis-imunisasi', 'storeForm')->name('storeForm');
+
+            Route::put('/update-data/jenis-imunisasi', 'update')->name('update');
+            Route::delete('/hapus-data/jenis-imunisasi', 'destroy')->name('destroy');
         });
     });
 

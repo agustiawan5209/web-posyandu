@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreJadwalImunisasiRequest;
 use App\Http\Requests\UpdateJadwalImunisasiRequest;
+use App\Models\JenisImunisasi;
 use App\Models\Posyandu;
 use PDF;
 
@@ -37,10 +38,10 @@ class JadwalImunisasiController extends Controller
                 })
                 ->paginate(10),
             'can' => [
-                'add' => Auth::user()->can('add riwayat'),
-                'edit' => Auth::user()->can('edit riwayat'),
-                'show' => Auth::user()->can('show riwayat'),
-                'delete' => Auth::user()->can('delete riwayat'),
+                'add' => Auth::user()->can('add jadwal'),
+                'edit' => Auth::user()->can('edit jadwal'),
+                'show' => Auth::user()->can('show jadwal'),
+                'delete' => Auth::user()->can('delete jadwal'),
                 'cetak' => true,
             ],
             "datereport" => Request::only('start_date', 'end_date'),
@@ -54,6 +55,7 @@ class JadwalImunisasiController extends Controller
     {
         return Inertia::render('Jadwal/Form', [
             'user' => User::role('Kader')->get(),
+            'jenis_imunisasi'=> JenisImunisasi::all(),
         ]);
     }
 
@@ -91,7 +93,9 @@ class JadwalImunisasiController extends Controller
         ]);
         return Inertia::render('Jadwal/Edit', [
             'user' => User::role('Kader')->get(),
-            'jadwal' => JadwalImunisasi::find(Request::input('slug'))
+            'jadwal' => JadwalImunisasi::find(Request::input('slug')),
+            'jenis_imunisasi'=> JenisImunisasi::all(),
+
         ]);
     }
 

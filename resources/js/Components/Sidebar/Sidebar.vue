@@ -61,6 +61,13 @@ function ArrayToString(){
                     <span class="group-hover:text-gray-700 capitalize">Data Posyandu</span>
                 </NavLink>
             </li>
+            <li v-if="roleToCheck('Kepala')">
+                <NavLink :href="route('JenisImunisasi.index')"
+                    :active="route().current('JenisImunisasi.index') || route().current('JenisImunisasi.create') || route().current('JenisImunisasi.edit') || route().current('JenisImunisasi.show')"
+                    :icon="['fas', 'house-medical']">
+                    <span class="group-hover:text-gray-700 capitalize">Data Jenis Imunisasi</span>
+                </NavLink>
+            </li>
 
             <li v-if="roleToCheck('Kader') || roleToCheck('Kepala')">
                 <NavLink :href="route('Pegawai.index')"

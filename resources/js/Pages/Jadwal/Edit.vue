@@ -14,7 +14,11 @@ const props = defineProps({
     jadwal: {
         type: Object,
         default: () => ({}),
-    }
+    },
+    jenis_imunisasi: {
+        type: Object,
+        default: () => ({}),
+    },
 })
 const Form = useForm({
     slug: props.jadwal.id,
@@ -119,8 +123,13 @@ onMounted(() => {
                             </div>
                             <div class="col-span-full sm:col-span-3">
                                 <label for="jenis_imunisasi" class="text-sm">Jenis Imunisasi</label>
-                                <TextInput id="jenis_imunisasi" type="text" v-model="Form.jenis_imunisasi"
-                                    placeholder="Jenis Imunisasi" class="w-full text-gray-900" />
+                                <select id="jenis_imunisasi" v-model="Form.jenis_imunisasi"
+                                    class="w-full border-gray-300 focus:border-primary focus:ring-primary rounded-md shadow-sm text-black">
+                                    <option value="">---</option>
+                                    <option v-for="(item, key) in jenis_imunisasi" :value="item.nama" class="text-black">
+                                        {{ item.nama }}
+                                    </option>
+                                </select>
                                 <InputError :message="Form.errors.jenis_imunisasi" />
 
                             </div>
